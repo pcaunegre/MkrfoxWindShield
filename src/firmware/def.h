@@ -2,9 +2,9 @@
 
 
 
-#define DAVIS   1     //  device numbering
-#define PEET    2     //
-#define SHENZEN 3     //
+#define DAVIS   10     //  device numbering
+#define PEET    20     //
+#define SHENZEN 30     //
 
 
 
@@ -12,7 +12,7 @@
 
 
 
-#define SAMPLING_PERIOD 3000  // instantaneous wind is measured on a period of 3s (common rule)
+#define SAMPLING_PERIOD 500  // instantaneous wind is measured on a period of 3s (common rule)
 #define REPORT_PERIOD  30000  // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
 
 

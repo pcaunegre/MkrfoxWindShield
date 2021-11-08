@@ -22,8 +22,11 @@ int lcd_en=1;
 volatile unsigned long  last_sampleT   ;  // last time in millis a measure sampling has been done
 volatile unsigned long  last_reportT   ;  // last time in millis a report has been done
 
+volatile int adcfs=0;    // full scale of adc for calibrating vane
 
-int sensor=DAVIS;
+volatile int repnbr=0; // debug
+
+int sensor=SHENZEN;
 
 void blinkLed(int times, int period) {
 
@@ -51,25 +54,45 @@ String deg2dir(int wd) {
 
 void setup() {
 
-  if (sensor==DAVIS) {
-    Davis_setup();
-  }
-  
+  // device initialization
+  switch (sensor) {
+    case DAVIS:
+      Davis_setup();    break;
+    case PEET:
+      //Peet_setup();     break;
+    case SHENZEN:
+      Shenzen_setup();  break;
+    default:
+      // NOT initialized: run init procedure
+      // TBD
+      break;
+  }  
+
   // pins to sensor
   pinMode(Led,OUTPUT); // led used for debug or at power up
   Serial.begin(9600);           //  setup serial
+  Serial.println("STARTING");
 
   blinkLed(5,600); // say hello
   if (lcd_en)  {
     lcd.begin(16,2);        // used when LCD is plugged for reading the device
     lcd.clear();
-    lcd.print("SWiM started 2002");
+    lcd.print("Starting, sensor=");lcd.print(sensor);
+    delay(1000);
   }
   
 }
 
 
 void loop() {
+//  adcfs=0;
+//  for (int i=0; i<1000; i++) {
+//    Shenzen_takeAdcFS();
+//    delay(10); 
+//  }
+//  Serial.println("Calibration");
+//  Serial.println(adcfs);
+//  while (1) {}
   
   unsigned long now = millis();
   int    dt1 = now - last_sampleT;                          // ellapsed time since last sample
@@ -81,25 +104,42 @@ void loop() {
   if (dt1 > SAMPLING_PERIOD) {
     last_sampleT = now;
       
-    if (sensor==DAVIS) {  
-      ws=Davis_takeWspeed(dt1);
-      wd=Davis_takeWdir();
-      Serial.print(wd);    // print directions
-      Serial.println(ws);    // print directions
+    switch (sensor) {
+      case DAVIS:
+        ws=Davis_takeWspeed(dt1);
+        wd=Davis_takeWdir();
+        break;
+      case PEET:
+        
+        break;
+      case SHENZEN:
+        ws=Shenzen_takeWspeed(dt1);
+        wd=Shenzen_takeWdir();        
+        break;
+      default:
+        // NOT initialized: run init procedure
+        // TBD
+        break;
     }
+    
+    Serial.println("M ");    // print directions
+    Serial.println(ws);  // print speed
+    Serial.print(wd); Serial.print(" ");   // print directions
+    Serial.println(deg2dir(wd));    // print directions
      
     if (lcd_en)  {
+      repnbr++;
       lcd.setCursor(0,0);
       lcd.print("                ");
       lcd.setCursor(0,0);
-      lcd.print(deg2dir(wd));lcd.print(" ");lcd.print(wd);
+      lcd.print(repnbr);lcd.print(" ");lcd.print(deg2dir(wd));lcd.print(" ");lcd.print(wd);
       lcd.print(" ");lcd.print(ws);
     }
   } 
   // at every sigfox report period we send 2 packets of data
   // so at every half-report period we store data
   if (dt2 > REPORT_PERIOD/2) {
-    makeReport();
+    //makeReport();
   }
 
 }
