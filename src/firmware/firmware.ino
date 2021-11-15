@@ -172,13 +172,12 @@ void detectSensorType() {
   Serial.println("Initial analog 2 =");
   Serial.println(val2);
 
-//////// TODO: replace constant by values computed in def.h
-  if (val1 > 1000)  {
+  if (val1 > THR1)  {
     // can be shenzen or peet
-    if ((val2 > 150) && (val2 < 193)) { 
+    if ((val2 > THR_Peet_low) && (val2 < THR_Peet_hi)) { 
       // we have peet sensor
       sensor=PEET;
-    } else if ((val2 > 196) && (val2 < 958)) {
+    } else if ((val2 > THR_Shenzen_low) && (val2 < THR_Shenzen_hi)) {
       // confirm we have shenzen sensor
       sensor=SHENZEN;
     } else {
@@ -186,9 +185,9 @@ void detectSensorType() {
       Serial.println("Detection issue between shenzen and peet");
     }
     
-  } else if ((val1 > 660) && (val1 < 726)) {
+  } else if ((val1 > THR_Davis_low) && (val1 < THR_Davis_hi)) {
     // confirm we have Davis  
-    if ((val2 > 660) && (val2 < 726)) {
+    if ((val2 > THR_Davis_low) && (val2 < THR_Davis_hi)) {
       // val2 should not differ from val1
       sensor=DAVIS;
     } else {
