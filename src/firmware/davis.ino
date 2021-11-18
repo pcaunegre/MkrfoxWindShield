@@ -5,9 +5,22 @@
 */
 
 #include <Arduino.h>
-#include "davis.h"
+
+
+#define DavisWire1  0    // wire1 (Black) to digital 0
+//      DavisWire2       // wire2 (Red) to GND
+#define DavisWire3  1    // wire3 (Green) to digital 1
+#define DavisWire4  2    // wire4 (Yellow) to digital 2
+
+
+#define DavisDirPin   A1  // analog direction - green wire
+#define DavisSpeedPin 0   // dig speed on D0  - black wire
+#define DavisDirFullScale  660  // ADC value for 360 degrees
+
+
 
 volatile int            Davis_speed_cnt;  // numbre of anemometre turns
+
 
 /*
  * Interface setup for Davis instrument 
@@ -16,8 +29,8 @@ volatile int            Davis_speed_cnt;  // numbre of anemometre turns
 void Davis_setup() {
 
   pinMode(DavisWire3, INPUT);  // not used    
-  pinMode(DavisWire4, INPUT);  // not used      
 
+  pinMode(DavisWire4, INPUT_PULLUP);  // powering the dir potentiometer      
   pinMode(DavisSpeedPin, INPUT_PULLUP);      
   analogReference(AR_DEFAULT);      // use internal ADC ref   
   attachInterrupt(digitalPinToInterrupt(DavisSpeedPin), Davis_isr_speed, FALLING); // interruption
@@ -35,6 +48,7 @@ void Davis_isr_speed() {
   Davis_speed_cnt++;
 
 }
+
 
 /*
  * Capture a sample of wind speed

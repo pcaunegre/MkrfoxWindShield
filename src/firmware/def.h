@@ -1,9 +1,9 @@
 #define SOFTVERSION yymmdd
 
 
-
-
-
+#define DAVIS       10   // sensor numbering
+#define PEET        20   // sensor numbering
+#define SHENZEN     30   // sensor number
 
 
 #define Led LED_BUILTIN  // warning: Led uses pin D6 !
@@ -13,16 +13,20 @@
 #define SAMPLING_PERIOD 500     // instantaneous wind is measured on a period of 3s (common rule)
 #define REPORT_PERIOD  30000    // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
 
-#define RPULLUP    10000        // Pullup
-#define RSERIAL    1000         // Same value for RS1, RS2, RS3
+#define RPULLUP    10.0         // Pullup in kOhm
+#define RSERIAL    1.0          // Same value for RS1, RS2, RS3 in kOhm
 #define ADCBITS    10           // Using default ADC setup is enough
-#define ADCFS      2**ADCBITS-1 // ADC full scale = 2**10-1
+const int ADCFS =  (1<<ADCBITS)-1; // ADC full scale = 2**10-1
 #define TOL        0.1          // Tolerance on R values (10%)
 
-#define RSHENMIN   688          // Min value of Dir Potentiometer (Shenzen sensor)
-#define RSHENMAX   120000       // Max value of Dir Potentiometer (Shenzen sensor)
+#define RSHENMIN   0.688        // Min value of Dir Potentiometer (Shenzen sensor) in kOhm
+#define RSHENMAX   120.0        // Max value of Dir Potentiometer (Shenzen sensor) in kOhm
 
-#define RDAVISPOT  20000        // Dir Potentiometer (Davis sensor)
+#define RDAVISPOT  20.0         // Dir Potentiometer (Davis sensor) in kOhm
+
+#define UNDEFINED  -1           // Return code for undef
+#define SHORT_ERR  -2           // Error code when a short is detected
+#define OPEN_ERR   -3           // Error code when a open is detected
 
 /*
 * Threshold computation
@@ -31,19 +35,24 @@
 /* D2 IN, D0 OUT 0, READ A2 */
 /* Peet bros detection*/
 /* if speed switch open */
-const THR1=ADCFS*0.95;                                                               // 971
+const int THR1=int(ADCFS*0.97);                                                          // 971
 /* if speed switch closed */
-const THR_Peet_low = int(ADCFS/(1+RPULLUP/(2*RSERIAL)*(1+TOL)/(1-TOL)));             // 143
-const THR_Peet_hi  = int(ADCFS/(1+RPULLUP/(2*RSERIAL)*(1-TOL)/(1+TOL)));             // 200
+const int THR_Peet_low = int(ADCFS/(1+RPULLUP/(2*RSERIAL)*(1+TOL)/(1-TOL)));             // 143
+const int THR_Peet_hi  = int(ADCFS/(1+RPULLUP/(2*RSERIAL)*(1-TOL)/(1+TOL)));             // 200
 
 /* Shenzen detection*/
-const THR_Shenzen_low = int(ADCFS/(1+RPULLUP/(2*RSERIAL+RSHENMIN)*(1+TOL)/(1-TOL))); // 184
-const THR_Shenzen_hi  = int(ADCFS/(1+RPULLUP/(2*RSERIAL+RSHENMAX)*(1-TOL)/(1+TOL))); // 958
+const int THR_Shenzen_low = int(ADCFS/(1.0+RPULLUP/(2*RSERIAL+RSHENMIN)*(1+TOL)/(1-TOL))); // 184
+const int THR_Shenzen_hi  = int(ADCFS/(1.0+RPULLUP/(2*RSERIAL+RSHENMAX)*(1-TOL)/(1+TOL))); // 958
 
 /* Davis detection*/
-const THR_Davis_low = int(ADCFS/(1+RPULLUP/(RSERIAL+RDAVISPOT)*(1+TOL)/(1-TOL)));    // 646
-const THR_Davis_hi  = int(ADCFS/(1+RPULLUP/(RSERIAL+RDAVISPOT)*(1-TOL)/(1+TOL)));    // 736
+const int THR_Davis_low = int(ADCFS/(1.0+RPULLUP/(RSERIAL+RDAVISPOT)*(1+TOL)/(1-TOL)));    // 646
+const int THR_Davis_hi  = int(ADCFS/(1.0+RPULLUP/(RSERIAL+RDAVISPOT)*(1-TOL)/(1+TOL)));    // 736
 
+
+void SerialDebug(char* mystr, int mypar) {
+  Serial.print(mystr); Serial.println(mypar);
+
+}
 
 /*
 * This part of code is about packing data to comply with the format expected by OpenWindMap
