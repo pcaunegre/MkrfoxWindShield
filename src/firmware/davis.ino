@@ -15,9 +15,10 @@
 
 #define DavisDirPin   A1  // analog direction - green wire
 #define DavisSpeedPin 0   // dig speed on D0  - black wire
-#define DavisDirFullScale  660  // ADC value for 360 degrees
 
 
+
+const int DavisDirFullScale=int(ADCFS*RDAVISPOT/(RPULLUP+RDAVISPOT));
 
 volatile int            Davis_speed_cnt;  // numbre of anemometre turns
 
@@ -29,7 +30,6 @@ volatile int            Davis_speed_cnt;  // numbre of anemometre turns
 void Davis_setup() {
 
   pinMode(DavisWire3, INPUT);  // not used    
-
   pinMode(DavisWire4, INPUT_PULLUP);  // powering the dir potentiometer      
   pinMode(DavisSpeedPin, INPUT_PULLUP);      
   analogReference(AR_DEFAULT);      // use internal ADC ref   
@@ -57,7 +57,7 @@ void Davis_isr_speed() {
 int Davis_takeWspeed(int deltaT) {
 
   float mph = 2250 * (float)(Davis_speed_cnt) / (float)deltaT; // mph= 2.25xpulse/Time
-  int wspeed = int(1.609344 * mph);                         // speed in km/h   
+  int wspeed = int(1.609344 * mph);                         // speed in km/h 
   Davis_speed_cnt=0;                                        // reset counter
   return(wspeed);
 

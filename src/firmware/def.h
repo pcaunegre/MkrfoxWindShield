@@ -7,10 +7,11 @@
 
 
 #define Led LED_BUILTIN  // warning: Led uses pin D6 !
+#define ARRAYLEN    120  // size of an array to store pulses (40rps gives 120 values in 3s)
 
 
 
-#define SAMPLING_PERIOD 500     // instantaneous wind is measured on a period of 3s (common rule)
+#define SAMPLING_PERIOD 3000    // instantaneous wind is measured on a period of 3s (common rule)
 #define REPORT_PERIOD  30000    // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
 
 #define RPULLUP    10.0         // Pullup in kOhm
@@ -49,10 +50,6 @@ const int THR_Davis_low = int(ADCFS/(1.0+RPULLUP/(RSERIAL+RDAVISPOT)*(1+TOL)/(1-
 const int THR_Davis_hi  = int(ADCFS/(1.0+RPULLUP/(RSERIAL+RDAVISPOT)*(1-TOL)/(1+TOL)));    // 736
 
 
-void SerialDebug(char* mystr, int mypar) {
-  Serial.print(mystr); Serial.println(mypar);
-
-}
 
 /*
 * This part of code is about packing data to comply with the format expected by OpenWindMap
