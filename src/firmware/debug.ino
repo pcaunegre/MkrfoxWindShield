@@ -5,10 +5,16 @@
 void debugInit() {
   
   if (!debugmode) {return;}
-  Serial.begin(9600);           //  setup serial
-  Serial.println("STARTING");
-
+  Serial.begin(9600);           //  setup serial  
+  if (Serial) {
+    Serial.println("STARTING");
+  }
+  if (lcd_en)  {
+    lcd.begin(16,2);        // used when LCD is plugged for reading the device
+    lcd.clear();
+  }
 }
+
 
 void debugSensorDetection(String msg, int sensor, int val1, int val2) {
 
@@ -28,7 +34,6 @@ void debugSensorDetection(String msg, int sensor, int val1, int val2) {
     Serial.println(msg);
   }
   if (lcd_en)  {
-    lcd.begin(16,2);        // used when LCD is plugged for reading the device
     lcd.clear();
     lcd.print("Starting, sensor=");lcd.print(sensor);
   }
@@ -43,7 +48,19 @@ void debugPrint(char* mystr, int mypar) {
   }
 
 }
-
+void debugPrintVbat(float v) {
+  if (!debugmode) {return;}
+  if (Serial) {
+    Serial.print("VBAT = "); Serial.println(v,3); 
+  }
+  if (lcd_en)  {
+    lcd.setCursor(0,0);
+    lcd.print("                ");
+    lcd.setCursor(0,0);
+    lcd.print("VBAT=");lcd.print(v,3);
+    delay(3000);   
+  }
+}
 void debugPrintMeasure(int ws, int wd) {
   
   if (!debugmode) {return;}

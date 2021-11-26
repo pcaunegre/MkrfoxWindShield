@@ -43,8 +43,12 @@ int sensor=0;          // sensor number
 void setup() {
 
   pinMode(Led,OUTPUT); // led used for debug or at power up
+  debugInit();
   blinkLed(10,400); // say hello 10 flashes
 
+  // getBatterieVoltage
+  float vbat=getBatteryVoltage();
+  
   // device detection at boot
   if (sensor == 0) {
     delay(3000);
@@ -304,6 +308,19 @@ void detectSensorType() {
   debugSensorDetection(msg,sensor,val1,val2);
 
 }
+
+/*
+*  Utility to measure Battery voltage
+*/
+float getBatteryVoltage() {
+  analogReadResolution(ADCBITS);
+  analogReference(AR_INTERNAL1V0);
+  delay(20);
+  float vb=analogRead(A3)/(ADCFS*VBDIV); // read vbat through k~1/5 divider so v=adc/(k*adcfs)
+  debugPrintVbat(vb);
+  return(vb);
+}
+
 
 /*
  * functions dedicated to Sigfox message sending

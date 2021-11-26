@@ -20,6 +20,8 @@
 const int ADCFS =  (1<<ADCBITS)-1; // ADC full scale = 2**10-1
 #define TOL        0.1          // Tolerance on R values (10%)
 
+#define VBDIV      0.192          // Res Divider to measure Vbat (100k/(100k+400k))
+
 #define RSHENMIN   0.688        // Min value of Dir Potentiometer (Shenzen sensor) in kOhm
 #define RSHENMAX   120.0        // Max value of Dir Potentiometer (Shenzen sensor) in kOhm
 
