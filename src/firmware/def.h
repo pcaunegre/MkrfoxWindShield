@@ -14,6 +14,7 @@
 #define SAMPLING_PERIOD 3000    // instantaneous wind is measured on a period of 3s (common rule)
 #define REPORT_PERIOD  30000    // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
 
+#define SENSPPIN   3            // Pin to power up the sensor 
 #define RPULLUP    10.0         // Pullup in kOhm
 #define RSERIAL    1.0          // Same value for RS1, RS2, RS3 in kOhm
 #define ADCBITS    10           // Using default ADC setup is enough

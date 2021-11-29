@@ -45,7 +45,7 @@ void setup() {
   pinMode(Led,OUTPUT); // led used for debug or at power up
   debugInit();
   blinkLed(10,400); // say hello 10 flashes
-
+  
   // getBatterieVoltage
   float vbat=getBatteryVoltage();
   
@@ -261,6 +261,8 @@ void detectSensorType() {
   
   String msg="";
   analogReference(AR_DEFAULT);
+  pinMode(SENSPPIN,OUTPUT); // sensor potentiommeters are powered by this pin
+  digitalWrite(SENSPPIN,HIGH);
     
   // step 1 : D2R, D0R
   pinMode(2,INPUT); // install V+ through pull-up
@@ -275,6 +277,7 @@ void detectSensorType() {
   delay(100);
   int val2 = analogRead(A2);
   pinMode(0,INPUT_PULLUP);
+  digitalWrite(SENSPPIN,LOW); //stop powering sensor
 
   if (val1 > THR1)  {
     // can be shenzen or peet

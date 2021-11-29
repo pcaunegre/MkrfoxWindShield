@@ -69,7 +69,12 @@ int Davis_takeWspeed(int deltaT) {
 */
 int Davis_takeWdir() {
 
+  pinMode(SENSPPIN, OUTPUT);
+  digitalWrite(SENSPPIN,HIGH);
+  delay(1); // settling 1ms since time constant = 100us
   int adcval = analogRead(DavisDirPin);                     // read the input pin
+
+  digitalWrite(SENSPPIN,LOW);       // cut to save power (0.1mA)
   int wdir = int(360 * adcval / DavisDirFullScale);         // wind angle
   return(wdir);
 

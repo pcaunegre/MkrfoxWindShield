@@ -36,6 +36,8 @@ void Peet_setup() {
   pinMode(PeetWire1, OUTPUT); 
   pinMode(PeetWire3, INPUT_PULLUP); 
   pinMode(PeetWire4, INPUT); // pull up is external
+  pinMode(SENSPPIN, OUTPUT);
+  digitalWrite(SENSPPIN,HIGH);
 
   attachInterrupt(digitalPinToInterrupt(PeetSpeedPin), Peet_isr_speed, FALLING); // interruption
   attachInterrupt(digitalPinToInterrupt(PeetDirPin), Peet_isr_direction, FALLING); // interruption

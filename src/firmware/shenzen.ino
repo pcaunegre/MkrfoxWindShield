@@ -71,8 +71,14 @@ int Shenzen_takeWspeed(int deltaT) {
 int Shenzen_takeWdir() {
 
   int wdir = UNDEFINED;
-  int val = analogRead(ShenzenDirPin);                     // read the input pin 
   
+  pinMode(SENSPPIN, OUTPUT);     // power up sensor
+  digitalWrite(SENSPPIN,HIGH);   //
+  delay(1);                      // settling 1ms since time constant = 100us
+
+  int val = analogRead(ShenzenDirPin);                     // read the input pin 
+  digitalWrite(SENSPPIN,LOW);    // cut to save power (0.24mA)
+    
   //Serial.print("ADC = ");  Serial.println(val);
   
   // calibration originally done with 10bits, but still parametrizable
