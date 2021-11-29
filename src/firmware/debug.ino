@@ -12,6 +12,9 @@ void debugInit() {
   if (lcd_en)  {
     lcd.begin(16,2);        // used when LCD is plugged for reading the device
     lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("                ");
+    lcd.setCursor(0,0);
   }
 }
 
@@ -35,7 +38,8 @@ void debugSensorDetection(String msg, int sensor, int val1, int val2) {
   }
   if (lcd_en)  {
     lcd.clear();
-    lcd.print("Starting, sensor=");lcd.print(sensor);
+    lcd.setCursor(0,0);
+    lcd.print("Started sens=");lcd.print(sensor);
   }
 
 }

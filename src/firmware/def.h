@@ -10,9 +10,11 @@
 #define ARRAYLEN    120  // size of an array to store pulses (40rps gives 120 values in 3s)
 
 
+#define SAMPLING_PERIOD          3000  // instantaneous wind is measured on a period of 3s (common rule)
+#define REPORT_PERIOD           30000  // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
+#define ADMIN_REPORT_PERIOD    120000  // period to send monitoring information to server (vbat...) 86400000=1day
+#define REBOOT_PERIOD      3456000000  // reboot micro every 40 days to avoid managing millis reset after 2**32-1 ms
 
-#define SAMPLING_PERIOD 3000    // instantaneous wind is measured on a period of 3s (common rule)
-#define REPORT_PERIOD  30000    // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
 
 #define SENSPPIN   3            // Pin to power up the sensor 
 #define RPULLUP    10.0         // Pullup in kOhm

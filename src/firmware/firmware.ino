@@ -16,8 +16,9 @@
 LiquidCrystal lcd(13, 12, 7, 8, 9, 10); //lcd(rs, en, a, b, c, d)
 
 
-volatile unsigned long  last_sampleT   ;  // last time in millis a measure sampling has been done
-volatile unsigned long  last_reportT   ;  // last time in millis a report has been done
+volatile unsigned long  last_sampleT  ;  // last time in millis a measure sampling has been done
+volatile unsigned long  last_reportT  ;  // last time in millis a report has been done
+volatile unsigned long  last_adminT   ;  // last time in millis a vbat report has been done
 
 volatile int            max_wspeed    ;  // max wind speed over the sample period
 volatile int            min_wspeed    ;  // min wind speed over the sample period
@@ -72,7 +73,8 @@ void setup() {
   prevWindDir      = -1;
   repnbr           = 0;
   last_sampleT     = millis();
-  last_reportT     = millis(); 
+  last_reportT     = millis();
+  last_adminT      = millis();
   reset_stat(); 
   delay(1000);
 }
@@ -86,6 +88,7 @@ void loop() {
     unsigned long now = millis();
     int    dt1 = now - last_sampleT;  // ellapsed time since last sample
     int    dt2 = now - last_reportT;  // ellapsed time since last report
+    int    dt3 = now - last_adminT;   // ellapsed time since last vbat report
     int    ws  = -1;
     int    wd  = -1;
     
@@ -117,15 +120,25 @@ void loop() {
       last_sampleT = now;
     }
     
-    // at every sigfox report period we send 2 packets of data
-    // so at every half-report period we store data
-    if (dt2 > REPORT_PERIOD/2) {
+    if (dt3 > ADMIN_REPORT_PERIOD) {
+      noInterrupts();
+      float vbat=getBatteryVoltage();
+      makeAdminReport(vbat);
+      interrupts();
+      last_adminT = now;
+      last_reportT = now;
+    } else if (dt2 > REPORT_PERIOD/2) {
+      // at every sigfox report period we send 2 packets of data
+      // so at every half-report period we store data     
       noInterrupts();
       makeReport();
       interrupts();
       last_reportT = now;
     }
+
+    if (now > REBOOT_PERIOD) reboot(); // avoid managing millis value wrapping (every 2**32-1 ms)
   }  
+
 }
 
 /*
@@ -200,7 +213,7 @@ int wdir_avg()  {
 
 /*
 *
-*  Report
+*  Data Report creation/dispach
 *
 */
 void makeReport() {
@@ -234,6 +247,18 @@ void makeReport() {
 }
 
 /*
+*  Admin report 
+*
+*/
+void makeAdminReport(int vb) {
+
+    // send sigfox telegram this time
+    // sendSigFoxMessage();
+
+
+}
+
+/*
 *  Utility to find out which sensor is connected
 *  period in millis
 *
@@ -247,6 +272,14 @@ void blinkLed(int times, int period) {
     delay(period);
   }
  
+}
+
+/*
+ * system functions
+*/
+void reboot() {
+  NVIC_SystemReset();
+  while (1);
 }
 
 /*
