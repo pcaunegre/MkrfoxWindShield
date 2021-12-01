@@ -69,6 +69,10 @@ typedef struct __attribute__ ((packed)) sigfox_wind_message {
         int8_t speedAvg[2];
         int8_t speedMax[2];
         int8_t directionAvg[2];
+        int8_t batVolt;
+        int8_t temperature;
+        int8_t notused;
+        int8_t notused;
 } SigfoxWindMessage;
 
 

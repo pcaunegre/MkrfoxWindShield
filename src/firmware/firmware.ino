@@ -362,8 +362,10 @@ float getBatteryVoltage() {
  * functions dedicated to Sigfox message sending
  * 
  *speedMin[0], speedMin[1], speedAvg[0], speedAvg[1], speedMax[0], speedMax[1], dirAvg[0], dirAvg[1]
+ *
+ * message len=8 for a normal measure transmission, 12 for an admin transmission
 */
-void sendSigFoxMessage() {
+void sendSigFoxMessage(int len) {
   
   debugPrint("Sending Sigfox Msg",0);
   return;
@@ -385,7 +387,7 @@ void sendSigFoxMessage() {
   SigFox.beginPacket();
   
   // OpenWindMap specific data frame  
-  SigFox.write((uint8_t*)&msg, sizeof(SigfoxWindMessage));
+  SigFox.write((uint8_t*)&msg, len); 
   
   int ret = SigFox.endPacket();
   SigFox.end();
