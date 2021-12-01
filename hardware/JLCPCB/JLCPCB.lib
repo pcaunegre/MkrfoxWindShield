@@ -1,0 +1,464 @@
+EESchema-LIBRARY Version 2.4
+#encoding utf-8
+#
+# 0402WGF1001TCE
+#
+DEF 0402WGF1001TCE R 0 30 Y Y 1 F N
+F0 "R" 550 250 50 H V L CNN
+F1 "0402WGF1001TCE" 550 150 50 H V L CNN
+F2 "RESC1005X40N" 550 50 50 H I L CNN
+F3 "https://datasheet.lcsc.com/szlcsc/Uniroyal-Elec-0402WGF1001TCE_C25744.pdf" 550 -50 50 H I L CNN
+F4 "Chip Resistor - Surface Mount 1KOhms +/-1% 1/16W 0402 RoHS" 550 -150 50 H I L CNN "Description"
+F5 "0.4" 550 -250 50 H I L CNN "Height"
+F6 "UNI-ROYAL(Uniroyal Elec)" 550 -350 50 H I L CNN "Manufacturer_Name"
+F7 "0402WGF1001TCE" 550 -450 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+P 5 0 1 6 200 50 500 50 500 -50 200 -50 200 50 N
+X ~ 1 0 0 200 R 50 50 0 0 P
+X ~ 2 700 0 200 L 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# 0402WGF1002TCE
+#
+DEF 0402WGF1002TCE R 0 30 Y Y 1 F N
+F0 "R" 550 250 50 H V L CNN
+F1 "0402WGF1002TCE" 550 150 50 H V L CNN
+F2 "RESC1005X40N" 550 50 50 H I L CNN
+F3 "https://datasheet.lcsc.com/szlcsc/Uniroyal-Elec-0402WGF1002TCE_C25744.pdf" 550 -50 50 H I L CNN
+F4 "Chip Resistor - Surface Mount 10KOhms +/-1% 1/16W 0402 RoHS" 550 -150 50 H I L CNN "Description"
+F5 "0.4" 550 -250 50 H I L CNN "Height"
+F6 "UNI-ROYAL(Uniroyal Elec)" 550 -350 50 H I L CNN "Manufacturer_Name"
+F7 "0402WGF1002TCE" 550 -450 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+P 5 0 1 6 200 50 500 50 500 -50 200 -50 200 50 N
+X ~ 1 0 0 200 R 50 50 0 0 P
+X ~ 2 700 0 200 L 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# 0402WGF1003TCE
+#
+DEF 0402WGF1003TCE R 0 30 Y Y 1 F N
+F0 "R" 550 250 50 H V L CNN
+F1 "0402WGF1003TCE" 550 150 50 H V L CNN
+F2 "RESC1005X40N" 550 50 50 H I L CNN
+F3 "https://datasheet.lcsc.com/szlcsc/Uniroyal-Elec-0402WGF1003TCE_C25744.pdf" 550 -50 50 H I L CNN
+F4 "Chip Resistor - Surface Mount 100KOhms +/-1% 1/16W 0402 RoHS" 550 -150 50 H I L CNN "Description"
+F5 "0.4" 550 -250 50 H I L CNN "Height"
+F6 "UNI-ROYAL(Uniroyal Elec)" 550 -350 50 H I L CNN "Manufacturer_Name"
+F7 "0402WGF1003TCE" 550 -450 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+P 5 0 1 6 200 50 500 50 500 -50 200 -50 200 50 N
+X ~ 1 0 0 200 R 50 50 0 0 P
+X ~ 2 700 0 200 L 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# 0402WGF2002TCE
+#
+DEF 0402WGF2002TCE R 0 30 Y Y 1 F N
+F0 "R" 550 250 50 H V L CNN
+F1 "0402WGF2002TCE" 550 150 50 H V L CNN
+F2 "RESC1005X40N" 550 50 50 H I L CNN
+F3 "https://datasheet.lcsc.com/szlcsc/Uniroyal-Elec-0402WGF2002TCE_C25765.pdf" 550 -50 50 H I L CNN
+F4 "Chip Resistor - Surface Mount 20KOhms +/-1% 1/16W 0402 RoHS" 550 -150 50 H I L CNN "Description"
+F5 "0.4" 550 -250 50 H I L CNN "Height"
+F6 "UNI-ROYAL(Uniroyal Elec)" 550 -350 50 H I L CNN "Manufacturer_Name"
+F7 "0402WGF2002TCE" 550 -450 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+P 5 0 1 6 200 50 500 50 500 -50 200 -50 200 50 N
+X ~ 1 0 0 200 R 50 50 0 0 P
+X ~ 2 700 0 200 L 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# 0402WGF3903TCE
+#
+DEF 0402WGF3903TCE R 0 30 Y Y 1 F N
+F0 "R" 550 250 50 H V L CNN
+F1 "0402WGF3903TCE" 550 150 50 H V L CNN
+F2 "RESC1005X40N" 550 50 50 H I L CNN
+F3 "https://datasheet.lcsc.com/szlcsc/Uniroyal-Elec-0402WGF1001TCE_C25744.pdf" 550 -50 50 H I L CNN
+F4 "Chip Resistor - Surface Mount 390KOhms +/-1% 1/16W 0402 RoHS" 550 -150 50 H I L CNN "Description"
+F5 "0.4" 550 -250 50 H I L CNN "Height"
+F6 "UNI-ROYAL(Uniroyal Elec)" 550 -350 50 H I L CNN "Manufacturer_Name"
+F7 "0402WGF3903TCE" 550 -450 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+P 5 0 1 6 200 50 500 50 500 -50 200 -50 200 50 N
+X ~ 1 0 0 200 R 50 50 0 0 P
+X ~ 2 700 0 200 L 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# 1751264
+#
+DEF 1751264 J 0 30 Y Y 1 F N
+F0 "J" 650 300 50 H V L CNN
+F1 "1751264" 650 200 50 H V L CNN
+F2 "1751264" 650 100 50 H I L CNN
+F3 "https://www.arrow.com/en/products/1751264/phoenix-contact" 650 0 50 H I L CNN
+F4 "Fixed Terminal Blocks 4P 3.5mm 90DEG" 650 -100 50 H I L CNN "Description"
+F5 "8.5" 650 -200 50 H I L CNN "Height"
+F6 "Phoenix Contact" 650 -300 50 H I L CNN "Manufacturer_Name"
+F7 "1751264" 650 -400 50 H I L CNN "Manufacturer_Part_Number"
+F8 "651-1751264" 650 -500 50 H I L CNN "Mouser Part Number"
+F9 "https://www.mouser.co.uk/ProductDetail/Phoenix-Contact/1751264?qs=bOnNDoERoR2geewOFfSYuA%3D%3D" 650 -600 50 H I L CNN "Mouser Price/Stock"
+F10 "1751264" 650 -700 50 H I L CNN "Arrow Part Number"
+F11 "https://www.arrow.com/en/products/1751264/phoenix-contact" 650 -800 50 H I L CNN "Arrow Price/Stock"
+DRAW
+P 5 0 1 6 200 100 600 100 600 -400 200 -400 200 100 N
+X 1 1 0 0 200 R 50 50 0 0 P
+X 2 2 0 -100 200 R 50 50 0 0 P
+X 3 3 0 -200 200 R 50 50 0 0 P
+X 4 4 0 -300 200 R 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# CL21B103KBANNNC
+#
+DEF CL21B103KBANNNC C 0 30 Y Y 1 F N
+F0 "C" 350 250 50 H V L CNN
+F1 "CL21B103KBANNNC" 350 150 50 H V L CNN
+F2 "CAPC2012X65N" 350 50 50 H I L CNN
+F3 "https://datasheet.datasheetarchive.com/originals/distributors/Datasheets_SAMA/97c54fb7f716f6f5bd35dfc2c9b17795.pdf" 350 -50 50 H I L CNN
+F4 "Samsung Electro-Mechanics 0805 CL 10nF Ceramic Multilayer Capacitor, 50 V, +125C, X7R Dielectric, +/-10% SMD" 350 -150 50 H I L CNN "Description"
+F5 "0.65" 350 -250 50 H I L CNN "Height"
+F6 "Samsung Electro-Mechanics" 350 -350 50 H I L CNN "Manufacturer_Name"
+F7 "CL21B103KBANNNC" 350 -450 50 H I L CNN "Manufacturer_Part_Number"
+F8 "187-CL21B103KBANNNC" 350 -550 50 H I L CNN "Mouser Part Number"
+F9 "https://www.mouser.co.uk/ProductDetail/Samsung-Electro-Mechanics/CL21B103KBANNNC?qs=349EhDEZ59oTK9iJ%2FqCMuw%3D%3D" 350 -650 50 H I L CNN "Mouser Price/Stock"
+F10 "CL21B103KBANNNC" 350 -750 50 H I L CNN "Arrow Part Number"
+F11 "https://www.arrow.com/en/products/cl21b103kbannnc/samsung-electro-mechanics" 350 -850 50 H I L CNN "Arrow Price/Stock"
+DRAW
+P 2 0 1 6 200 0 220 0 N
+P 2 0 1 6 220 100 220 -100 N
+P 2 0 1 6 280 0 300 0 N
+P 2 0 1 6 280 100 280 -100 N
+X ~ 1 0 0 200 R 50 50 0 0 P
+X ~ 2 500 0 200 L 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# CL21B106KOQNNNE
+#
+DEF CL21B106KOQNNNE C 0 30 Y Y 1 F N
+F0 "C" 350 250 50 H V L CNN
+F1 "CL21B106KOQNNNE" 350 150 50 H V L CNN
+F2 "CAPC2012X140N" 350 50 50 H I L CNN
+F3 "https://datasheet.datasheetarchive.com/originals/distributors/Datasheets_SAMA/a6a503886ec2e900bbf4e5d6e2f8e8b0.pdf" 350 -50 50 H I L CNN
+F4 "CAP, 10uF, 16V, +/-10%, X7R, 0805" 350 -150 50 H I L CNN "Description"
+F5 "1.4" 350 -250 50 H I L CNN "Height"
+F6 "Samsung Electro-Mechanics" 350 -350 50 H I L CNN "Manufacturer_Name"
+F7 "CL21B106KOQNNNE" 350 -450 50 H I L CNN "Manufacturer_Part_Number"
+F8 "187-CL21B106KOQNNNE" 350 -550 50 H I L CNN "Mouser Part Number"
+F9 "https://www.mouser.co.uk/ProductDetail/Samsung-Electro-Mechanics/CL21B106KOQNNNE?qs=349EhDEZ59r8qgLddyW2Yw%3D%3D" 350 -650 50 H I L CNN "Mouser Price/Stock"
+F10 "CL21B106KOQNNNE" 350 -750 50 H I L CNN "Arrow Part Number"
+F11 "https://www.arrow.com/en/products/cl21b106koqnnne/samsung-electro-mechanics" 350 -850 50 H I L CNN "Arrow Price/Stock"
+DRAW
+P 2 0 1 6 200 0 220 0 N
+P 2 0 1 6 220 100 220 -100 N
+P 2 0 1 6 280 0 300 0 N
+P 2 0 1 6 280 100 280 -100 N
+X ~ 1 0 0 200 R 50 50 0 0 P
+X ~ 2 500 0 200 L 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# CONN_14
+#
+DEF CONN_14 P 0 40 Y N 1 F N
+F0 "P" -25 0 60 V V C CNN
+F1 "CONN_14" 75 0 60 V V C CNN
+F2 "" 0 50 50 H I C CNN
+F3 "" 0 50 50 H I C CNN
+DRAW
+S -100 700 150 -700 0 1 0 N
+X P1 1 -350 650 250 R 50 50 1 1 P I
+X P10 10 -350 -250 250 R 50 50 1 1 P I
+X P11 11 -350 -350 250 R 50 50 1 1 P I
+X P12 12 -350 -450 250 R 50 50 1 1 P I
+X P13 13 -350 -550 250 R 50 50 1 1 P I
+X ~ 14 -350 -650 250 R 50 50 1 1 P I
+X P2 2 -350 550 250 R 50 50 1 1 P I
+X P3 3 -350 450 250 R 50 50 1 1 P I
+X P4 4 -350 350 250 R 50 50 1 1 P I
+X P5 5 -350 250 250 R 50 50 1 1 P I
+X P6 6 -350 150 250 R 50 50 1 1 P I
+X P7 7 -350 50 250 R 50 50 1 1 P I
+X P8 8 -350 -50 250 R 50 50 1 1 P I
+X P9 9 -350 -150 250 R 50 50 1 1 P I
+ENDDRAW
+ENDDEF
+#
+# CONN_14_1
+#
+DEF CONN_14_1 P 0 40 Y N 1 F N
+F0 "P" -25 0 60 V V C CNN
+F1 "CONN_14_1" 75 0 60 V V C CNN
+F2 "" 0 50 50 H I C CNN
+F3 "" 0 50 50 H I C CNN
+DRAW
+T 0 -50 -150 50 0 0 0 0 Normal 0 C C
+T 0 -50 -250 50 0 0 0 1 Normal 0 C C
+T 0 -50 -350 50 0 0 0 2 Normal 0 C C
+T 0 -50 -450 50 0 0 0 3 Normal 0 C C
+T 0 -50 -550 50 0 0 0 4 Normal 0 C C
+T 0 -50 -650 50 0 0 0 5 Normal 0 C C
+T 0 -50 550 50 0 0 0 A0 Normal 0 C C
+T 0 -50 450 50 0 0 0 A1 Normal 0 C C
+T 0 -50 350 50 0 0 0 A2 Normal 0 C C
+T 0 -50 250 50 0 0 0 A3 Normal 0 C C
+T 0 -50 150 50 0 0 0 A4 Normal 0 C C
+T 0 -50 50 50 0 0 0 A5 Normal 0 C C
+T 0 -50 -50 50 0 0 0 A6 Normal 0 C C
+T 0 0 650 50 0 0 0 AREF Normal 0 C C
+S -100 700 150 -700 0 1 0 N
+X P1 1 -350 650 250 R 50 50 1 1 P I
+X P10 10 -350 -250 250 R 50 50 1 1 P I
+X P11 11 -350 -350 250 R 50 50 1 1 P I
+X P12 12 -350 -450 250 R 50 50 1 1 P I
+X P13 13 -350 -550 250 R 50 50 1 1 P I
+X ~ 14 -350 -650 250 R 50 50 1 1 P I
+X P2 2 -350 550 250 R 50 50 1 1 P I
+X P3 3 -350 450 250 R 50 50 1 1 P I
+X P4 4 -350 350 250 R 50 50 1 1 P I
+X P5 5 -350 250 250 R 50 50 1 1 P I
+X P6 6 -350 150 250 R 50 50 1 1 P I
+X P7 7 -350 50 250 R 50 50 1 1 P I
+X P8 8 -350 -50 250 R 50 50 1 1 P I
+X P9 9 -350 -150 250 R 50 50 1 1 P I
+ENDDRAW
+ENDDEF
+#
+# CONN_14_2
+#
+DEF CONN_14_2 P 0 40 Y N 1 F N
+F0 "P" -275 0 60 V V C CNN
+F1 "CONN_14_2" -375 0 60 V V C CNN
+F2 "" -300 50 50 H I C CNN
+F3 "" -300 50 50 H I C CNN
+DRAW
+T 0 -300 -250 50 0 0 0 10 Normal 0 C C
+T 0 -300 -150 50 0 0 0 11 Normal 0 C C
+T 0 -300 -50 50 0 0 0 12 Normal 0 C C
+T 0 -300 50 50 0 0 0 13 Normal 0 C C
+T 0 -300 150 50 0 0 0 14 Normal 0 C C
+T 0 -300 650 50 0 0 0 5V Normal 0 C C
+T 0 -300 -650 50 0 0 0 6 Normal 0 C C
+T 0 -300 -550 50 0 0 0 7 Normal 0 C C
+T 0 -300 -450 50 0 0 0 8 Normal 0 C C
+T 0 -300 -350 50 0 0 0 9 Normal 0 C C
+T 0 -300 350 50 0 0 0 GND Normal 0 C C
+T 0 -300 250 50 0 0 0 RESET Normal 0 C C
+T 0 -300 450 50 0 0 0 VCC Normal 0 C C
+T 0 -300 550 50 0 0 0 VIN Normal 0 C C
+S -200 700 -450 -700 0 1 0 N
+X P1 1 50 650 250 L 50 50 1 1 P I
+X P10 10 50 -250 250 L 50 50 1 1 P I
+X P11 11 50 -350 250 L 50 50 1 1 P I
+X P12 12 50 -450 250 L 50 50 1 1 P I
+X P13 13 50 -550 250 L 50 50 1 1 P I
+X ~ 14 50 -650 250 L 50 50 1 1 P I
+X P2 2 50 550 250 L 50 50 1 1 P I
+X P3 3 50 450 250 L 50 50 1 1 P I
+X P4 4 50 350 250 L 50 50 1 1 P I
+X P5 5 50 250 250 L 50 50 1 1 P I
+X P6 6 50 150 250 L 50 50 1 1 P I
+X P7 7 50 50 250 L 50 50 1 1 P I
+X P8 8 50 -50 250 L 50 50 1 1 P I
+X P9 9 50 -150 250 L 50 50 1 1 P I
+ENDDRAW
+ENDDEF
+#
+# DS1133-S60APS
+#
+DEF DS1133-S60APS J 0 30 Y Y 1 F N
+F0 "J" -400 600 50 H V L CNN
+F1 "DS1133-S60APS" -650 500 50 H V L CNN
+F2 "DS1133S60APS" 750 600 50 H I L CNN
+F3 "https://datasheet.lcsc.com/szlcsc/CONNFLY-Elec-DS1133-S60APS_C77857.pdf" 750 500 50 H I L CNN
+F4 "PCB Jack 6p" 750 400 50 H I L CNN "Description"
+F5 "14.5" 750 300 50 H I L CNN "Height"
+F6 "Connfly" 750 200 50 H I L CNN "Manufacturer_Name"
+F7 "DS1133-S60APS" 750 100 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+S 600 0 0 -700 1 1 10 f
+P 3 1 1 0 50 -475 100 -475 100 -475 N
+P 3 1 1 0 50 -425 100 -425 100 -425 N
+P 3 1 1 0 50 -375 100 -375 100 -375 N
+P 3 1 1 0 50 -325 100 -325 100 -325 N
+P 3 1 1 0 50 -275 100 -275 100 -275 N
+P 3 1 1 0 100 -225 50 -225 50 -225 N
+P 14 1 1 0 50 -575 50 -125 450 -125 450 -225 500 -225 500 -275 550 -275 550 -425 500 -425 500 -475 450 -475 450 -575 50 -575 50 -575 N
+X ~ 1 700 -600 100 L 50 50 1 1 P
+X ~ 2 700 -500 100 L 50 50 1 1 P
+X ~ 3 700 -400 100 L 50 50 1 1 P
+X ~ 4 700 -300 100 L 50 50 1 1 P
+X ~ 5 700 -200 100 L 50 50 1 1 P
+X ~ 6 700 -100 100 L 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# JS202011SCQN
+#
+DEF JS202011SCQN S 0 30 Y Y 1 F N
+F0 "S" 650 300 50 H V L CNN
+F1 "JS202011SCQN" 650 200 50 H V L CNN
+F2 "JS202011SCQN" 650 100 50 H I L CNN
+F3 "http://www.ckswitches.com/media/1422/js.pdf" 650 0 50 H I L CNN
+F4 "Sub miniature slide switches" 650 -100 50 H I L CNN "Description"
+F5 "5.5" 650 -200 50 H I L CNN "Height"
+F6 "C & K COMPONENTS" 650 -300 50 H I L CNN "Manufacturer_Name"
+F7 "JS202011SCQN" 650 -400 50 H I L CNN "Manufacturer_Part_Number"
+F8 "611-JS202011SCQN" 650 -500 50 H I L CNN "Mouser Part Number"
+F9 "https://www.mouser.co.uk/ProductDetail/CK/JS202011SCQN?qs=LgMIjt8LuD95JYWxZ7NvZA%3D%3D" 650 -600 50 H I L CNN "Mouser Price/Stock"
+F10 "JS202011SCQN" 650 -700 50 H I L CNN "Arrow Part Number"
+F11 "https://www.arrow.com/en/products/js202011scqn/ck?region=nac" 650 -800 50 H I L CNN "Arrow Price/Stock"
+DRAW
+S 350 50 450 -250 0 1 0 N
+P 2 0 1 0 350 -100 450 -100 N
+P 2 0 1 0 400 -150 400 -200 N
+P 5 0 1 6 200 100 600 100 600 -300 200 -300 200 100 N
+X 1 1 0 0 200 R 50 50 0 0 P
+X 2 2 0 -100 200 R 50 50 0 0 P
+X 3 3 0 -200 200 R 50 50 0 0 P
+X 4 4 800 -200 200 L 50 50 0 0 P
+X 5 5 800 -100 200 L 50 50 0 0 P
+X 6 6 800 0 200 L 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# KF350-3.5-2P
+#
+DEF KF350-3.5-2P J 0 30 Y Y 1 F N
+F0 "J" 650 300 50 H V L CNN
+F1 "KF350-3.5-2P" 650 200 50 H V L CNN
+F2 "KF350352P" 650 100 50 H I L CNN
+F3 "https://datasheet.lcsc.com/szlcsc/2001160007_Cixi-Kefa-Elec-KF350-3-5-2P_C474892.pdf" 650 0 50 H I L CNN
+F4 "P=3.5mm Screw terminal RoHS 2 Pos" 650 -100 50 H I L CNN "Description"
+F5 "8.8" 650 -200 50 H I L CNN "Height"
+F6 "CIXI KEFA ELECTRONICS" 650 -300 50 H I L CNN "Manufacturer_Name"
+F7 "KF350-3.5-2P" 650 -400 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+C 450 -100 50 0 1 0 N
+C 450 50 50 0 1 0 N
+P 6 0 1 6 200 100 200 150 600 150 600 -200 200 -200 200 100 N
+X 1 1 0 50 200 R 50 50 0 0 P
+X 2 2 0 -100 200 R 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# PH-2AK
+#
+DEF PH-2AK J 0 30 Y Y 1 F N
+F0 "J" 650 300 50 H V L CNN
+F1 "PH-2AK" 650 200 50 H V L CNN
+F2 "SHDR2W52P0X200_1X2_600X460X630P" 650 100 50 H I L CNN
+F3 "https://datasheet.lcsc.com/szlcsc/1811092130_BOOMELE-Boom-Precision-Elec-PH-2AK_C146082.pdf" 650 0 50 H I L CNN
+F4 "Wire To Board / Wire To Wire Connector Through Hole RoHS" 650 -100 50 H I L CNN "Description"
+F5 "6.3" 650 -200 50 H I L CNN "Height"
+F6 "BOOMELE(Boom Precision Elec)" 650 -300 50 H I L CNN "Manufacturer_Name"
+F7 "PH-2AK" 650 -400 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+P 2 0 1 0 500 -100 500 -100 N
+P 2 0 1 0 500 -100 500 -50 N
+P 2 0 1 0 500 50 500 0 N
+P 2 0 1 0 500 50 500 50 N
+P 2 0 1 0 550 -100 550 -50 N
+P 4 0 1 0 400 50 400 -150 550 -150 550 -100 N
+P 4 0 1 0 550 0 550 100 400 100 400 50 N
+P 7 0 1 6 200 150 600 150 600 -150 600 -200 200 -200 200 -150 200 150 N
+X B+ 1 0 50 200 R 50 50 0 0 P
+X B- 2 0 -100 200 R 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# PMEG6010CEH,115
+#
+DEF PMEG6010CEH,115 D 0 30 Y Y 1 F N
+F0 "D" 450 200 50 H V L CNN
+F1 "PMEG6010CEH,115" 450 100 50 H V L CNN
+F2 "SODFL3516X120N" 450 0 50 H I L CNN
+F3 "https://datasheet.datasheetarchive.com/originals/distributors/SFDatasheet-4/sf-00082348.pdf" 450 -100 50 H I L CNN
+F4 "1 A, SILICON, SIGNAL DIODE" 450 -200 50 H I L CNN "Description"
+F5 "1.2" 450 -300 50 H I L CNN "Height"
+F6 "NXP" 450 -400 50 H I L CNN "Manufacturer_Name"
+F7 "PMEG6010CEH,115" 450 -500 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+P 2 0 1 6 200 100 200 -100 N
+P 4 0 1 10 200 0 400 100 400 -100 200 0 F
+X ~ 1 0 0 200 R 50 50 0 0 P
+X ~ 2 600 0 200 L 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# RC0402JR-071KL
+#
+DEF RC0402JR-071KL R 0 30 Y Y 1 F N
+F0 "R" 550 250 50 H V L CNN
+F1 "RC0402JR-071KL" 550 150 50 H V L CNN
+F2 "RESC1005X40N" 550 50 50 H I L CNN
+F3 "https://datasheet.datasheetarchive.com/originals/distributors/Datasheets_SAMA/902f9e387b938f871d31120f5fc1d65e.pdf" 550 -50 50 H I L CNN
+F4 "YAGEO (PHYCOMP) - RC0402JR-071KL - RES, THICK FILM, 1K, 5%, 0.0625W, 0402" 550 -150 50 H I L CNN "Description"
+F5 "0.4" 550 -250 50 H I L CNN "Height"
+F6 "YAGEO (PHYCOMP)" 550 -350 50 H I L CNN "Manufacturer_Name"
+F7 "RC0402JR-071KL" 550 -450 50 H I L CNN "Manufacturer_Part_Number"
+F8 "603-RC0402JR-071KL" 550 -550 50 H I L CNN "Mouser Part Number"
+F9 "https://www.mouser.co.uk/ProductDetail/YAGEO/RC0402JR-071KL?qs=uM1JSSdPjOCtzNbByOhClA%3D%3D" 550 -650 50 H I L CNN "Mouser Price/Stock"
+F10 "RC0402JR-071KL" 550 -750 50 H I L CNN "Arrow Part Number"
+F11 "https://www.arrow.com/en/products/rc0402jr-071kl/yageo" 550 -850 50 H I L CNN "Arrow Price/Stock"
+DRAW
+P 5 0 1 6 200 50 500 50 500 -50 200 -50 200 50 N
+X ~ 1 0 0 200 R 50 50 0 0 P
+X ~ 2 700 0 200 L 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# TP4056-42-ESOP8
+#
+DEF TP4056-42-ESOP8 IC 0 30 Y Y 1 F N
+F0 "IC" 1050 300 50 H V L CNN
+F1 "TP4056-42-ESOP8" 1050 200 50 H V L CNN
+F2 "SOIC127P600X175-9N" 1050 100 50 H I L CNN
+F3 "https://datasheet.lcsc.com/szlcsc/1906261508_Nanjing-Extension-Microelectronics-TP4056-42-ESOP8_C16581.pdf" 1050 0 50 H I L CNN
+F4 "PMIC - Battery Management ESOP-8 RoHS" 1050 -100 50 H I L CNN "Description"
+F5 "1.75" 1050 -200 50 H I L CNN "Height"
+F6 "Nanjing Extension Microelectronics" 1050 -300 50 H I L CNN "Manufacturer_Name"
+F7 "TP4056-42-ESOP8" 1050 -400 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+P 5 0 1 6 200 100 1000 100 1000 -600 200 -600 200 100 N
+X TEMP 1 0 0 200 R 50 50 0 0 P
+X PROG 2 0 -100 200 R 50 50 0 0 P
+X GND 3 0 -200 200 R 50 50 0 0 P
+X VCC 4 0 -300 200 R 50 50 0 0 P
+X BAT 5 1200 -300 200 L 50 50 0 0 P
+X ~STDBY 6 1200 -200 200 L 50 50 0 0 P
+X ~CHRG 7 1200 -100 200 L 50 50 0 0 P
+X CE 8 1200 0 200 L 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+# WJ500V-5.08-2P
+#
+DEF WJ500V-5.08-2P J 0 30 Y Y 1 F N
+F0 "J" 650 300 50 H V L CNN
+F1 "WJ500V-5.08-2P" 650 200 50 H V L CNN
+F2 "WJ500V5082P" 650 100 50 H I L CNN
+F3 "https://datasheet.lcsc.com/szlcsc/1912251636_Ningbo-Kangnex-Elec-WJ500V-5-08-2P_C8465.pdf" 650 0 50 H I L CNN
+F4 "P=5.08mm Screw terminal" 650 -100 50 H I L CNN "Description"
+F5 "14.2" 650 -200 50 H I L CNN "Height"
+F6 "Ningbo Kangnex" 650 -300 50 H I L CNN "Manufacturer_Name"
+F7 "WJ500V-5.08-2P" 650 -400 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+C 450 -150 50 0 1 0 N
+C 450 50 50 0 1 0 N
+P 2 0 1 0 450 -100 450 -200 N
+P 2 0 1 0 450 100 450 0 N
+P 6 0 1 6 200 50 200 150 600 150 600 -250 200 -250 200 50 N
+X + 1 0 0 200 R 50 50 0 0 P
+X - 2 0 -100 200 R 50 50 0 0 P
+ENDDRAW
+ENDDEF
+#
+#End Library

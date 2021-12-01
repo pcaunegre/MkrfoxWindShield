@@ -1,0 +1,98 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP 0402WGF1001TCE
+D Chip Resistor - Surface Mount 1KOhms +/-1% 1/16W 0402 RoHS
+F https://datasheet.lcsc.com/szlcsc/Uniroyal-Elec-0402WGF1002TCE_C25744.pdf
+$ENDCMP
+#
+$CMP 0402WGF1002TCE
+D Chip Resistor - Surface Mount 10KOhms +/-1% 1/16W 0402 RoHS
+F https://datasheet.lcsc.com/szlcsc/Uniroyal-Elec-0402WGF1002TCE_C25744.pdf
+$ENDCMP
+#
+$CMP 0402WGF1003TCE
+D Chip Resistor - Surface Mount 100KOhms +/-1% 1/16W 0402 RoHS
+F https://datasheet.lcsc.com/szlcsc/Uniroyal-Elec-0402WGF1002TCE_C25744.pdf
+$ENDCMP
+#
+$CMP 0402WGF2002TCE
+D Chip Resistor - Surface Mount 20KOhms +/-1% 1/16W 0402 RoHS
+F https://datasheet.lcsc.com/szlcsc/Uniroyal-Elec-0402WGF2002TCE_C25765.pdf
+$ENDCMP
+#
+$CMP 0402WGF3903TCE
+D Chip Resistor - Surface Mount 390KOhms +/-1% 1/16W 0402 RoHS
+F https://datasheet.lcsc.com/szlcsc/Uniroyal-Elec-0402WGF1002TCE_C25744.pdf
+$ENDCMP
+#
+$CMP 1751264
+D Fixed Terminal Blocks 4P 3.5mm 90DEG
+F https://www.arrow.com/en/products/1751264/phoenix-contact
+$ENDCMP
+#
+$CMP CL21B103KBANNNC
+D Samsung Electro-Mechanics 0805 CL 10nF Ceramic Multilayer Capacitor, 50 V, +125C, X7R Dielectric, +/-10% SMD
+F https://datasheet.datasheetarchive.com/originals/distributors/Datasheets_SAMA/97c54fb7f716f6f5bd35dfc2c9b17795.pdf
+$ENDCMP
+#
+$CMP CL21B106KOQNNNE
+D CAP, 10uF, 16V, +/-10%, X7R, 0805
+F https://datasheet.datasheetarchive.com/originals/distributors/Datasheets_SAMA/a6a503886ec2e900bbf4e5d6e2f8e8b0.pdf
+$ENDCMP
+#
+$CMP CONN_14
+D Symbole general de connexion
+K CONN
+$ENDCMP
+#
+$CMP CONN_14_1
+D Symbole general de connexion
+K CONN
+$ENDCMP
+#
+$CMP CONN_14_2
+D Symbole general de connexion
+K CONN
+$ENDCMP
+#
+$CMP DS1133-S60APS
+D PCB Jack 6p
+F https://datasheet.lcsc.com/szlcsc/CONNFLY-Elec-DS1133-S60APS_C77857.pdf
+$ENDCMP
+#
+$CMP JS202011SCQN
+D Sub miniature slide switches
+F http://www.ckswitches.com/media/1422/js.pdf
+$ENDCMP
+#
+$CMP KF350-3.5-2P
+D P=3.5mm Screw terminal RoHS 2 Pos
+F https://datasheet.lcsc.com/szlcsc/2001160007_Cixi-Kefa-Elec-KF350-3-5-2P_C474892.pdf
+$ENDCMP
+#
+$CMP PH-2AK
+D Wire To Board / Wire To Wire Connector Through Hole RoHS
+F https://datasheet.lcsc.com/szlcsc/1811092130_BOOMELE-Boom-Precision-Elec-PH-2AK_C146082.pdf
+$ENDCMP
+#
+$CMP PMEG6010CEH,115
+D 1 A, SILICON, SIGNAL DIODE
+F https://datasheet.datasheetarchive.com/originals/distributors/SFDatasheet-4/sf-00082348.pdf
+$ENDCMP
+#
+$CMP RC0402JR-071KL
+D YAGEO (PHYCOMP) - RC0402JR-071KL - RES, THICK FILM, 1K, 5%, 0.0625W, 0402
+F https://datasheet.datasheetarchive.com/originals/distributors/Datasheets_SAMA/902f9e387b938f871d31120f5fc1d65e.pdf
+$ENDCMP
+#
+$CMP TP4056-42-ESOP8
+D PMIC - Battery Management ESOP-8 RoHS
+F https://datasheet.lcsc.com/szlcsc/1906261508_Nanjing-Extension-Microelectronics-TP4056-42-ESOP8_C16581.pdf
+$ENDCMP
+#
+$CMP WJ500V-5.08-2P
+D P=5.08mm Screw terminal
+F https://datasheet.lcsc.com/szlcsc/1912251636_Ningbo-Kangnex-Elec-WJ500V-5-08-2P_C8465.pdf
+$ENDCMP
+#
+#End Doc Library
