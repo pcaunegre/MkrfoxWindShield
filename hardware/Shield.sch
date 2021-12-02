@@ -111,40 +111,40 @@ $EndComp
 $Comp
 L JLCPCB:KF350-3.5-2P JS2
 U 1 1 619D79DE
-P 1750 3150
-F 0 "JS2" H 2378 3146 50  0000 L CNN
-F 1 "KF350-3.5-2P" H 2378 3055 50  0000 L CNN
-F 2 "JLCPCB_FP:KF350352P" H 2400 3250 50  0001 L CNN
-F 3 "https://datasheet.lcsc.com/szlcsc/2001160007_Cixi-Kefa-Elec-KF350-3-5-2P_C474892.pdf" H 2400 3150 50  0001 L CNN
-F 4 "P=3.5mm Screw terminal RoHS 2 Pos" H 2400 3050 50  0001 L CNN "Description"
-F 5 "8.8" H 2400 2950 50  0001 L CNN "Height"
-F 6 "CIXI KEFA ELECTRONICS" H 2400 2850 50  0001 L CNN "Manufacturer_Name"
-F 7 "KF350-3.5-2P" H 2400 2750 50  0001 L CNN "Manufacturer_Part_Number"
-F 8 "" H 2400 2650 50  0001 L CNN "Mouser Part Number"
-F 9 "" H 2400 2550 50  0001 L CNN "Mouser Price/Stock"
-F 10 "" H 2400 2450 50  0001 L CNN "Arrow Part Number"
-F 11 "" H 2400 2350 50  0001 L CNN "Arrow Price/Stock"
-	1    1750 3150
-	-1   0    0    -1  
+P 1750 3200
+F 0 "JS2" H 2378 3196 50  0000 L CNN
+F 1 "KF350-3.5-2P" H 2378 3105 50  0000 L CNN
+F 2 "JLCPCB_FP:KF350352P" H 2400 3300 50  0001 L CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2001160007_Cixi-Kefa-Elec-KF350-3-5-2P_C474892.pdf" H 2400 3200 50  0001 L CNN
+F 4 "P=3.5mm Screw terminal RoHS 2 Pos" H 2400 3100 50  0001 L CNN "Description"
+F 5 "8.8" H 2400 3000 50  0001 L CNN "Height"
+F 6 "CIXI KEFA ELECTRONICS" H 2400 2900 50  0001 L CNN "Manufacturer_Name"
+F 7 "KF350-3.5-2P" H 2400 2800 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 2400 2700 50  0001 L CNN "Mouser Part Number"
+F 9 "" H 2400 2600 50  0001 L CNN "Mouser Price/Stock"
+F 10 "" H 2400 2500 50  0001 L CNN "Arrow Part Number"
+F 11 "" H 2400 2400 50  0001 L CNN "Arrow Price/Stock"
+	1    1750 3200
+	-1   0    0    1   
 $EndComp
 $Comp
 L JLCPCB:PH-2AK J_BAT1
 U 1 1 619D87DD
-P 6250 5500
-F 0 "J_BAT1" H 6878 5496 50  0000 L CNN
-F 1 "PH-2AK" H 6878 5405 50  0000 L CNN
-F 2 "JLCPCB_FP:SHDR2W52P0X200_1X2_600X460X630P" H 6900 5600 50  0001 L CNN
-F 3 "https://datasheet.lcsc.com/szlcsc/1811092130_BOOMELE-Boom-Precision-Elec-PH-2AK_C146082.pdf" H 6900 5500 50  0001 L CNN
-F 4 "Wire To Board / Wire To Wire Connector Through Hole RoHS" H 6900 5400 50  0001 L CNN "Description"
-F 5 "6.3" H 6900 5300 50  0001 L CNN "Height"
-F 6 "BOOMELE(Boom Precision Elec)" H 6900 5200 50  0001 L CNN "Manufacturer_Name"
-F 7 "PH-2AK" H 6900 5100 50  0001 L CNN "Manufacturer_Part_Number"
-F 8 "" H 6900 5000 50  0001 L CNN "Mouser Part Number"
-F 9 "" H 6900 4900 50  0001 L CNN "Mouser Price/Stock"
-F 10 "" H 6900 4800 50  0001 L CNN "Arrow Part Number"
-F 11 "" H 6900 4700 50  0001 L CNN "Arrow Price/Stock"
-	1    6250 5500
-	1    0    0    -1  
+P 6250 5550
+F 0 "J_BAT1" H 6878 5546 50  0000 L CNN
+F 1 "PH-2AK" H 6878 5455 50  0000 L CNN
+F 2 "JLCPCB_FP:SHDR2W52P0X200_1X2_600X460X630P" H 6900 5650 50  0001 L CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811092130_BOOMELE-Boom-Precision-Elec-PH-2AK_C146082.pdf" H 6900 5550 50  0001 L CNN
+F 4 "Wire To Board / Wire To Wire Connector Through Hole RoHS" H 6900 5450 50  0001 L CNN "Description"
+F 5 "6.3" H 6900 5350 50  0001 L CNN "Height"
+F 6 "BOOMELE(Boom Precision Elec)" H 6900 5250 50  0001 L CNN "Manufacturer_Name"
+F 7 "PH-2AK" H 6900 5150 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 6900 5050 50  0001 L CNN "Mouser Part Number"
+F 9 "" H 6900 4950 50  0001 L CNN "Mouser Price/Stock"
+F 10 "" H 6900 4850 50  0001 L CNN "Arrow Part Number"
+F 11 "" H 6900 4750 50  0001 L CNN "Arrow Price/Stock"
+	1    6250 5550
+	1    0    0    1   
 $EndComp
 $Comp
 L JLCPCB:PMEG6010CEH,115 D6
@@ -277,21 +277,21 @@ Solar Panel - Screw connector
 $Comp
 L JLCPCB:WJ500V-5.08-2P J_PV1
 U 1 1 619DADDA
-P 2300 5450
-F 0 "J_PV1" H 2928 5446 50  0000 L CNN
-F 1 "WJ500V-5.08-2P" H 2928 5355 50  0000 L CNN
-F 2 "JLCPCB_FP:WJ500V5082P" H 2950 5550 50  0001 L CNN
-F 3 "https://datasheet.lcsc.com/szlcsc/1912251636_Ningbo-Kangnex-Elec-WJ500V-5-08-2P_C8465.pdf" H 2950 5450 50  0001 L CNN
-F 4 "P=5.08mm Screw terminal" H 2950 5350 50  0001 L CNN "Description"
-F 5 "14.2" H 2950 5250 50  0001 L CNN "Height"
-F 6 "Ningbo Kangnex" H 2950 5150 50  0001 L CNN "Manufacturer_Name"
-F 7 "WJ500V-5.08-2P" H 2950 5050 50  0001 L CNN "Manufacturer_Part_Number"
-F 8 "" H 2950 4950 50  0001 L CNN "Mouser Part Number"
-F 9 "" H 2950 4850 50  0001 L CNN "Mouser Price/Stock"
-F 10 "" H 2950 4750 50  0001 L CNN "Arrow Part Number"
-F 11 "" H 2950 4650 50  0001 L CNN "Arrow Price/Stock"
-	1    2300 5450
-	-1   0    0    -1  
+P 2300 5550
+F 0 "J_PV1" H 2928 5546 50  0000 L CNN
+F 1 "WJ500V-5.08-2P" H 2928 5455 50  0000 L CNN
+F 2 "JLCPCB_FP:WJ500V5082P" H 2950 5650 50  0001 L CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1912251636_Ningbo-Kangnex-Elec-WJ500V-5-08-2P_C8465.pdf" H 2950 5550 50  0001 L CNN
+F 4 "P=5.08mm Screw terminal" H 2950 5450 50  0001 L CNN "Description"
+F 5 "14.2" H 2950 5350 50  0001 L CNN "Height"
+F 6 "Ningbo Kangnex" H 2950 5250 50  0001 L CNN "Manufacturer_Name"
+F 7 "WJ500V-5.08-2P" H 2950 5150 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 2950 5050 50  0001 L CNN "Mouser Part Number"
+F 9 "" H 2950 4950 50  0001 L CNN "Mouser Price/Stock"
+F 10 "" H 2950 4850 50  0001 L CNN "Arrow Part Number"
+F 11 "" H 2950 4750 50  0001 L CNN "Arrow Price/Stock"
+	1    2300 5550
+	-1   0    0    1   
 $EndComp
 $Comp
 L JLCPCB:CL21B106KOQNNNE C4
@@ -332,21 +332,21 @@ Wire Wire Line
 $Comp
 L JLCPCB:KF350-3.5-2P JS1
 U 1 1 619F77F8
-P 1750 3550
-F 0 "JS1" H 2378 3546 50  0000 L CNN
-F 1 "KF350-3.5-2P" H 2378 3455 50  0000 L CNN
-F 2 "JLCPCB_FP:KF350352P" H 2400 3650 50  0001 L CNN
-F 3 "https://datasheet.lcsc.com/szlcsc/2001160007_Cixi-Kefa-Elec-KF350-3-5-2P_C474892.pdf" H 2400 3550 50  0001 L CNN
-F 4 "P=3.5mm Screw terminal RoHS 2 Pos" H 2400 3450 50  0001 L CNN "Description"
-F 5 "8.8" H 2400 3350 50  0001 L CNN "Height"
-F 6 "CIXI KEFA ELECTRONICS" H 2400 3250 50  0001 L CNN "Manufacturer_Name"
-F 7 "KF350-3.5-2P" H 2400 3150 50  0001 L CNN "Manufacturer_Part_Number"
-F 8 "" H 2400 3050 50  0001 L CNN "Mouser Part Number"
-F 9 "" H 2400 2950 50  0001 L CNN "Mouser Price/Stock"
-F 10 "" H 2400 2850 50  0001 L CNN "Arrow Part Number"
-F 11 "" H 2400 2750 50  0001 L CNN "Arrow Price/Stock"
-	1    1750 3550
-	-1   0    0    -1  
+P 1750 3600
+F 0 "JS1" H 2378 3596 50  0000 L CNN
+F 1 "KF350-3.5-2P" H 2378 3505 50  0000 L CNN
+F 2 "JLCPCB_FP:KF350352P" H 2400 3700 50  0001 L CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2001160007_Cixi-Kefa-Elec-KF350-3-5-2P_C474892.pdf" H 2400 3600 50  0001 L CNN
+F 4 "P=3.5mm Screw terminal RoHS 2 Pos" H 2400 3500 50  0001 L CNN "Description"
+F 5 "8.8" H 2400 3400 50  0001 L CNN "Height"
+F 6 "CIXI KEFA ELECTRONICS" H 2400 3300 50  0001 L CNN "Manufacturer_Name"
+F 7 "KF350-3.5-2P" H 2400 3200 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 2400 3100 50  0001 L CNN "Mouser Part Number"
+F 9 "" H 2400 3000 50  0001 L CNN "Mouser Price/Stock"
+F 10 "" H 2400 2900 50  0001 L CNN "Arrow Part Number"
+F 11 "" H 2400 2800 50  0001 L CNN "Arrow Price/Stock"
+	1    1750 3600
+	-1   0    0    1   
 $EndComp
 $Comp
 L JLCPCB:JS202011SCQN SW1
@@ -373,7 +373,7 @@ U 1 1 619FF84E
 P 8500 2450
 F 0 "P1" H 8678 2498 60  0000 L CNN
 F 1 "CONN_14_1" H 8678 2392 60  0000 L CNN
-F 2 "JLCPCB_FP:CONN14_FP" H 8500 2500 50  0001 C CNN
+F 2 "JLCPCB_FP:CONN14_FP1" H 8500 2500 50  0001 C CNN
 F 3 "" H 8500 2500 50  0001 C CNN
 	1    8500 2450
 	1    0    0    -1  
@@ -384,7 +384,7 @@ U 1 1 61A019F1
 P 9750 2450
 F 0 "P2" H 9558 3337 60  0000 C CNN
 F 1 "CONN_14_2" H 9558 3231 60  0000 C CNN
-F 2 "JLCPCB_FP:CONN14_FP" H 9450 2500 50  0001 C CNN
+F 2 "JLCPCB_FP:CONN14_FP2" H 9450 2500 50  0001 C CNN
 F 3 "" H 9450 2500 50  0001 C CNN
 	1    9750 2450
 	1    0    0    -1  
@@ -666,14 +666,14 @@ Wire Wire Line
 	1950 3100 1950 1900
 Connection ~ 1950 1900
 Wire Wire Line
-	1950 1900 2900 1900
+	1950 1900 2500 1900
 Wire Wire Line
 	1750 3250 2050 3250
 Wire Wire Line
 	2050 3250 2050 2000
 Connection ~ 2050 2000
 Wire Wire Line
-	2050 2000 3700 2000
+	2050 2000 2650 2000
 Wire Wire Line
 	1750 3500 2150 3500
 Wire Wire Line
@@ -687,7 +687,7 @@ Wire Wire Line
 	2250 3650 2250 2200
 Connection ~ 2250 2200
 Wire Wire Line
-	2250 2200 4450 2200
+	2250 2200 2600 2200
 Wire Wire Line
 	8150 2100 7350 2100
 Wire Wire Line
@@ -936,24 +936,81 @@ NoConn ~ 8150 2500
 $Comp
 L JLCPCB:KF350-3.5-2P J_NTC1
 U 1 1 61ABA5D9
-P 1750 4400
-F 0 "J_NTC1" H 2378 4396 50  0000 L CNN
-F 1 "KF350-3.5-2P" H 2378 4305 50  0001 L CNN
-F 2 "JLCPCB_FP:SolderPoints" H 2400 4500 50  0001 L CNN
-F 3 "https://datasheet.lcsc.com/szlcsc/2001160007_Cixi-Kefa-Elec-KF350-3-5-2P_C474892.pdf" H 2400 4400 50  0001 L CNN
-F 4 "P=3.5mm Screw terminal RoHS 2 Pos" H 2400 4300 50  0001 L CNN "Description"
-F 5 "8.8" H 2400 4200 50  0001 L CNN "Height"
-F 6 "CIXI KEFA ELECTRONICS" H 2400 4100 50  0001 L CNN "Manufacturer_Name"
-F 7 "KF350-3.5-2P" H 2400 4000 50  0001 L CNN "Manufacturer_Part_Number"
-F 8 "" H 2400 3900 50  0001 L CNN "Mouser Part Number"
-F 9 "" H 2400 3800 50  0001 L CNN "Mouser Price/Stock"
-F 10 "" H 2400 3700 50  0001 L CNN "Arrow Part Number"
-F 11 "" H 2400 3600 50  0001 L CNN "Arrow Price/Stock"
-	1    1750 4400
-	-1   0    0    -1  
+P 1750 4450
+F 0 "J_NTC1" H 2378 4446 50  0000 L CNN
+F 1 "KF350-3.5-2P" H 2378 4355 50  0001 L CNN
+F 2 "JLCPCB_FP:SolderPoints" H 2400 4550 50  0001 L CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2001160007_Cixi-Kefa-Elec-KF350-3-5-2P_C474892.pdf" H 2400 4450 50  0001 L CNN
+F 4 "P=3.5mm Screw terminal RoHS 2 Pos" H 2400 4350 50  0001 L CNN "Description"
+F 5 "8.8" H 2400 4250 50  0001 L CNN "Height"
+F 6 "CIXI KEFA ELECTRONICS" H 2400 4150 50  0001 L CNN "Manufacturer_Name"
+F 7 "KF350-3.5-2P" H 2400 4050 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 2400 3950 50  0001 L CNN "Mouser Part Number"
+F 9 "" H 2400 3850 50  0001 L CNN "Mouser Price/Stock"
+F 10 "" H 2400 3750 50  0001 L CNN "Arrow Part Number"
+F 11 "" H 2400 3650 50  0001 L CNN "Arrow Price/Stock"
+	1    1750 4450
+	-1   0    0    1   
 $EndComp
 Wire Wire Line
 	1750 4350 2500 4350
 Wire Wire Line
 	1750 4500 7850 4500
+Text GLabel 2600 2250 3    50   Input ~ 0
+Wire1
+Text GLabel 2550 2100 2    50   Input ~ 0
+Wire2
+Text GLabel 2500 1850 1    50   Input ~ 0
+Wire4
+Wire Wire Line
+	2500 1850 2500 1900
+Connection ~ 2500 1900
+Wire Wire Line
+	2500 1900 2900 1900
+Text GLabel 2650 1850 1    50   Input ~ 0
+Wire3
+Wire Wire Line
+	2650 1850 2650 2000
+Connection ~ 2650 2000
+Wire Wire Line
+	2650 2000 3700 2000
+Wire Wire Line
+	2500 2100 2550 2100
+Connection ~ 2500 2100
+Wire Wire Line
+	2600 2250 2600 2200
+Connection ~ 2600 2200
+Wire Wire Line
+	2600 2200 4450 2200
+Text GLabel 2750 650  0    50   Input ~ 0
+VCC
+Wire Wire Line
+	2900 650  2750 650 
+Connection ~ 2900 650 
+Text GLabel 2300 3900 0    50   Input ~ 0
+MGND
+Wire Wire Line
+	2300 3900 2500 3900
+Text GLabel 2850 4500 1    50   Input ~ 0
+NTC
+Text GLabel 10050 4650 0    50   Input ~ 0
+VIN
+Text GLabel 9950 6250 0    50   Input ~ 0
+VBAT
+Text GLabel 3600 5450 1    50   Input ~ 0
+VPV
+Text GLabel 6300 2750 0    50   Input ~ 0
+D0
+Text GLabel 6850 2400 0    50   Input ~ 0
+D1A1
+Text GLabel 7350 2450 0    50   Input ~ 0
+D2A2
+Text GLabel 7550 1300 0    50   Input ~ 0
+D3
+Text GLabel 7850 3000 0    50   Input ~ 0
+D4
+Text GLabel 7650 2300 1    50   Input ~ 0
+A4
+Text GLabel 7750 750  0    50   Input ~ 0
+A3
 $EndSCHEMATC
