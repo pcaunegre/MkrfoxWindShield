@@ -5,8 +5,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "MkrFoxWindShield"
-Date "2021-11-22"
-Rev "0.1"
+Date "2021-12-03"
+Rev "1.0"
 Comp "OpenWindMap"
 Comment1 "Shield to interface MkrFox1200 with various wind sensors"
 Comment2 ""
