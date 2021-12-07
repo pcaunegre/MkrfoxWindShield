@@ -5,7 +5,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "MkrFoxWindShield"
-Date "2021-12-03"
+Date "2021-12-07"
 Rev "1.0"
 Comp "OpenWindMap"
 Comment1 "Shield to interface MkrFox1200 with various wind sensors"
@@ -145,25 +145,6 @@ F 10 "" H 6900 4850 50  0001 L CNN "Arrow Part Number"
 F 11 "" H 6900 4750 50  0001 L CNN "Arrow Price/Stock"
 	1    6250 5550
 	1    0    0    1   
-$EndComp
-$Comp
-L JLCPCB:PMEG6010CEH,115 D6
-U 1 1 619D9B95
-P 2900 1150
-F 0 "D6" H 3200 1417 50  0000 C CNN
-F 1 "PMEG6010CEH,115" H 3200 1326 50  0000 C CNN
-F 2 "JLCPCB_FP:SODFL3516X120N" H 3350 1150 50  0001 L CNN
-F 3 "https://datasheet.datasheetarchive.com/originals/distributors/SFDatasheet-4/sf-00082348.pdf" H 3350 1050 50  0001 L CNN
-F 4 "1 A, SILICON, SIGNAL DIODE" H 3350 950 50  0001 L CNN "Description"
-F 5 "1.2" H 3350 850 50  0001 L CNN "Height"
-F 6 "NXP" H 3350 750 50  0001 L CNN "Manufacturer_Name"
-F 7 "PMEG6010CEH,115" H 3350 650 50  0001 L CNN "Manufacturer_Part_Number"
-F 8 "" H 3350 550 50  0001 L CNN "Mouser Part Number"
-F 9 "" H 3350 450 50  0001 L CNN "Mouser Price/Stock"
-F 10 "" H 3350 350 50  0001 L CNN "Arrow Part Number"
-F 11 "" H 3350 250 50  0001 L CNN "Arrow Price/Stock"
-	1    2900 1150
-	0    1    1    0   
 $EndComp
 $Comp
 L JLCPCB:RC0402JR-071KL R3
@@ -393,117 +374,15 @@ Wire Wire Line
 	6050 5600 6050 6250
 Wire Wire Line
 	6050 5600 6250 5600
-$Comp
-L JLCPCB:PMEG6010CEH,115 D5
-U 1 1 61A2B103
-P 2900 2450
-F 0 "D5" H 3200 2717 50  0000 C CNN
-F 1 "PMEG6010CEH,115" H 3200 2626 50  0000 C CNN
-F 2 "JLCPCB_FP:SODFL3516X120N" H 3350 2450 50  0001 L CNN
-F 3 "https://datasheet.datasheetarchive.com/originals/distributors/SFDatasheet-4/sf-00082348.pdf" H 3350 2350 50  0001 L CNN
-F 4 "1 A, SILICON, SIGNAL DIODE" H 3350 2250 50  0001 L CNN "Description"
-F 5 "1.2" H 3350 2150 50  0001 L CNN "Height"
-F 6 "NXP" H 3350 2050 50  0001 L CNN "Manufacturer_Name"
-F 7 "PMEG6010CEH,115" H 3350 1950 50  0001 L CNN "Manufacturer_Part_Number"
-F 8 "" H 3350 1850 50  0001 L CNN "Mouser Part Number"
-F 9 "" H 3350 1750 50  0001 L CNN "Mouser Price/Stock"
-F 10 "" H 3350 1650 50  0001 L CNN "Arrow Part Number"
-F 11 "" H 3350 1550 50  0001 L CNN "Arrow Price/Stock"
-	1    2900 2450
-	0    1    1    0   
-$EndComp
-$Comp
-L JLCPCB:PMEG6010CEH,115 D4
-U 1 1 61A30090
-P 3700 1150
-F 0 "D4" H 4000 1417 50  0000 C CNN
-F 1 "PMEG6010CEH,115" H 4000 1326 50  0000 C CNN
-F 2 "JLCPCB_FP:SODFL3516X120N" H 4150 1150 50  0001 L CNN
-F 3 "https://datasheet.datasheetarchive.com/originals/distributors/SFDatasheet-4/sf-00082348.pdf" H 4150 1050 50  0001 L CNN
-F 4 "1 A, SILICON, SIGNAL DIODE" H 4150 950 50  0001 L CNN "Description"
-F 5 "1.2" H 4150 850 50  0001 L CNN "Height"
-F 6 "NXP" H 4150 750 50  0001 L CNN "Manufacturer_Name"
-F 7 "PMEG6010CEH,115" H 4150 650 50  0001 L CNN "Manufacturer_Part_Number"
-F 8 "" H 4150 550 50  0001 L CNN "Mouser Part Number"
-F 9 "" H 4150 450 50  0001 L CNN "Mouser Price/Stock"
-F 10 "" H 4150 350 50  0001 L CNN "Arrow Part Number"
-F 11 "" H 4150 250 50  0001 L CNN "Arrow Price/Stock"
-	1    3700 1150
-	0    1    1    0   
-$EndComp
-$Comp
-L JLCPCB:PMEG6010CEH,115 D3
-U 1 1 61A314A2
-P 3700 2450
-F 0 "D3" H 4000 2717 50  0000 C CNN
-F 1 "PMEG6010CEH,115" H 4000 2626 50  0000 C CNN
-F 2 "JLCPCB_FP:SODFL3516X120N" H 4150 2450 50  0001 L CNN
-F 3 "https://datasheet.datasheetarchive.com/originals/distributors/SFDatasheet-4/sf-00082348.pdf" H 4150 2350 50  0001 L CNN
-F 4 "1 A, SILICON, SIGNAL DIODE" H 4150 2250 50  0001 L CNN "Description"
-F 5 "1.2" H 4150 2150 50  0001 L CNN "Height"
-F 6 "NXP" H 4150 2050 50  0001 L CNN "Manufacturer_Name"
-F 7 "PMEG6010CEH,115" H 4150 1950 50  0001 L CNN "Manufacturer_Part_Number"
-F 8 "" H 4150 1850 50  0001 L CNN "Mouser Part Number"
-F 9 "" H 4150 1750 50  0001 L CNN "Mouser Price/Stock"
-F 10 "" H 4150 1650 50  0001 L CNN "Arrow Part Number"
-F 11 "" H 4150 1550 50  0001 L CNN "Arrow Price/Stock"
-	1    3700 2450
-	0    1    1    0   
-$EndComp
-$Comp
-L JLCPCB:PMEG6010CEH,115 D2
-U 1 1 61A34589
-P 4450 1150
-F 0 "D2" H 4750 1417 50  0000 C CNN
-F 1 "PMEG6010CEH,115" H 4750 1326 50  0000 C CNN
-F 2 "JLCPCB_FP:SODFL3516X120N" H 4900 1150 50  0001 L CNN
-F 3 "https://datasheet.datasheetarchive.com/originals/distributors/SFDatasheet-4/sf-00082348.pdf" H 4900 1050 50  0001 L CNN
-F 4 "1 A, SILICON, SIGNAL DIODE" H 4900 950 50  0001 L CNN "Description"
-F 5 "1.2" H 4900 850 50  0001 L CNN "Height"
-F 6 "NXP" H 4900 750 50  0001 L CNN "Manufacturer_Name"
-F 7 "PMEG6010CEH,115" H 4900 650 50  0001 L CNN "Manufacturer_Part_Number"
-F 8 "" H 4900 550 50  0001 L CNN "Mouser Part Number"
-F 9 "" H 4900 450 50  0001 L CNN "Mouser Price/Stock"
-F 10 "" H 4900 350 50  0001 L CNN "Arrow Part Number"
-F 11 "" H 4900 250 50  0001 L CNN "Arrow Price/Stock"
-	1    4450 1150
-	0    1    1    0   
-$EndComp
-$Comp
-L JLCPCB:PMEG6010CEH,115 D1
-U 1 1 61A34598
-P 4450 2450
-F 0 "D1" H 4750 2717 50  0000 C CNN
-F 1 "PMEG6010CEH,115" H 4750 2626 50  0000 C CNN
-F 2 "JLCPCB_FP:SODFL3516X120N" H 4900 2450 50  0001 L CNN
-F 3 "https://datasheet.datasheetarchive.com/originals/distributors/SFDatasheet-4/sf-00082348.pdf" H 4900 2350 50  0001 L CNN
-F 4 "1 A, SILICON, SIGNAL DIODE" H 4900 2250 50  0001 L CNN "Description"
-F 5 "1.2" H 4900 2150 50  0001 L CNN "Height"
-F 6 "NXP" H 4900 2050 50  0001 L CNN "Manufacturer_Name"
-F 7 "PMEG6010CEH,115" H 4900 1950 50  0001 L CNN "Manufacturer_Part_Number"
-F 8 "" H 4900 1850 50  0001 L CNN "Mouser Part Number"
-F 9 "" H 4900 1750 50  0001 L CNN "Mouser Price/Stock"
-F 10 "" H 4900 1650 50  0001 L CNN "Arrow Part Number"
-F 11 "" H 4900 1550 50  0001 L CNN "Arrow Price/Stock"
-	1    4450 2450
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	1800 1900 1950 1900
 Wire Wire Line
 	1800 2000 2050 2000
 Wire Wire Line
 	1800 2200 2250 2200
-Wire Wire Line
-	2900 1750 2900 1900
 Connection ~ 2900 1900
 Wire Wire Line
 	2900 1900 5000 1900
-Wire Wire Line
-	2900 1900 2900 2450
-Connection ~ 2900 2450
-Wire Wire Line
-	2900 2450 2900 2500
 Wire Wire Line
 	3700 1750 3700 2000
 Connection ~ 3700 2000
@@ -1013,4 +892,98 @@ Text GLabel 7650 2300 1    50   Input ~ 0
 A4
 Text GLabel 7750 750  0    50   Input ~ 0
 A3
+Wire Wire Line
+	2900 1750 2900 1900
+$Comp
+L JLCPCB:1N5819W D1
+U 1 1 61B1E537
+P 4450 2450
+F 0 "D1" V 4704 2580 50  0000 L CNN
+F 1 "1N5819W" V 4795 2580 50  0000 L CNN
+F 2 "JLCPCB_FP:SODFL3516X120N" H 4900 2450 50  0001 L CNN
+F 3 "https://datasheet.lcsc.com/lcsc/1811081220_Shandong-Jingdao-Microelectronics-1N5819W_C169540.pdf" H 4900 2350 50  0001 L CNN
+F 4 "1 A, SILICON, SIGNAL DIODE" H 4900 2250 50  0001 L CNN "Description"
+F 5 "1.2" H 4900 2150 50  0001 L CNN "Height"
+F 6 "Shandong Jingdao Microelectronics" H 4900 2050 50  0001 L CNN "Manufacturer_Name"
+F 7 "1N5819W" H 4900 1950 50  0001 L CNN "Manufacturer_Part_Number"
+	1    4450 2450
+	0    1    1    0   
+$EndComp
+$Comp
+L JLCPCB:1N5819W D2
+U 1 1 61B1FB7B
+P 4450 1150
+F 0 "D2" V 4704 1280 50  0000 L CNN
+F 1 "1N5819W" V 4795 1280 50  0000 L CNN
+F 2 "JLCPCB_FP:SODFL3516X120N" H 4900 1150 50  0001 L CNN
+F 3 "https://datasheet.lcsc.com/lcsc/1811081220_Shandong-Jingdao-Microelectronics-1N5819W_C169540.pdf" H 4900 1050 50  0001 L CNN
+F 4 "1 A, SILICON, SIGNAL DIODE" H 4900 950 50  0001 L CNN "Description"
+F 5 "1.2" H 4900 850 50  0001 L CNN "Height"
+F 6 "Shandong Jingdao Microelectronics" H 4900 750 50  0001 L CNN "Manufacturer_Name"
+F 7 "1N5819W" H 4900 650 50  0001 L CNN "Manufacturer_Part_Number"
+	1    4450 1150
+	0    1    1    0   
+$EndComp
+$Comp
+L JLCPCB:1N5819W D4
+U 1 1 61B26028
+P 3700 1150
+F 0 "D4" V 3954 1280 50  0000 L CNN
+F 1 "1N5819W" V 4045 1280 50  0000 L CNN
+F 2 "JLCPCB_FP:SODFL3516X120N" H 4150 1150 50  0001 L CNN
+F 3 "https://datasheet.lcsc.com/lcsc/1811081220_Shandong-Jingdao-Microelectronics-1N5819W_C169540.pdf" H 4150 1050 50  0001 L CNN
+F 4 "1 A, SILICON, SIGNAL DIODE" H 4150 950 50  0001 L CNN "Description"
+F 5 "1.2" H 4150 850 50  0001 L CNN "Height"
+F 6 "Shandong Jingdao Microelectronics" H 4150 750 50  0001 L CNN "Manufacturer_Name"
+F 7 "1N5819W" H 4150 650 50  0001 L CNN "Manufacturer_Part_Number"
+	1    3700 1150
+	0    1    1    0   
+$EndComp
+$Comp
+L JLCPCB:1N5819W D6
+U 1 1 61B2BCA1
+P 2900 1150
+F 0 "D6" V 3154 1280 50  0000 L CNN
+F 1 "1N5819W" V 3245 1280 50  0000 L CNN
+F 2 "JLCPCB_FP:SODFL3516X120N" H 3350 1150 50  0001 L CNN
+F 3 "https://datasheet.lcsc.com/lcsc/1811081220_Shandong-Jingdao-Microelectronics-1N5819W_C169540.pdf" H 3350 1050 50  0001 L CNN
+F 4 "1 A, SILICON, SIGNAL DIODE" H 3350 950 50  0001 L CNN "Description"
+F 5 "1.2" H 3350 850 50  0001 L CNN "Height"
+F 6 "Shandong Jingdao Microelectronics" H 3350 750 50  0001 L CNN "Manufacturer_Name"
+F 7 "1N5819W" H 3350 650 50  0001 L CNN "Manufacturer_Part_Number"
+	1    2900 1150
+	0    1    1    0   
+$EndComp
+$Comp
+L JLCPCB:1N5819W D3
+U 1 1 61B31FC9
+P 3700 2450
+F 0 "D3" V 3954 2580 50  0000 L CNN
+F 1 "1N5819W" V 4045 2580 50  0000 L CNN
+F 2 "JLCPCB_FP:SODFL3516X120N" H 4150 2450 50  0001 L CNN
+F 3 "https://datasheet.lcsc.com/lcsc/1811081220_Shandong-Jingdao-Microelectronics-1N5819W_C169540.pdf" H 4150 2350 50  0001 L CNN
+F 4 "1 A, SILICON, SIGNAL DIODE" H 4150 2250 50  0001 L CNN "Description"
+F 5 "1.2" H 4150 2150 50  0001 L CNN "Height"
+F 6 "Shandong Jingdao Microelectronics" H 4150 2050 50  0001 L CNN "Manufacturer_Name"
+F 7 "1N5819W" H 4150 1950 50  0001 L CNN "Manufacturer_Part_Number"
+	1    3700 2450
+	0    1    1    0   
+$EndComp
+$Comp
+L JLCPCB:1N5819W D5
+U 1 1 61B38C55
+P 2900 2450
+F 0 "D5" V 3154 2580 50  0000 L CNN
+F 1 "1N5819W" V 3245 2580 50  0000 L CNN
+F 2 "JLCPCB_FP:SODFL3516X120N" H 3350 2450 50  0001 L CNN
+F 3 "https://datasheet.lcsc.com/lcsc/1811081220_Shandong-Jingdao-Microelectronics-1N5819W_C169540.pdf" H 3350 2350 50  0001 L CNN
+F 4 "1 A, SILICON, SIGNAL DIODE" H 3350 2250 50  0001 L CNN "Description"
+F 5 "1.2" H 3350 2150 50  0001 L CNN "Height"
+F 6 "Shandong Jingdao Microelectronics" H 3350 2050 50  0001 L CNN "Manufacturer_Name"
+F 7 "1N5819W" H 3350 1950 50  0001 L CNN "Manufacturer_Part_Number"
+	1    2900 2450
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2900 2450 2900 1900
 $EndSCHEMATC

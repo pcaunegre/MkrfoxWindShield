@@ -30,6 +30,11 @@ D Fixed Terminal Blocks 4P 3.5mm 90DEG
 F https://www.arrow.com/en/products/1751264/phoenix-contact
 $ENDCMP
 #
+$CMP 1N5819W
+D 1 A, SILICON, SIGNAL DIODE
+F https://datasheet.lcsc.com/lcsc/1811081220_Shandong-Jingdao-Microelectronics-1N5819W_C169540.pdf
+$ENDCMP
+#
 $CMP CL21B103KBANNNC
 D Samsung Electro-Mechanics 0805 CL 10nF Ceramic Multilayer Capacitor, 50 V, +125C, X7R Dielectric, +/-10% SMD
 F https://datasheet.datasheetarchive.com/originals/distributors/Datasheets_SAMA/97c54fb7f716f6f5bd35dfc2c9b17795.pdf
