@@ -56,7 +56,7 @@ void Davis_isr_speed() {
 */
 int Davis_takeWspeed(int deltaT) {
 
-  float mph = 2250 * (float)(Davis_speed_cnt) / (float)deltaT; // mph= 2.25xpulse/Time
+  float mph = 2250 * (float)(Davis_speed_cnt) / (float)(deltaT * cpudiv); // mph= 2.25xpulse/Time
   int wspeed = int(1.609344 * mph);                         // speed in km/h 
   Davis_speed_cnt=0;                                        // reset counter
   return(wspeed);

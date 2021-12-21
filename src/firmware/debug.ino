@@ -50,6 +50,12 @@ void debugPrint(char* mystr, int mypar) {
   if (Serial) {
     Serial.print(mystr); Serial.println(mypar);
   }
+  if (lcd_en)  {
+    lcd.setCursor(0,0);
+    lcd.print("                ");
+    lcd.setCursor(0,0);
+    lcd.print(mystr);lcd.print(mypar,3);
+  }
 
 }
 void debugPrintVbat(float v) {

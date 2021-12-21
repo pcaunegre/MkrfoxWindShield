@@ -4,6 +4,12 @@
 *
 *  Able to interface with Davis, Peet Bros or Shenzen device.
 *
+*
+*  TODO: bug vitesse
+*  TODO: measure chain for temperature
+*  TODO: soft version encoding in admin report
+*  TODO: debug clean up
+*
 */
 
 #include <SigFox.h>
@@ -31,6 +37,8 @@ volatile int            prevWindDir   ;  // memorize the last dir in case we can
 volatile int            statReportCnt ;  // counter : every 2 hits data are sent thru sigfox 
 volatile SigfoxWindMessage msg        ;  // create an instance of the struct to receive the wind data frame
 
+volatile int            cpudiv        ;  // value of cpu freq divisor
+
 volatile bool           debugmode = true ;  // 1=debug mode
 volatile bool           lcd_en    = true ;  // lcd plugged or not
 volatile int            repnbr=0;           // debug
@@ -45,7 +53,8 @@ void setup() {
 
   pinMode(Led,OUTPUT); // led used for debug or at power up
   debugInit();
-  blinkLed(10,400); // say hello 10 flashes
+  blinkLed(10,400/cpudiv); // say hello 10 flashes
+  cpudiv = CPU_FULL;
   
   // getBatterieVoltage
   float vbat=getBatteryVoltage();
@@ -66,8 +75,10 @@ void setup() {
       Shenzen_setup();  break;
     default:
       // say detection failed: blink forever
-      blinkLed(-1,800);
-  } 
+      blinkLed(1000,500/cpudiv);
+      reboot();
+  }   
+  makeAdminReport(vbat);
 
   statReportCnt    = 0;
   prevWindDir      = -1;
@@ -76,7 +87,8 @@ void setup() {
   last_reportT     = millis();
   last_adminT      = millis();
   reset_stat(); 
-  delay(1000);
+  
+  set_cpu_speed(CPU_SLOW);
 }
 
 
@@ -93,7 +105,7 @@ void loop() {
     int    wd  = -1;
     
     // if it's time to sample, get measures and store for stats
-    if (dt1 > SAMPLING_PERIOD) {
+    if (dt1 > SAMPLING_PERIOD/cpudiv) {
       noInterrupts();
       switch (sensor) {
         case DAVIS:
@@ -120,14 +132,14 @@ void loop() {
       last_sampleT = now;
     }
     
-    if (dt3 > ADMIN_REPORT_PERIOD) {
+    if (dt3 > ADMIN_REPORT_PERIOD/cpudiv) {
       noInterrupts();
       float vbat=getBatteryVoltage();
       makeAdminReport(vbat);
       interrupts();
       last_adminT = now;
       last_reportT = now;
-    } else if (dt2 > REPORT_PERIOD/2) {
+    } else if (dt2 > (REPORT_PERIOD/2)/cpudiv) {
       // at every sigfox report period we send 2 packets of data
       // so at every half-report period we store data     
       noInterrupts();
@@ -136,7 +148,7 @@ void loop() {
       last_reportT = now;
     }
 
-    if (now > REBOOT_PERIOD) reboot(); // avoid managing millis value wrapping (every 2**32-1 ms)
+    if (now > REBOOT_PERIOD/cpudiv) reboot(); // avoid managing millis value wrapping (every 2**32-1 ms)
   }  
 
 }
@@ -234,7 +246,9 @@ void makeReport() {
   // we send telegram half the time
   if (statReportCnt==1) {
     // send sigfox telegram this time
-    sendSigFoxMessage();
+    set_cpu_speed(CPU_FULL);
+    sendSigFoxMessage(8);
+    set_cpu_speed(CPU_SLOW);
     statReportCnt=0;
   } else {
     // sigfox telegram will be next turn
@@ -250,11 +264,13 @@ void makeReport() {
 *  Admin report 
 *
 */
-void makeAdminReport(int vb) {
+void makeAdminReport(float vb) {
 
-    // send sigfox telegram this time
-    // sendSigFoxMessage();
-
+  msg.batVolt = encodeVoltage(vb);
+  msg.sensor  = sensor;
+  // send sigfox telegram 
+  sendSigFoxMessage(12);
+  debugPrint("Admin RPT ",sensor);
 
 }
 
@@ -280,6 +296,16 @@ void blinkLed(int times, int period) {
 void reboot() {
   NVIC_SystemReset();
   while (1);
+}
+
+/*
+ * CPU underclocking: clock is divided by divisor
+*/
+void set_cpu_speed(int divisor){
+  cpudiv=divisor;
+  GCLK->GENDIV.reg = GCLK_GENDIV_DIV(divisor) |         // Divide the 48MHz clock source by divisor 48: 48MHz/48=1MHz
+                   GCLK_GENDIV_ID(0);            // Select Generic Clock (GCLK) 0
+  while (GCLK->STATUS.bit.SYNCBUSY);               // Wait for synchronization      
 }
 
 /*
@@ -317,11 +343,11 @@ void detectSensorType() {
     if ((val2 > THR_Peet_low) && (val2 < THR_Peet_hi)) { 
       // we have peet sensor
       sensor=PEET;
-      blinkLed(2,1500); // say Peet detected
+      blinkLed(2,1500/cpudiv); // say Peet detected
     } else if ((val2 > THR_Shenzen_low) && (val2 < THR_Shenzen_hi)) {
       // confirm we have shenzen sensor
       sensor=SHENZEN;
-      blinkLed(3,1500); // say Shenzen detected
+      blinkLed(3,1500/cpudiv); // say Shenzen detected
     } else {
       sensor=-1;
       msg="Detection issue between shenzen and peet";
@@ -332,7 +358,7 @@ void detectSensorType() {
     if ((val2 > THR_Davis_low) && (val2 < THR_Davis_hi)) {
       // val2 should not differ from val1
       sensor=DAVIS;
-      blinkLed(1,1500); // say Davis detected
+      blinkLed(1,1500/cpudiv); // say Davis detected
     } else {
       sensor=-1;
       msg="Detection issue with Davis";
@@ -346,15 +372,18 @@ void detectSensorType() {
 }
 
 /*
-*  Utility to measure Battery voltage
+*  Utility to measure Battery voltage, return mV
 */
 float getBatteryVoltage() {
+
   analogReadResolution(ADCBITS);
   analogReference(AR_INTERNAL1V0);
-  delay(20);
-  float vb=analogRead(A3)/(ADCFS*VBDIV); // read vbat through k~1/5 divider so v=adc/(k*adcfs)
+  delay(100);
+  float vb=(analogRead(A3)/(ADCFS*VBDIV))*1000.0; // read vbat through k~1/5 divider so v=adc/(k*adcfs)
   debugPrintVbat(vb);
+  analogReference(AR_DEFAULT);  // restore to the default ref used in other parts of the code
   return(vb);
+
 }
 
 
@@ -367,8 +396,8 @@ float getBatteryVoltage() {
 */
 void sendSigFoxMessage(int len) {
   
-  debugPrint("Sending Sigfox Msg",0);
-  return;
+  debugPrint("SFX Msg ",len);
+  delay(1000); // debug delay to be removed
   
   // Start the module  
   delay(10);

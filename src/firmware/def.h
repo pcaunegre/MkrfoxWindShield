@@ -9,11 +9,14 @@
 #define Led LED_BUILTIN  // warning: Led uses pin D6 !
 #define ARRAYLEN    120  // size of an array to store pulses (40rps gives 120 values in 3s)
 
+#define CPU_FULL   1     // normal cpu rate (48Mhz)
+#define CPU_SLOW   16    // divided by 16 so 3Mhz for power saving, so we have ~2.5mA and a peak of ~45mA during 3s every 10min
 
-#define SAMPLING_PERIOD          3000  // instantaneous wind is measured on a period of 3s (common rule)
-#define REPORT_PERIOD           30000  // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
-#define ADMIN_REPORT_PERIOD    120000  // period to send monitoring information to server (vbat...) 86400000=1day
-#define REBOOT_PERIOD      3456000000  // reboot micro every 40 days to avoid managing millis reset after 2**32-1 ms
+// periods in ms and multiple of CPU_SLOW (16)
+#define SAMPLING_PERIOD          2992  // instantaneous wind is measured on a 3s period (common rule) so 2992ms
+#define REPORT_PERIOD          600000  // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
+#define ADMIN_REPORT_PERIOD  86400000  // period to send monitoring information to server (vbat...) 86400000=1day
+#define REBOOT_PERIOD      3456000000  // reboot micro every 40 days to avoid managing millis overflow after 2**32-1 ms (long int)
 
 
 #define SENSPPIN   3            // Pin to power up the sensor 
@@ -23,7 +26,7 @@
 const int ADCFS =  (1<<ADCBITS)-1; // ADC full scale = 2**10-1
 #define TOL        0.1          // Tolerance on R values (10%)
 
-#define VBDIV      0.192          // Res Divider to measure Vbat (100k/(100k+400k))
+#define VBDIV      0.202         // Res Divider to measure Vbat (100k/(100k+400k))
 
 #define RSHENMIN   0.688        // Min value of Dir Potentiometer (Shenzen sensor) in kOhm
 #define RSHENMAX   120.0        // Max value of Dir Potentiometer (Shenzen sensor) in kOhm
@@ -71,14 +74,14 @@ typedef struct __attribute__ ((packed)) sigfox_wind_message {
         int8_t directionAvg[2];
         int8_t batVolt;
         int8_t temperature;
-        int8_t notused;
+        int8_t sensor;
         int8_t notused;
 } SigfoxWindMessage;
 
 
 // wind speed encoding over 1 byte
 // 
-uint8_t encodeWindSpeed (float speedKmh) {
+static uint8_t encodeWindSpeed (float speedKmh) {
   uint8_t encodedSpeed;
   if (speedKmh < 10.) {
     // 0 to 9.75 kmh : 0.25 km/h resolution
@@ -101,9 +104,19 @@ uint8_t encodeWindSpeed (float speedKmh) {
 
 // wind direction encoding over 1 byte
 // here direction comes 0-359 degrees (not like in Pioupiou)
-uint8_t encodeWindDirection (int direction) {   // degrees
+static uint8_t encodeWindDirection (int direction) {   // degrees
 
   // encode with 2 deg precision
   // add 0.5 for rounding when converting from (float) to (int)
   return (uint8_t)(float)(direction / 2. + 0.5);
+}
+
+// temperature encoding over 1 byte, should never be < -50 or > 100
+static uint8_t encodeTemperature(float temperature) {
+  return (uint8_t)(float)(temperature + 50.5);
+}
+
+// voltage encoded between 2V and 2.55V -> 0 to 255
+static uint8_t encodeVoltage(float milliVolts) {
+  return (uint8_t)(float)((milliVolts / 10. + 0.5) - 200.);
 }

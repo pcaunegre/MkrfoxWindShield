@@ -86,7 +86,7 @@ int Peet_takeWspeed() {
   if (Peet_speedHitCnt<2) return(-1);
   
   // rotation per seconds
-  int dt = (speedTimeArray[Peet_speedHitCnt-1]-speedTimeArray[0]);
+  int dt = (speedTimeArray[Peet_speedHitCnt-1]-speedTimeArray[0])*cpudiv;
   float rps = 1000.0 * (float)(Peet_speedHitCnt-1) / (float)dt;
   
   // calibration formulas given by Peet Bros sensor vendor
