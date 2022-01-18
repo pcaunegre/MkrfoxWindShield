@@ -1,4 +1,5 @@
-#define SOFTVERSION yymmdd
+#define SOFTDATE 210118
+#define SOFTVERSION 11
 
 
 #define DAVIS       10   // sensor numbering
@@ -10,7 +11,8 @@
 #define ARRAYLEN    120  // size of an array to store pulses (40rps gives 120 values in 3s)
 
 #define CPU_FULL   1     // normal cpu rate (48Mhz)
-#define CPU_SLOW   16    // divided by 16 so 3Mhz for power saving, so we have ~2.5mA and a peak of ~45mA during 3s every 10min
+#define CPU_SLOW   16    // divided by 16 so 3Mhz for power saving, so we have ~2.53mA and a peak of ~45mA during 3s every 10min
+//#define CPU_SLOW   1    // 
 
 // periods in ms and multiple of CPU_SLOW (16)
 #define SAMPLING_PERIOD          2992  // instantaneous wind is measured on a 3s period (common rule) so 2992ms
@@ -24,7 +26,7 @@
 #define RSERIAL    1.0          // Same value for RS1, RS2, RS3 in kOhm
 #define ADCBITS    10           // Using default ADC setup is enough
 const int ADCFS =  (1<<ADCBITS)-1; // ADC full scale = 2**10-1
-#define TOL        0.1          // Tolerance on R values (10%)
+#define TOL        0.05          // Tolerance on R values (5%)
 
 #define VBDIV      0.202         // Res Divider to measure Vbat (100k/(100k+400k))
 
@@ -44,18 +46,18 @@ const int ADCFS =  (1<<ADCBITS)-1; // ADC full scale = 2**10-1
 /* D2 IN, D0 OUT 0, READ A2 */
 /* Peet bros detection*/
 /* if speed switch open */
-const int THR1=int(ADCFS*0.97);                                                          // 971
+const int THR1=int(ADCFS*0.97);                                                            // 992
 /* if speed switch closed */
-const int THR_Peet_low = int(ADCFS/(1+RPULLUP/(2*RSERIAL)*(1+TOL)/(1-TOL)));             // 143
-const int THR_Peet_hi  = int(ADCFS/(1+RPULLUP/(2*RSERIAL)*(1-TOL)/(1+TOL)));             // 200
+const int THR_Peet_low = int(ADCFS/(1+RPULLUP/(2*RSERIAL)*(1+TOL)/(1-TOL)));               // 156
+const int THR_Peet_hi  = int(ADCFS/(1+RPULLUP/(2*RSERIAL)*(1-TOL)/(1+TOL)));               // 185
 
 /* Shenzen detection*/
-const int THR_Shenzen_low = int(ADCFS/(1.0+RPULLUP/(2*RSERIAL+RSHENMIN)*(1+TOL)/(1-TOL))); // 184
-const int THR_Shenzen_hi  = int(ADCFS/(1.0+RPULLUP/(2*RSERIAL+RSHENMAX)*(1-TOL)/(1+TOL))); // 958
+const int THR_Shenzen_low = int(ADCFS/(1.0+RPULLUP/(2*RSERIAL+RSHENMIN)*(1+TOL)/(1-TOL))); // 200
+const int THR_Shenzen_hi  = int(ADCFS/(1.0+RPULLUP/(2*RSERIAL+RSHENMAX)*(1-TOL)/(1+TOL))); // 952
 
 /* Davis detection*/
-const int THR_Davis_low = int(ADCFS/(1.0+RPULLUP/(RSERIAL+RDAVISPOT)*(1+TOL)/(1-TOL)));    // 646
-const int THR_Davis_hi  = int(ADCFS/(1.0+RPULLUP/(RSERIAL+RDAVISPOT)*(1-TOL)/(1+TOL)));    // 736
+const int THR_Davis_low = int(ADCFS/(1.0+RPULLUP/(RSERIAL+RDAVISPOT)*(1+TOL)/(1-TOL)));    // 670
+const int THR_Davis_hi  = int(ADCFS/(1.0+RPULLUP/(RSERIAL+RDAVISPOT)*(1-TOL)/(1+TOL)));    // 714
 
 
 
@@ -75,7 +77,7 @@ typedef struct __attribute__ ((packed)) sigfox_wind_message {
         int8_t batVolt;
         int8_t temperature;
         int8_t sensor;
-        int8_t notused;
+        int8_t softversion;
 } SigfoxWindMessage;
 
 
@@ -115,6 +117,7 @@ static uint8_t encodeWindDirection (int direction) {   // degrees
 static uint8_t encodeTemperature(float temperature) {
   return (uint8_t)(float)(temperature + 50.5);
 }
+
 
 // voltage encoded between 2V and 2.55V -> 0 to 255
 static uint8_t encodeVoltage(float milliVolts) {

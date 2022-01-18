@@ -2,12 +2,14 @@
  * Utilities for debug and print purposes
  * 
  */
-void debugInit() {
+void debugInit(bool sf_en) {
   
   if (!debugmode) {return;}
   Serial.begin(9600);           //  setup serial  
+  delay(1000);
   if (Serial) {
-    Serial.println("STARTING");
+    Serial.print("STARTING ");Serial.print(SOFTDATE);Serial.print(" sigfox=");Serial.println(sf_en);
+    Serial.flush();
   }
   if (lcd_en)  {
     lcd.begin(16,2);        // used when LCD is plugged for reading the device
@@ -22,6 +24,8 @@ void debugInit() {
 void debugSensorDetection(String msg, int sensor, int val1, int val2) {
 
   if (!debugmode) {return;}
+  int prevcpudiv=cpudiv;
+  set_cpu_speed(CPU_FULL);
   if (Serial) {
     Serial.print("ADCFS=");Serial.println(ADCFS);
     Serial.print("THR1=");Serial.println(THR1);
@@ -35,7 +39,9 @@ void debugSensorDetection(String msg, int sensor, int val1, int val2) {
     Serial.print(" val2="); Serial.print(val2);
     Serial.print(" Detected="); Serial.println(sensor);
     Serial.println(msg);
+    Serial.flush();
   }
+  set_cpu_speed(prevcpudiv);
   if (lcd_en)  {
     lcd.clear();
     lcd.setCursor(0,0);
@@ -47,9 +53,13 @@ void debugSensorDetection(String msg, int sensor, int val1, int val2) {
 void debugPrint(char* mystr, int mypar) {
   
   if (!debugmode) {return;}
+  int prevcpudiv=cpudiv;
+  set_cpu_speed(CPU_FULL);
   if (Serial) {
     Serial.print(mystr); Serial.println(mypar);
+    Serial.flush();
   }
+  set_cpu_speed(prevcpudiv);
   if (lcd_en)  {
     lcd.setCursor(0,0);
     lcd.print("                ");
@@ -60,9 +70,13 @@ void debugPrint(char* mystr, int mypar) {
 }
 void debugPrintVbat(float v) {
   if (!debugmode) {return;}
+  int prevcpudiv=cpudiv;
+  set_cpu_speed(CPU_FULL);
   if (Serial) {
-    Serial.print("VBAT = "); Serial.println(v,3); 
+    Serial.print("VBAT = "); Serial.println(v,0);
+    Serial.flush();
   }
+  set_cpu_speed(prevcpudiv);
   if (lcd_en)  {
     lcd.setCursor(0,0);
     lcd.print("                ");
@@ -71,17 +85,28 @@ void debugPrintVbat(float v) {
     delay(3000);   
   }
 }
-void debugPrintMeasure(int ws, int wd) {
-  
+
+void debugPrintTemp(float tp) {
   if (!debugmode) {return;}
+  int prevcpudiv=cpudiv;
+  Serial.print("temperature adc = ");Serial.println(tp,2);
+  set_cpu_speed(prevcpudiv);
+}
+
+void debugPrintMeasure(int ws, int wd) {
+  if (!debugmode) {return;}
+  msnbr++;
+  int prevcpudiv=cpudiv;
+  set_cpu_speed(CPU_FULL);
   if (Serial) {
-    Serial.print("WS = "); Serial.print(ws); 
+    Serial.print(msnbr);Serial.print(" WS = "); Serial.print(ws); 
     Serial.print("km/h, WD = "); Serial.print(wd);Serial.print("  ");
     Serial.println(deg2dir(wd)); Serial.println("");
+    Serial.flush();
   }
+  set_cpu_speed(prevcpudiv);
   // print on lcd screen
   if (lcd_en)  {
-    msnbr++;
     lcd.setCursor(0,0);
     lcd.print("                ");
     lcd.setCursor(0,0);
@@ -98,6 +123,8 @@ void debugPrintAvgMeas(int aws, int awd) {
 
   if(debugmode || lcd_en) {
     repnbr++;
+    int prevcpudiv=cpudiv;
+    set_cpu_speed(CPU_FULL);
     if(Serial) {
       Serial.print("Average Speed : ");
       Serial.print(aws);
@@ -113,7 +140,9 @@ void debugPrintAvgMeas(int aws, int awd) {
       Serial.print(cnt_wd_samples);
       Serial.println("");
       Serial.println("====================");
+      Serial.flush();
     }
+    set_cpu_speed(prevcpudiv);
     if (lcd_en)  {
       lcd.setCursor(0,1);
       lcd.print("                ");

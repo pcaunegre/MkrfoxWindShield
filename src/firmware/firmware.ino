@@ -5,10 +5,6 @@
 *  Able to interface with Davis, Peet Bros or Shenzen device.
 *
 *
-*  TODO: bug vitesse
-*  TODO: measure chain for temperature
-*  TODO: soft version encoding in admin report
-*  TODO: debug clean up
 *
 */
 
@@ -17,8 +13,6 @@
 #include "def.h"
 
 #include <LiquidCrystal.h>
-
-
 LiquidCrystal lcd(13, 12, 7, 8, 9, 10); //lcd(rs, en, a, b, c, d)
 
 
@@ -39,8 +33,9 @@ volatile SigfoxWindMessage msg        ;  // create an instance of the struct to 
 
 volatile int            cpudiv        ;  // value of cpu freq divisor
 
-volatile bool           debugmode = true ;  // 1=debug mode
-volatile bool           lcd_en    = true ;  // lcd plugged or not
+volatile bool           debugmode = false ;  // 1=debug mode
+volatile bool           sigfox_en = true ;  // enable sigfox
+volatile bool           lcd_en    = false ;  // lcd plugged or not
 volatile int            repnbr=0;           // debug
 volatile int            msnbr=0;            // debug
 
@@ -50,14 +45,19 @@ int sensor=0;          // sensor number
 
 
 void setup() {
+  
+  // a jumper between 14 and GND will disable sigfox
+  pinMode(14,INPUT_PULLUP); 
+  sigfox_en = digitalRead(14);
 
-  pinMode(Led,OUTPUT); // led used for debug or at power up
-  debugInit();
-  blinkLed(10,400/cpudiv); // say hello 10 flashes
   cpudiv = CPU_FULL;
+  pinMode(Led,OUTPUT); // led used for debug or at power up
+  debugInit(sigfox_en);
+  blinkLed(10,400/cpudiv); // say hello 10 flashes
   
   // getBatterieVoltage
   float vbat=getBatteryVoltage();
+  float   tp=getTemperature();
   
   // device detection at boot
   if (sensor == 0) {
@@ -74,12 +74,11 @@ void setup() {
     case SHENZEN:
       Shenzen_setup();  break;
     default:
-      // say detection failed: blink forever
+      // say detection failed: blink 1000 times and reboot
       blinkLed(1000,500/cpudiv);
       reboot();
   }   
-  makeAdminReport(vbat);
-
+  makeAdminReport(vbat,tp);
   statReportCnt    = 0;
   prevWindDir      = -1;
   repnbr           = 0;
@@ -93,7 +92,7 @@ void setup() {
 
 
 void loop() {
-  
+
   if (sensor>0) {
     
     // normal operation
@@ -128,24 +127,25 @@ void loop() {
       }
       store_for_stat(ws,wd); // storing for 
       debugPrintMeasure(ws,wd);         
-      interrupts();
       last_sampleT = now;
+      interrupts();
     }
     
     if (dt3 > ADMIN_REPORT_PERIOD/cpudiv) {
       noInterrupts();
       float vbat=getBatteryVoltage();
-      makeAdminReport(vbat);
-      interrupts();
+      float   tp=getTemperature();
+      makeAdminReport(vbat,tp);
       last_adminT = now;
       last_reportT = now;
+      interrupts();
     } else if (dt2 > (REPORT_PERIOD/2)/cpudiv) {
       // at every sigfox report period we send 2 packets of data
       // so at every half-report period we store data     
       noInterrupts();
       makeReport();
-      interrupts();
       last_reportT = now;
+      interrupts();
     }
 
     if (now > REBOOT_PERIOD/cpudiv) reboot(); // avoid managing millis value wrapping (every 2**32-1 ms)
@@ -198,6 +198,8 @@ void reset_stat()  {
  * Computes avg wind speed
 */
 int wspeed_avg()  {
+    debugPrint("sum WS =",acc_wspeed);
+    debugPrint("cnt WS =",cnt_ws_samples);
     return(int(acc_wspeed/cnt_ws_samples));
 }
 
@@ -246,9 +248,7 @@ void makeReport() {
   // we send telegram half the time
   if (statReportCnt==1) {
     // send sigfox telegram this time
-    set_cpu_speed(CPU_FULL);
     sendSigFoxMessage(8);
-    set_cpu_speed(CPU_SLOW);
     statReportCnt=0;
   } else {
     // sigfox telegram will be next turn
@@ -264,13 +264,15 @@ void makeReport() {
 *  Admin report 
 *
 */
-void makeAdminReport(float vb) {
+void makeAdminReport(float vb, float tp) {
 
-  msg.batVolt = encodeVoltage(vb);
-  msg.sensor  = sensor;
-  // send sigfox telegram 
+  msg.batVolt     = encodeVoltage(vb);
+  msg.temperature = encodeTemperature(tp);
+  msg.sensor      = sensor;
+  msg.softversion = SOFTVERSION;
+  // send sigfox telegram
   sendSigFoxMessage(12);
-  debugPrint("Admin RPT ",sensor);
+  debugPrint("Admin RPT",sensor);
 
 }
 
@@ -319,6 +321,7 @@ void set_cpu_speed(int divisor){
 void detectSensorType() {
   
   String msg="";
+  analogReadResolution(ADCBITS);
   analogReference(AR_DEFAULT);
   pinMode(SENSPPIN,OUTPUT); // sensor potentiommeters are powered by this pin
   digitalWrite(SENSPPIN,HIGH);
@@ -340,14 +343,18 @@ void detectSensorType() {
 
   if (val1 > THR1)  {
     // can be shenzen or peet
-    if ((val2 > THR_Peet_low) && (val2 < THR_Peet_hi)) { 
+    if (val2 > THR1) { 
       // we have peet sensor
       sensor=PEET;
-      blinkLed(2,1500/cpudiv); // say Peet detected
+      blinkLed(sensor/10,1500/cpudiv); // say Peet detected
     } else if ((val2 > THR_Shenzen_low) && (val2 < THR_Shenzen_hi)) {
       // confirm we have shenzen sensor
       sensor=SHENZEN;
-      blinkLed(3,1500/cpudiv); // say Shenzen detected
+      blinkLed(sensor/10,1500/cpudiv); // say Shenzen detected
+    } else if (val2 < THR_Peet_hi) {
+      // Peet when dir switch is closed
+      sensor=PEET;
+      blinkLed(sensor/10,1500/cpudiv); // say Peet detected
     } else {
       sensor=-1;
       msg="Detection issue between shenzen and peet";
@@ -386,6 +393,25 @@ float getBatteryVoltage() {
 
 }
 
+/*
+*  Utility to measure temperature
+*/
+float getTemperature() {
+  
+  pinMode(4,OUTPUT);
+  digitalWrite(4,HIGH);
+  analogReadResolution(12);      
+  analogReference(AR_DEFAULT); // to give a ratio of the resistor divider
+  delay(100);
+  int adc=analogRead(A4);
+  digitalWrite(4,LOW);
+  
+  float tp=25+(1.0-1.0/((4095.0/adc)-1))/0.04; // 0.04 is NTC sensitivity 4%/C, roughly around 25C
+  debugPrintTemp(tp);
+  return(tp);
+
+}
+
 
 /*
  * functions dedicated to Sigfox message sending
@@ -395,30 +421,34 @@ float getBatteryVoltage() {
  * message len=8 for a normal measure transmission, 12 for an admin transmission
 */
 void sendSigFoxMessage(int len) {
-  
-  debugPrint("SFX Msg ",len);
-  delay(1000); // debug delay to be removed
-  
-  // Start the module  
-  delay(10);
-  SigFox.begin();
-//   if (!SigFox.begin()) {
-//     Serial.println("SigFox error, rebooting");
-//     reboot();
-//   }
-  // Wait at least 30mS after first configuration (100mS before)
-  delay(100);
-  SigFox.debug();
+    
+  if (sigfox_en) {
+    debugPrint("SFX Msg ",len);
+    set_cpu_speed(CPU_FULL);
+    // Start the module  
+    delay(10);
+    SigFox.begin();
+    //   if (!SigFox.begin()) {
+    //     Serial.println("SigFox error, rebooting");
+    //     reboot();
+    //   }
+    // Wait at least 30mS after first configuration (100mS before)
+    delay(100);
+    SigFox.debug();
 
-  // Clears all pending interrupts
-  SigFox.status();
-  delay(1);
-  SigFox.beginPacket();
-  
-  // OpenWindMap specific data frame  
-  SigFox.write((uint8_t*)&msg, len); 
-  
-  int ret = SigFox.endPacket();
-  SigFox.end();
+    // Clears all pending interrupts
+    SigFox.status();
+    delay(1);
+    SigFox.beginPacket();
+    
+    // OpenWindMap specific data frame  
+    SigFox.write((uint8_t*)&msg, len); 
+    
+    int ret = SigFox.endPacket();
+    SigFox.end();
+    set_cpu_speed(CPU_SLOW);
+  } else {
+    debugPrint("Sigfox disabled ",len);
+  }
 
 }

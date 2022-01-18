@@ -14,7 +14,7 @@
 
 
 #define PeetDirPin   1  // dig pulse on D1 for direction - green wire
-#define PeetSpeedPin 2  // dig speed on D2  - yellow wire
+#define PeetSpeedPin 0  // dig speed on D0  - yellow wire
 
 
 
@@ -33,19 +33,21 @@ volatile int            Peet_dirHitCnt;            // counter of dir pulses
 */
 void Peet_setup() {
 
-  pinMode(PeetWire1, OUTPUT); 
+  pinMode(PeetWire1, INPUT_PULLUP); // D0RPU
+  
   pinMode(PeetWire3, INPUT_PULLUP); 
-  pinMode(PeetWire4, INPUT); // pull up is external
-  pinMode(SENSPPIN, OUTPUT);
-  digitalWrite(SENSPPIN,HIGH);
-
-  attachInterrupt(digitalPinToInterrupt(PeetSpeedPin), Peet_isr_speed, FALLING); // interruption
-  attachInterrupt(digitalPinToInterrupt(PeetDirPin), Peet_isr_direction, FALLING); // interruption
+  pinMode(PeetWire4, OUTPUT); // 
+  digitalWrite(PeetWire4,LOW); 
+  
+  pinMode(SENSPPIN, INPUT); // sensor power off
+  
+  attachInterrupt(digitalPinToInterrupt(PeetSpeedPin), Peet_isr_speed, FALLING);
+  attachInterrupt(digitalPinToInterrupt(PeetDirPin), Peet_isr_direction, FALLING);
   
   Peet_speedHitCnt      = 0;
   Peet_dirHitCnt        = 0;
   Peet_clearArrays();
-  
+  Serial.println("Peet SETUP Completed");
 }
 
 /*

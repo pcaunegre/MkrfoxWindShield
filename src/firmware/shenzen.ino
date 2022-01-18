@@ -56,8 +56,9 @@ void Shenzen_isr_speed() {
 */
 int Shenzen_takeWspeed(int deltaT) {
 
-  int wspeed = int((2400 * Shenzen_speed_cnt) / (deltaT * cpudiv));   // mph= 2.4xpulse/Time                      // speed in km/h   
-  Shenzen_speed_cnt=0;                                   // reset counter
+  float kmh = (2400.0 * Shenzen_speed_cnt) / (deltaT * CPU_SLOW);// 2.4km/h = 1pulse/s 
+  int wspeed = int(kmh); // rounding value   
+  Shenzen_speed_cnt=0;   // reset counter
   return(wspeed);
 
 }
