@@ -138,17 +138,6 @@ F 3 "~" H 1950 1650 50  0001 C CNN
 	1    1950 1650
 	1    0    0    -1  
 $EndComp
-$Comp
-L power:VCC #PWR?
-U 1 1 6192FEA9
-P 1950 1500
-F 0 "#PWR?" H 1950 1350 50  0001 C CNN
-F 1 "VCC" H 1965 1673 50  0000 C CNN
-F 2 "" H 1950 1500 50  0001 C CNN
-F 3 "" H 1950 1500 50  0001 C CNN
-	1    1950 1500
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	1950 1800 1950 2000
 Connection ~ 1950 2000
@@ -217,7 +206,7 @@ Connection ~ 7300 2750
 Wire Wire Line
 	7300 2750 8550 2750
 Text Notes 6050 5250 0    150  ~ 30
-SHENZEN
+Mi.Sol\n(SHENZEN)
 Wire Wire Line
 	8550 4250 8550 4350
 Wire Wire Line
@@ -343,21 +332,29 @@ Text Notes 4950 3550 0    100  ~ 0
 R
 Text Notes 4950 1250 0    100  ~ 0
 The same RJ11 connector works for any of the 3 possible sensors
-Text Notes 3400 4550 0    100  ~ 0
+Text Notes 3450 4550 0    100  ~ 0
 WIND DIR
-Text Notes 4450 4550 0    100  ~ 0
+Text Notes 4350 4550 0    100  ~ 0
 WIND SPEED
-Text Notes 6850 4550 0    100  ~ 0
+Text Notes 6800 4550 0    100  ~ 0
 WIND DIR
-Text Notes 5550 4550 0    100  ~ 0
+Text Notes 5650 4550 0    100  ~ 0
 WIND SPEED
 Text Notes 9400 4600 0    100  ~ 0
 WIND DIR
-Text Notes 7950 4550 0    100  ~ 0
+Text Notes 8000 4600 0    100  ~ 0
 WIND SPEED
 Wire Wire Line
 	6500 4250 7050 4250
 Wire Wire Line
 	7050 4250 7050 4050
 Connection ~ 6500 4250
+Wire Wire Line
+	1950 1500 1950 1350
+Wire Wire Line
+	1950 1350 1425 1350
+Text GLabel 1425 1350 0    50   Input ~ 0
+D3
+Text Notes 5600 5850 0    79   ~ 0
+note that for this sensor, yellow \nand green wires are twisted
 $EndSCHEMATC
