@@ -39,3 +39,5 @@ Arduino Mkrfox1200 interface to wind sensors
 
 
     Please read the manual (doc/Manual.pdf) for more information.
+
+![Screenshot](WindSensor.jpg)
