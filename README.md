@@ -18,7 +18,7 @@ Arduino Mkrfox1200 interface to wind sensors
     
     I have a few shields left that I can distribute upon request (pascal.caunegre@gmail.com)
 
-![Alt text](doc/Shield.jpg?raw=true "MkrfoxWindShield")    
+<img src="doc/Shield.jpg" width="50%">
 
 ## This project includes several independant modules:
 
@@ -40,4 +40,5 @@ Arduino Mkrfox1200 interface to wind sensors
 
     Please read the manual (doc/Manual.pdf) for more information.
 
-![Screenshot](doc/WindSensor.jpg)
+<img src="doc/WindSensor.jpg" width="30%">
+
