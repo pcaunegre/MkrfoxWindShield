@@ -8,7 +8,8 @@ Arduino Mkrfox1200 interface to wind sensors
     
     This project is about building a device (hardware and software) to process 
     the measurements from commercial wind sensors and send data via Sigfox 
-    messages (8 bits every 10min)
+    messages (8 bits every 10min). The device is powered by a small battery and
+    a solar panel (power management is included on the shield).
     
     This project has a broader scope than the former one (https://github.com/pcaunegre/SWiM) because:
     - it supports 3 types of commercial sensors
@@ -17,7 +18,7 @@ Arduino Mkrfox1200 interface to wind sensors
     
     I have a few shields left that I can distribute upon request (pascal.caunegre@gmail.com)
 
-    ![Alt text](doc/Shield.jpg?raw=true "MkrfoxWindShield")    
+![Alt text](doc/Shield.jpg?raw=true "MkrfoxWindShield")    
 
 ## This project includes several independant modules:
 
