@@ -594,11 +594,11 @@ Wire Wire Line
 Connection ~ 6300 2600
 Wire Wire Line
 	6300 2600 6300 2950
-Wire Notes Line
+Wire Notes Line width 8
 	8550 3450 9400 3450
-Wire Notes Line
+Wire Notes Line width 8
 	9400 3450 9400 1000
-Wire Notes Line
+Wire Notes Line width 8
 	8550 1000 8550 3450
 Wire Notes Line
 	8850 1000 8850 1150
@@ -606,7 +606,7 @@ Wire Notes Line
 	8850 1150 9150 1150
 Wire Notes Line
 	9150 1150 9150 1000
-Wire Notes Line
+Wire Notes Line width 8
 	8550 1000 9400 1000
 Wire Notes Line
 	8550 1200 8700 1200
@@ -791,7 +791,6 @@ NoConn ~ 9800 2400
 NoConn ~ 9800 2300
 NoConn ~ 9800 2200
 NoConn ~ 9800 1800
-NoConn ~ 8150 3100
 NoConn ~ 8150 1800
 NoConn ~ 8150 1900
 Text Notes 2300 2200 0    50   ~ 0
@@ -986,4 +985,47 @@ F 7 "1N5819W" H 3350 1950 50  0001 L CNN "Manufacturer_Part_Number"
 $EndComp
 Wire Wire Line
 	2900 2450 2900 1900
+Wire Notes Line rgb(194, 18, 150)
+	9800 2300 10450 2300
+Wire Notes Line rgb(194, 9, 95)
+	10450 2300 10450 2100
+Wire Notes Line rgb(194, 12, 137)
+	10450 2100 10250 2100
+Text Notes 10450 2275 0    50   ~ 0
+Put this jumper to \ndisable sigfox
+Wire Notes Line rgb(194, 106, 9)
+	8150 3100 8150 3250
+Text Notes 10100 2675 0    50   ~ 0
+Put this jumper \nfor debug mode
+Wire Notes Line
+	9900 2375 9900 3050
+Wire Notes Line
+	9900 3050 10000 3050
+Wire Notes Line
+	10000 3050 10000 2375
+Wire Notes Line
+	10000 2375 9900 2375
+Wire Notes Line
+	9800 2400 9900 2400
+Wire Notes Line
+	9800 2500 9900 2500
+Wire Notes Line
+	9800 2700 9900 2700
+Wire Notes Line
+	9800 2800 9900 2800
+Wire Notes Line
+	9800 2900 9900 2900
+Wire Notes Line
+	9800 3000 9900 3000
+Text Notes 9975 2900 1    50   ~ 0
+LCD display
+Text Notes 9850 3125 0    50   ~ 0
+LED
+NoConn ~ 8150 3100
+Wire Notes Line rgb(194, 89, 6)
+	9800 2600 10550 2600
+Wire Notes Line rgb(194, 97, 10)
+	10550 2600 10550 2100
+Wire Notes Line rgb(194, 103, 7)
+	10550 2100 10450 2100
 $EndSCHEMATC

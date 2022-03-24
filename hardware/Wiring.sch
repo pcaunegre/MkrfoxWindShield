@@ -357,4 +357,32 @@ Text GLabel 1425 1350 0    50   Input ~ 0
 D3
 Text Notes 5600 5850 0    79   ~ 0
 note that for this sensor, yellow \nand green wires are twisted
+Text Notes 5350 1950 0    98   ~ 20
+OR
+Text Notes 7600 1950 0    98   ~ 20
+OR
+Text Notes 3500 2775 0    100  ~ 0
+1
+Text Notes 3500 2475 0    100  ~ 0
+2
+Text Notes 3500 2175 0    100  ~ 0
+3
+Text Notes 3500 1975 0    100  ~ 0
+4
+Text Notes 7900 2775 0    100  ~ 0
+1
+Text Notes 7900 2475 0    100  ~ 0
+2
+Text Notes 7900 2175 0    100  ~ 0
+3
+Text Notes 7900 1975 0    100  ~ 0
+4
+Text Notes 5650 2725 0    100  ~ 0
+1
+Text Notes 5650 2425 0    100  ~ 0
+2
+Text Notes 5650 2125 0    100  ~ 0
+3
+Text Notes 5650 1925 0    100  ~ 0
+4
 $EndSCHEMATC

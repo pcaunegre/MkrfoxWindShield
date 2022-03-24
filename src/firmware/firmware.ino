@@ -46,14 +46,21 @@ int sensor=0;          // sensor number
 
 void setup() {
   
+  int blinknbr=10;
   // a jumper between 14 and GND will disable sigfox
   pinMode(14,INPUT_PULLUP); 
   sigfox_en = digitalRead(14);
 
+  // a jumper between 11 and GND will put debug mode and disable sigfox
+  pinMode(11,INPUT_PULLUP); 
+  if (digitalRead(11) == 0) {
+    debugmode=true; blinknbr=15;
+  }
+
   cpudiv = CPU_FULL;
   pinMode(Led,OUTPUT); // led used for debug or at power up
-  debugInit(sigfox_en);
-  blinkLed(10,400/cpudiv); // say hello 10 flashes
+  debugInit(sigfox_en,debugmode);
+  blinkLed(blinknbr,400/cpudiv); // say hello 10 flashes
   
   // getBatterieVoltage
   float vbat=getBatteryVoltage();
@@ -86,8 +93,7 @@ void setup() {
   last_reportT     = millis();
   last_adminT      = millis();
   reset_stat(); 
-  
-  set_cpu_speed(CPU_SLOW);
+  if (!debugmode) set_cpu_speed(CPU_SLOW);
 }
 
 
@@ -446,7 +452,7 @@ void sendSigFoxMessage(int len) {
     
     int ret = SigFox.endPacket();
     SigFox.end();
-    set_cpu_speed(CPU_SLOW);
+    if (!debugmode) set_cpu_speed(CPU_SLOW);
   } else {
     debugPrint("Sigfox disabled ",len);
   }

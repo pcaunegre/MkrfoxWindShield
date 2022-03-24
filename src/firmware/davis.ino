@@ -30,7 +30,6 @@ volatile int            Davis_speed_cnt;  // numbre of anemometre turns
 void Davis_setup() {
 
   pinMode(DavisWire3, INPUT);  // not used    
-  pinMode(DavisWire4, INPUT_PULLUP);  // powering the dir potentiometer      
   pinMode(DavisSpeedPin, INPUT_PULLUP);      
   analogReference(AR_DEFAULT);      // use internal ADC ref   
   attachInterrupt(digitalPinToInterrupt(DavisSpeedPin), Davis_isr_speed, FALLING); // interruption

@@ -2,13 +2,13 @@
  * Utilities for debug and print purposes
  * 
  */
-void debugInit(bool sf_en) {
+void debugInit(bool sf_en, bool db_en) {
   
   if (!debugmode) {return;}
   Serial.begin(9600);           //  setup serial  
   delay(1000);
   if (Serial) {
-    Serial.print("STARTING ");Serial.print(SOFTDATE);Serial.print(" sigfox=");Serial.println(sf_en);
+    Serial.print("STARTING version:");Serial.print(SOFTVERSION);Serial.print("/");Serial.print(SOFTDATE);Serial.print(" debug=");Serial.print(db_en);Serial.print(" sigfox=");Serial.println(sf_en);
     Serial.flush();
   }
   if (lcd_en)  {
