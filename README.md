@@ -17,7 +17,7 @@ This project has a broader scope than the former one (https://github.com/pcauneg
 - it includes a Printed Circuit Board (PCB) design to go as a shield for the Arduino Mkrfox1200
   so that the complete device can be quickly assembled without soldering 
 
-I have a few shields left that I can distribute upon request (pascal.caunegre@gmail.com)
+I have a few shields left that I can distribute upon request (pascal.caunegre AT gmail.com)
 
 <img src="doc/Shield.jpg" width="50%">
 
