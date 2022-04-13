@@ -18,7 +18,7 @@
 
 
 
-const int DavisDirFullScale=int(ADCFS*RDAVISPOT/(RPULLUP+RDAVISPOT));
+const int DavisDirFullScale=int(ADCFS*RDAVISPOT/(RPULLUP+RDAVISPOT+RSERIAL));
 
 volatile int            Davis_speed_cnt;  // numbre of anemometre turns
 

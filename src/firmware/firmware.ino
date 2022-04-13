@@ -174,13 +174,13 @@ void store_for_stat(int ws, int wd)  {
     if (ws < min_wspeed)  min_wspeed = ws;
     acc_wspeed += ws;
     cnt_ws_samples++;
-  }
   
-  if (wd>-1)  {
-    // projection of direction is weighted by the speed
-    acc_wdX += ws * cos(PI*wd/180.);
-    acc_wdY += ws * sin(PI*wd/180.);
-    cnt_wd_samples++;
+    if (wd>-1)  {
+      // projection of direction is weighted by the speed
+      acc_wdX += ws * cos(PI*wd/180.);
+      acc_wdY += ws * sin(PI*wd/180.);
+      cnt_wd_samples++;
+    }
   }
 
 }
@@ -395,6 +395,7 @@ float getBatteryVoltage() {
   float vb=(analogRead(A3)/(ADCFS*VBDIV))*1000.0; // read vbat through k~1/5 divider so v=adc/(k*adcfs)
   debugPrintVbat(vb);
   analogReference(AR_DEFAULT);  // restore to the default ref used in other parts of the code
+  delay(100);
   return(vb);
 
 }
@@ -404,13 +405,16 @@ float getBatteryVoltage() {
 */
 float getTemperature() {
   
-  pinMode(4,OUTPUT);
-  digitalWrite(4,HIGH);
   analogReadResolution(12);      
   analogReference(AR_DEFAULT); // to give a ratio of the resistor divider
+  pinMode(4,OUTPUT);
+  digitalWrite(4,HIGH);
   delay(100);
   int adc=analogRead(A4);
+  
+  analogReadResolution(ADCBITS);
   digitalWrite(4,LOW);
+  delay(100);
   
   float tp=25+(1.0-1.0/((4095.0/adc)-1))/0.04; // 0.04 is NTC sensitivity 4%/C, roughly around 25C
   debugPrintTemp(tp);
