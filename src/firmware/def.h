@@ -1,5 +1,5 @@
-#define SOFTDATE 220324
-#define SOFTVERSION 12
+#define SOFTDATE 130424
+#define SOFTVERSION 13
 
 
 #define DAVIS       10   // sensor numbering
