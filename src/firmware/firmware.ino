@@ -46,7 +46,7 @@ int sensor=0;          // sensor number
 
 void setup() {
   
-  int blinknbr=SOFTVERSION;
+  int blinknbr=10;
   // a jumper between 14 and GND will disable sigfox
   pinMode(14,INPUT_PULLUP); 
   sigfox_en = digitalRead(14);
