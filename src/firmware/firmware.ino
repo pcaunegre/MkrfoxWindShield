@@ -46,7 +46,7 @@ int sensor=0;          // sensor number
 
 void setup() {
   
-  int blinknbr=10;
+  int blinknbr=SOFTVERSION; // e.g. blinks 12 times for version 1.2
   // a jumper between 14 and GND will disable sigfox
   pinMode(14,INPUT_PULLUP); 
   sigfox_en = digitalRead(14);
@@ -54,7 +54,7 @@ void setup() {
   // a jumper between 11 and GND will put debug mode and disable sigfox
   pinMode(11,INPUT_PULLUP); 
   if (digitalRead(11) == 0) {
-    debugmode=true; blinknbr=15;
+    debugmode=true; blinknbr=5; // blinks only 5 times in debug mode  
   }
 
   cpudiv = CPU_FULL;
