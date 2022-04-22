@@ -371,8 +371,6 @@ F 3 "" H 9450 2500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	6050 5600 6050 6250
-Wire Wire Line
 	6050 5600 6250 5600
 Wire Wire Line
 	1800 1900 1950 1900
@@ -651,9 +649,7 @@ Connection ~ 8550 3900
 Wire Wire Line
 	8550 3900 10250 3900
 Wire Wire Line
-	9600 5350 10050 5350
-Wire Wire Line
-	10050 5350 10050 1900
+	10050 5350 10050 5325
 Wire Wire Line
 	10050 1900 9800 1900
 Wire Wire Line
@@ -1028,4 +1024,68 @@ Wire Notes Line rgb(194, 97, 10)
 	10550 2600 10550 2100
 Wire Notes Line rgb(194, 103, 7)
 	10550 2100 10450 2100
+$Comp
+L JLCPCB:KF350-3.5-2P J_BAT2
+U 1 1 62625952
+P 6250 5025
+F 0 "J_BAT2" H 6878 5021 50  0000 L CNN
+F 1 "KF350-3.5-2P" H 6878 4930 50  0001 L CNN
+F 2 "JLCPCB_FP:SolderPoints" H 6900 5125 50  0001 L CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2001160007_Cixi-Kefa-Elec-KF350-3-5-2P_C474892.pdf" H 6900 5025 50  0001 L CNN
+F 4 "P=3.5mm Screw terminal RoHS 2 Pos" H 6900 4925 50  0001 L CNN "Description"
+F 5 "8.8" H 6900 4825 50  0001 L CNN "Height"
+F 6 "CIXI KEFA ELECTRONICS" H 6900 4725 50  0001 L CNN "Manufacturer_Name"
+F 7 "KF350-3.5-2P" H 6900 4625 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 6900 4525 50  0001 L CNN "Mouser Part Number"
+F 9 "" H 6900 4425 50  0001 L CNN "Mouser Price/Stock"
+F 10 "" H 6900 4325 50  0001 L CNN "Arrow Part Number"
+F 11 "" H 6900 4225 50  0001 L CNN "Arrow Price/Stock"
+	1    6250 5025
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6250 5125 6050 5125
+Wire Wire Line
+	6050 5125 6050 5600
+Connection ~ 6050 5600
+Wire Wire Line
+	6050 5600 6050 6250
+Wire Wire Line
+	6250 4975 5550 4975
+Wire Wire Line
+	5550 4975 5550 5450
+Connection ~ 5550 5450
+Text Notes 6950 5200 0    50   ~ 0
+Solder points
+$Comp
+L JLCPCB:KF350-3.5-2P ExtSwitch1
+U 1 1 6264175D
+P 10225 5375
+F 0 "ExtSwitch1" H 10853 5371 50  0000 L CNN
+F 1 "KF350-3.5-2P" H 10853 5280 50  0001 L CNN
+F 2 "JLCPCB_FP:SolderPoints" H 10875 5475 50  0001 L CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2001160007_Cixi-Kefa-Elec-KF350-3-5-2P_C474892.pdf" H 10875 5375 50  0001 L CNN
+F 4 "P=3.5mm Screw terminal RoHS 2 Pos" H 10875 5275 50  0001 L CNN "Description"
+F 5 "8.8" H 10875 5175 50  0001 L CNN "Height"
+F 6 "CIXI KEFA ELECTRONICS" H 10875 5075 50  0001 L CNN "Manufacturer_Name"
+F 7 "KF350-3.5-2P" H 10875 4975 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 10875 4875 50  0001 L CNN "Mouser Part Number"
+F 9 "" H 10875 4775 50  0001 L CNN "Mouser Price/Stock"
+F 10 "" H 10875 4675 50  0001 L CNN "Arrow Part Number"
+F 11 "" H 10875 4575 50  0001 L CNN "Arrow Price/Stock"
+	1    10225 5375
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9950 5450 10225 5450
+Wire Wire Line
+	10225 5450 10225 5475
+Connection ~ 9950 5450
+Wire Wire Line
+	9600 5350 10050 5350
+Wire Wire Line
+	10050 5325 10225 5325
+Connection ~ 10050 5325
+Wire Wire Line
+	10050 5325 10050 1900
 $EndSCHEMATC
