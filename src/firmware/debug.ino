@@ -50,7 +50,7 @@ void debugSensorDetection(String msg, int sensor, int val1, int val2) {
 
 }
   
-void debugPrint(char* mystr, int mypar) {
+void debugPrint(const char* mystr, int mypar) {
   
   if (!debugmode) {return;}
   int prevcpudiv=cpudiv;
