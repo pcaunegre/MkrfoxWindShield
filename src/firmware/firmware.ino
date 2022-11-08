@@ -63,7 +63,10 @@ void setup() {
   blinkLed(blinknbr,400/cpudiv); // say hello 10 flashes
   
   // getBatterieVoltage
-  float vbat=getBatteryVoltage();
+  float vbat=getBatteryVoltage(A3); // measure VCC (when 3V battery is used)
+  // not possible with hardware h1.1: 
+  // requires 390k resistor between VIN and A5 + 100k between A5 and GND
+  float vbat2=getBatteryVoltage(A5); // measure VIN (real Lipo batt voltage)
   float   tp=getTemperature();
   
   // device detection at boot
@@ -85,7 +88,7 @@ void setup() {
       blinkLed(1000,500/cpudiv);
       reboot();
   }   
-  makeAdminReport(vbat,tp);
+  makeAdminReport(vbat,vbat2,tp);
   statReportCnt    = 0;
   prevWindDir      = -1;
   repnbr           = 0;
@@ -103,9 +106,9 @@ void loop() {
     
     // normal operation
     unsigned long now = millis();
-    int    dt1 = now - last_sampleT;  // ellapsed time since last sample
-    int    dt2 = now - last_reportT;  // ellapsed time since last report
-    int    dt3 = now - last_adminT;   // ellapsed time since last vbat report
+    long   dt1 = now - last_sampleT;  // ellapsed time since last sample
+    long   dt2 = now - last_reportT;  // ellapsed time since last report
+    long   dt3 = now - last_adminT;   // ellapsed time since last vbat report
     int    ws  = -1;
     int    wd  = -1;
     
@@ -139,22 +142,26 @@ void loop() {
     
     if (dt3 > ADMIN_REPORT_PERIOD/cpudiv) {
       noInterrupts();
-      float vbat=getBatteryVoltage();
+      float vbat=getBatteryVoltage(A3);
+      float vbat2=getBatteryVoltage(A5);
       float   tp=getTemperature();
-      makeAdminReport(vbat,tp);
-      last_adminT = now;
-      last_reportT = now;
+      makeAdminReport(vbat,vbat2,tp);
+      last_adminT  = millis();
+      last_reportT = millis();
       interrupts();
     } else if (dt2 > (REPORT_PERIOD/2)/cpudiv) {
       // at every sigfox report period we send 2 packets of data
       // so at every half-report period we store data     
       noInterrupts();
       makeReport();
-      last_reportT = now;
+      last_reportT = millis();
       interrupts();
     }
 
-    if (now > REBOOT_PERIOD/cpudiv) reboot(); // avoid managing millis value wrapping (every 2**32-1 ms)
+    if (now > REBOOT_PERIOD/cpudiv) {
+      debugPrintMsg("REBOOTING");
+      reboot(); // avoid managing millis value wrapping (every 2**32-1 ms)
+    }
   }  
 
 }
@@ -269,12 +276,23 @@ void makeReport() {
 /*
 *  Admin report 
 *
+* Data:   VBat 00  00  00  00   00    00    00    VCC   TEMP  SENS  SoftV 
+* Bytes:  1,2  3,4 5,6 7,8 9,10 11,12 13,14 15,16 17,18 19,20 21,22 23,24 
 */
-void makeAdminReport(float vb, float tp) {
+void makeAdminReport(float vb, float vb2, float tp) {
 
-  msg.batVolt     = encodeVoltage(vb);
-  msg.temperature = encodeTemperature(tp);
-  msg.sensor      = sensor;
+  msg.speedMin[0] = encodeVoltage(vb2); // VIN measure (if wired)
+  msg.speedMin[1] = 0;     // not used:
+  msg.speedAvg[0] = 0;     // admin messages are not processed by OWM   
+  msg.speedAvg[1] = 0;     // as wind measures   
+  msg.speedMax[0] = 0;     // so these bytes are free for other usage   
+  msg.speedMax[1] = 0;     //    
+  msg.directionAvg[0] = 0; //    
+  msg.directionAvg[1] = 0; //    
+  
+  msg.batVolt     = encodeVoltage(vb);     // VCC measure
+  msg.temperature = encodeTemperature(tp); // Temperature (if sensor wired)
+  msg.sensor      = sensor;                // Sensor type DAVIS=10 PEET=20 MISOL=30 
   msg.softversion = SOFTVERSION;
   // send sigfox telegram
   sendSigFoxMessage(12);
@@ -387,13 +405,13 @@ void detectSensorType() {
 /*
 *  Utility to measure Battery voltage, return mV
 */
-float getBatteryVoltage() {
+float getBatteryVoltage(int vpin) {
 
   analogReadResolution(ADCBITS);
   analogReference(AR_INTERNAL1V0);
   delay(100);
-  float vb=(analogRead(A3)/(ADCFS*VBDIV))*1000.0; // read vbat through k~1/5 divider so v=adc/(k*adcfs)
-  debugPrintVbat(vb);
+  float vb=(analogRead(vpin)/(ADCFS*VBDIV))*1000.0; // read vbat through k~1/5 divider so v=adc/(k*adcfs)
+  debugPrintVbat(vpin,vb);
   analogReference(AR_DEFAULT);  // restore to the default ref used in other parts of the code
   delay(100);
   return(vb);

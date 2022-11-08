@@ -5,12 +5,27 @@
 void debugInit(bool sf_en, bool db_en) {
   
   if (!debugmode) {return;}
+  
   Serial.begin(9600);           //  setup serial  
   delay(1000);
-  if (Serial) {
-    Serial.print("STARTING version:");Serial.print(SOFTVERSION);Serial.print("/");Serial.print(SOFTDATE);Serial.print(" debug=");Serial.print(db_en);Serial.print(" sigfox=");Serial.println(sf_en);
-    Serial.flush();
-  }
+  // when in debug mode (jumper on pin 11), program is blocked until USB Serial is connected
+  while (!Serial) {}
+  SigFox.begin();
+  Serial.println("https://github.com/pcaunegre/MkrfoxWindShield");
+  Serial.println("## mettre ici manuellement, a chaque compilation, le hash du commit courant ##");
+  Serial.print(__DATE__); // macros du langage C. Indiquent la date et l'heure de la compilation
+  Serial.print("\t");
+  Serial.println(__TIME__);
+  Serial.print(SigFox.ID());
+  Serial.print("\t");
+  Serial.println(SigFox.PAC());
+  SigFox.end();
+  Serial.print("STARTING version:");Serial.print(SOFTVERSION);Serial.print("/");
+  Serial.print(SOFTDATE);
+  Serial.print(" debug=");Serial.print(db_en);
+  Serial.print(" sigfox=");Serial.println(sf_en);
+  Serial.flush();
+  
   if (lcd_en)  {
     lcd.begin(16,2);        // used when LCD is plugged for reading the device
     lcd.clear();
@@ -50,6 +65,13 @@ void debugSensorDetection(String msg, int sensor, int val1, int val2) {
 
 }
   
+void debugPrintMsg(String msg) {
+    if (!debugmode) {return;}
+    if (Serial) {
+      Serial.println(msg);
+    }
+}
+
 void debugPrint(const char* mystr, int mypar) {
   
   if (!debugmode) {return;}
@@ -68,12 +90,12 @@ void debugPrint(const char* mystr, int mypar) {
   }
 
 }
-void debugPrintVbat(float v) {
+void debugPrintVbat(int vpin, float v) {
   if (!debugmode) {return;}
   int prevcpudiv=cpudiv;
   set_cpu_speed(CPU_FULL);
   if (Serial) {
-    Serial.print("VBAT = "); Serial.println(v,0);
+    Serial.print(vpin); Serial.print(" VBAT = "); Serial.println(v,0);
     Serial.flush();
   }
   set_cpu_speed(prevcpudiv);

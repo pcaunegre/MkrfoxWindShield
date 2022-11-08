@@ -1,5 +1,5 @@
-#define SOFTDATE 220413
-#define SOFTVERSION 13
+#define SOFTDATE 221108
+#define SOFTVERSION 14
 
 
 #define DAVIS       10   // sensor numbering
@@ -18,8 +18,8 @@
 #define SAMPLING_PERIOD          2992  // instantaneous wind is measured on a 3s period (common rule) so 2992ms
 #define REPORT_PERIOD          600000  // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
 #define ADMIN_REPORT_PERIOD  86400000  // period to send monitoring information to server (vbat...) 86400000=1day
-#define REBOOT_PERIOD      3456000000  // reboot micro every 40 days to avoid managing millis overflow after 2**32-1 ms (long int)
-
+///#define REBOOT_PERIOD      3456000000  // reboot micro every 40 days to avoid managing millis overflow after 2**32-1 ms (long int)
+#define REBOOT_PERIOD       604800000  // reboot micro every 7 days
 
 #define SENSPPIN   3            // Pin to power up the sensor 
 #define RPULLUP    10.0         // Pullup in kOhm
@@ -119,7 +119,7 @@ static uint8_t encodeTemperature(float temperature) {
 }
 
 
-// voltage encoded between 2V and 2.55V -> 0 to 255
+// voltage encoded between 2V and 4.55V (2000 to 4550mV) -> 0 to 255
 static uint8_t encodeVoltage(float milliVolts) {
   return (uint8_t)(float)((milliVolts / 10. + 0.5) - 200.);
 }
