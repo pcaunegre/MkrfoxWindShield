@@ -95,7 +95,9 @@ void debugPrintVbat(int vpin, float v) {
   int prevcpudiv=cpudiv;
   set_cpu_speed(CPU_FULL);
   if (Serial) {
-    Serial.print(vpin); Serial.print(" VBAT = "); Serial.println(v,0);
+    if (vpin==VCCMEAS) Serial.print(" VCC = ");
+    if (vpin==VINMEAS) Serial.print(" VIN = ");
+    Serial.println(v,0);
     Serial.flush();
   }
   set_cpu_speed(prevcpudiv);

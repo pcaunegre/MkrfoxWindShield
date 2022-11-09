@@ -48,12 +48,12 @@ void setup() {
   
   int blinknbr=SOFTVERSION; // e.g. blinks 12 times for version 1.2
   // a jumper between 14 and GND will disable sigfox
-  pinMode(14,INPUT_PULLUP); 
-  sigfox_en = digitalRead(14);
+  pinMode(SIGDISAB,INPUT_PULLUP); 
+  sigfox_en = digitalRead(SIGDISAB);
 
   // a jumper between 11 and GND will put debug mode and disable sigfox
-  pinMode(11,INPUT_PULLUP); 
-  if (digitalRead(11) == 0) {
+  pinMode(DEBUGPIN,INPUT_PULLUP); 
+  if (digitalRead(DEBUGPIN) == 0) {
     debugmode=true; blinknbr=5; // blinks only 5 times in debug mode  
   }
 
@@ -63,10 +63,10 @@ void setup() {
   blinkLed(blinknbr,400/cpudiv); // say hello 10 flashes
   
   // getBatterieVoltage
-  float vbat=getBatteryVoltage(A3); // measure VCC (when 3V battery is used)
+  float vcc=getBatteryVoltage(VCCMEAS); // measure VCC (when 3V battery is used)
   // not possible with hardware h1.1: 
   // requires 390k resistor between VIN and A5 + 100k between A5 and GND
-  float vbat2=getBatteryVoltage(A5); // measure VIN (real Lipo batt voltage)
+  float vin=getBatteryVoltage(VINMEAS); // measure VIN (real Lipo batt voltage)
   float   tp=getTemperature();
   
   // device detection at boot
@@ -88,15 +88,15 @@ void setup() {
       blinkLed(1000,500/cpudiv);
       reboot();
   }   
-  makeAdminReport(vbat,vbat2,tp);
+  makeAdminReport(vcc,vin,tp);
   statReportCnt    = 0;
   prevWindDir      = -1;
   repnbr           = 0;
+  reset_stat(); 
+  if (!debugmode) set_cpu_speed(CPU_SLOW);
   last_sampleT     = millis();
   last_reportT     = millis();
   last_adminT      = millis();
-  reset_stat(); 
-  if (!debugmode) set_cpu_speed(CPU_SLOW);
 }
 
 
@@ -142,10 +142,10 @@ void loop() {
     
     if (dt3 > ADMIN_REPORT_PERIOD/cpudiv) {
       noInterrupts();
-      float vbat=getBatteryVoltage(A3);
-      float vbat2=getBatteryVoltage(A5);
+      float vcc=getBatteryVoltage(VCCMEAS);
+      float vin=getBatteryVoltage(VINMEAS);
       float   tp=getTemperature();
-      makeAdminReport(vbat,vbat2,tp);
+      makeAdminReport(vcc,vin,tp);
       last_adminT  = millis();
       last_reportT = millis();
       interrupts();

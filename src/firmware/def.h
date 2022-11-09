@@ -1,4 +1,4 @@
-#define SOFTDATE 221108
+#define SOFTDATE 20221109
 #define SOFTVERSION 14
 
 
@@ -21,6 +21,13 @@
 ///#define REBOOT_PERIOD      3456000000  // reboot micro every 40 days to avoid managing millis overflow after 2**32-1 ms (long int)
 #define REBOOT_PERIOD       604800000  // reboot micro every 7 days
 
+#define VCCMEAS    A3           // Analog Pin to measure VCC voltage
+#define VINMEAS    A5           // Analog Pin to measure VIN voltage
+
+#define DEBUGPIN   11           // Pin to detect debug mode (when low)
+#define SIGDISAB   14           // Pin to disable sigfox messages (when low)
+
+
 #define SENSPPIN   3            // Pin to power up the sensor 
 #define RPULLUP    10.0         // Pullup in kOhm
 #define RSERIAL    1.0          // Same value for RS1, RS2, RS3 in kOhm
@@ -28,7 +35,7 @@
 const int ADCFS =  (1<<ADCBITS)-1; // ADC full scale = 2**10-1
 #define TOL        0.05          // Tolerance on R values (5%)
 
-#define VBDIV      0.202         // Res Divider to measure Vbat (100k/(100k+400k))
+#define VBDIV      0.20         // Res Divider to measure Vbat (100k/(100k+400k))
 
 #define RSHENMIN   0.688        // Min value of Dir Potentiometer (Shenzen sensor) in kOhm
 #define RSHENMAX   120.0        // Max value of Dir Potentiometer (Shenzen sensor) in kOhm
