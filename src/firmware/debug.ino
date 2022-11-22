@@ -26,13 +26,6 @@ void debugInit(bool sf_en, bool db_en) {
   Serial.print(" sigfox=");Serial.println(sf_en);
   Serial.flush();
   
-  if (lcd_en)  {
-    lcd.begin(16,2);        // used when LCD is plugged for reading the device
-    lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("                ");
-    lcd.setCursor(0,0);
-  }
 }
 
 
@@ -57,11 +50,6 @@ void debugSensorDetection(String msg, int sensor, int val1, int val2) {
     Serial.flush();
   }
   set_cpu_speed(prevcpudiv);
-  if (lcd_en)  {
-    lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("Started sens=");lcd.print(sensor);
-  }
 
 }
   
@@ -82,12 +70,6 @@ void debugPrint(const char* mystr, int mypar) {
     Serial.flush();
   }
   set_cpu_speed(prevcpudiv);
-  if (lcd_en)  {
-    lcd.setCursor(0,0);
-    lcd.print("                ");
-    lcd.setCursor(0,0);
-    lcd.print(mystr);lcd.print(mypar,3);
-  }
 
 }
 void debugPrintVbat(int vpin, float v) {
@@ -101,13 +83,6 @@ void debugPrintVbat(int vpin, float v) {
     Serial.flush();
   }
   set_cpu_speed(prevcpudiv);
-  if (lcd_en)  {
-    lcd.setCursor(0,0);
-    lcd.print("                ");
-    lcd.setCursor(0,0);
-    lcd.print("VBAT=");lcd.print(v,3);
-    delay(3000);   
-  }
 }
 
 void debugPrintTemp(float tp) {
@@ -129,14 +104,6 @@ void debugPrintMeasure(int ws, int wd) {
     Serial.flush();
   }
   set_cpu_speed(prevcpudiv);
-  // print on lcd screen
-  if (lcd_en)  {
-    lcd.setCursor(0,0);
-    lcd.print("                ");
-    lcd.setCursor(0,0);
-    lcd.print(msnbr);lcd.print(" ");lcd.print(deg2dir(wd));lcd.print(" ");lcd.print(wd);
-    lcd.print(" ");lcd.print(ws);
-  }
 
 }
 
@@ -145,7 +112,7 @@ void debugPrintMeasure(int ws, int wd) {
 */
 void debugPrintAvgMeas(int aws, int awd) {
 
-  if(debugmode || lcd_en) {
+  if (debugmode) {
     repnbr++;
     int prevcpudiv=cpudiv;
     set_cpu_speed(CPU_FULL);
@@ -167,14 +134,6 @@ void debugPrintAvgMeas(int aws, int awd) {
       Serial.flush();
     }
     set_cpu_speed(prevcpudiv);
-    if (lcd_en)  {
-      lcd.setCursor(0,1);
-      lcd.print("                ");
-      lcd.setCursor(0,1);
-      lcd.print(repnbr);lcd.print(" ");
-      lcd.print("Vm=");lcd.print(aws);lcd.print(" ");
-      lcd.print("Dm=");lcd.print(deg2dir(awd));
-    }
   }
 }
 

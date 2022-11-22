@@ -15,17 +15,16 @@
 //#define CPU_SLOW   1    // 
 
 // periods in ms and multiple of CPU_SLOW (16)
-#define SAMPLING_PERIOD          2992  // instantaneous wind is measured on a 3s period (common rule) so 2992ms
-#define REPORT_PERIOD          600000  // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
-#define ADMIN_REPORT_PERIOD  86400000  // period to send monitoring information to server (vbat...) 86400000=1day
-///#define REBOOT_PERIOD      3456000000  // reboot micro every 40 days to avoid managing millis overflow after 2**32-1 ms (long int)
-#define REBOOT_PERIOD       604800000  // reboot micro every 7 days
+#define SAMPLING_PERIOD          2992    // instantaneous wind is measured on a 3s period (common rule) so 2992ms
+#define REPORT_PERIOD          600000UL  // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
+#define ADMIN_REPORT_PERIOD  86400000UL  // period to send monitoring information to server (vbat...) 86400000=1day
+#define REBOOT_PERIOD       604800000UL  // reboot micro every 7 days
 
 #define VCCMEAS    A3           // Analog Pin to measure VCC voltage
 #define VINMEAS    A5           // Analog Pin to measure VIN voltage
 
 #define DEBUGPIN   11           // Pin to detect debug mode (when low)
-#define SIGDISAB   14           // Pin to disable sigfox messages (when low)
+#define SIGDISAB   12           // Pin to disable sigfox messages (when low)
 
 
 #define SENSPPIN   3            // Pin to power up the sensor 

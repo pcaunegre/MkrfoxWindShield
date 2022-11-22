@@ -12,8 +12,6 @@
 #include <math.h>
 #include "def.h"
 
-#include <LiquidCrystal.h>
-LiquidCrystal lcd(13, 12, 7, 8, 9, 10); //lcd(rs, en, a, b, c, d)
 
 
 volatile unsigned long  last_sampleT  ;  // last time in millis a measure sampling has been done
@@ -35,7 +33,6 @@ volatile int            cpudiv        ;  // value of cpu freq divisor
 
 volatile bool           debugmode = false ;  // 1=debug mode
 volatile bool           sigfox_en = true ;  // enable sigfox
-volatile bool           lcd_en    = false ;  // lcd plugged or not
 volatile int            repnbr=0;           // debug
 volatile int            msnbr=0;            // debug
 
@@ -47,7 +44,7 @@ int sensor=0;          // sensor number
 void setup() {
   
   int blinknbr=SOFTVERSION; // e.g. blinks 12 times for version 1.2
-  // a jumper between 14 and GND will disable sigfox
+  // a jumper between 12 and GND will disable sigfox
   pinMode(SIGDISAB,INPUT_PULLUP); 
   sigfox_en = digitalRead(SIGDISAB);
 
@@ -67,7 +64,7 @@ void setup() {
   // not possible with hardware h1.1: 
   // requires 390k resistor between VIN and A5 + 100k between A5 and GND
   float vin=getBatteryVoltage(VINMEAS); // measure VIN (real Lipo batt voltage)
-  float   tp=getTemperature();
+  float  tp=getTemperature();
   
   // device detection at boot
   if (sensor == 0) {
@@ -97,6 +94,8 @@ void setup() {
   last_sampleT     = millis();
   last_reportT     = millis();
   last_adminT      = millis();
+  // Serial1.begin(9600*cpudiv);           //  setup serial 13 14, not usb !
+
 }
 
 
@@ -106,9 +105,9 @@ void loop() {
     
     // normal operation
     unsigned long now = millis();
-    long   dt1 = now - last_sampleT;  // ellapsed time since last sample
-    long   dt2 = now - last_reportT;  // ellapsed time since last report
-    long   dt3 = now - last_adminT;   // ellapsed time since last vbat report
+    unsigned long dt1 = now - last_sampleT;  // ellapsed time since last sample
+    unsigned long dt2 = now - last_reportT;  // ellapsed time since last report
+    unsigned long dt3 = now - last_adminT;   // ellapsed time since last vbat report
     int    ws  = -1;
     int    wd  = -1;
     
@@ -142,6 +141,7 @@ void loop() {
     
     if (dt3 > ADMIN_REPORT_PERIOD/cpudiv) {
       noInterrupts();
+      // Serial1.print("Admin Report "); Serial1.println(dt2);
       float vcc=getBatteryVoltage(VCCMEAS);
       float vin=getBatteryVoltage(VINMEAS);
       float   tp=getTemperature();
@@ -149,10 +149,12 @@ void loop() {
       last_adminT  = millis();
       last_reportT = millis();
       interrupts();
+    
     } else if (dt2 > (REPORT_PERIOD/2)/cpudiv) {
       // at every sigfox report period we send 2 packets of data
       // so at every half-report period we store data     
       noInterrupts();
+      // Serial1.print("Report "); Serial1.println(dt2);  
       makeReport();
       last_reportT = millis();
       interrupts();
@@ -189,7 +191,7 @@ void store_for_stat(int ws, int wd)  {
       cnt_wd_samples++;
     }
   }
-
+  
 }
 
 /*
@@ -250,14 +252,14 @@ void makeReport() {
   // report the values
   avws = wspeed_avg();
   avwd = wdir_avg();
-  debugPrintAvgMeas(avws,avwd); // only for reading through lcd display or via usb 
+  debugPrintAvgMeas(avws,avwd);
   
   // store in msg structure with OpenWindMap-expected data encoding
   msg.speedMin[statReportCnt]     = encodeWindSpeed(min_wspeed);
   msg.speedAvg[statReportCnt]     = encodeWindSpeed(avws);
   msg.speedMax[statReportCnt]     = encodeWindSpeed(max_wspeed);
   msg.directionAvg[statReportCnt] = encodeWindDirection(avwd);  
-
+  
   // we send telegram half the time
   if (statReportCnt==1) {
     // send sigfox telegram this time
