@@ -12,18 +12,6 @@ import json
 import time
 
 
-arglen=len(sys.argv)
-if (arglen==1):
-    print("Usage: getAdminReport.py <stationID> [<nbr of reports>]")
-    exit(0)
-
-stationID=sys.argv[1]
-if (arglen>2):
-    reportNbr=int(sys.argv[2])
-else:
-    reportNbr=1
-
-
 #################################### 
 # 
 # get json file from OpenWindMap
@@ -55,11 +43,16 @@ def parseFile(filename):
         content = json.load(f)
     for item in content:
         data=item['data']
-        # search 12 bytes messages
-        if len(data)>16:
-            # print(data)
+        # report all measures
+        if reportall:
             decode(data,item['time'])
-            found+=1
+        else:
+            # report only admin reports
+            # search 12 bytes messages
+            if len(data)>16:
+                # print(data)
+                decode(data,item['time'])
+                found+=1
 
     return(found)
             
@@ -70,7 +63,8 @@ def parseFile(filename):
 # 
 #################################### 
 def decode(entry,timestamp):
-
+    
+    global ln
     print("--------------------------------------------------------")
     print(timestamp)
     print(entry)
@@ -94,7 +88,15 @@ def decode(entry,timestamp):
         print("Max = %f " % decodeSpeed(int(entry[10:12],16)))
  
         print("Dir = %d " % decodeDir(int(entry[14:16],16)))
-
+        if printcsv:
+            print("%d, %f, %f, %f," % (ln,decodeSpeed(int(entry[0:2]  ,16)), \
+                decodeSpeed(int(entry[4:6]  ,16)), \
+                decodeSpeed(int(entry[8:10],16))),file=fout)
+            ln=ln+1
+            print("%d, %f, %f, %f," % (ln,decodeSpeed(int(entry[2:4]  ,16)), \
+                decodeSpeed(int(entry[6:8]  ,16)), \
+                decodeSpeed(int(entry[10:12],16))),file=fout)
+            ln=ln+1
 
   
 def decodeSpeed(es):
@@ -119,14 +121,49 @@ def decodeDir(ed):
 # Main program
 # 
 #################################### 
+
+# 
+#  args reading
+# 
+printcsv=0
+arglen=len(sys.argv)
+if (arglen==1):
+    print("Usage: getAdminReport.py <stationID> [<nbr of reports>] [-all] [-csv <file>]")
+    exit(0)
+
+stationID=sys.argv[1]
+reportall=0
+if (arglen>3):
+    if (sys.argv[3]=="-all"): reportall=1  
+
+if (arglen>5):
+    if (sys.argv[4]=="-csv"): 
+        csvoutfile=sys.argv[5]
+        printcsv=1
+
+if (arglen>2):
+   reportNbr=int(sys.argv[2])
+else:
+    reportNbr=1
+
+# 
+#  main
+# 
 found=0
 offset=0
+ln=0
 tmpfilename="/tmp/pp"+stationID+".json"
+
+if printcsv:
+    fout=open(csvoutfile,'w')    
+    print("N, Min, Avg, Max",file=fout)
 
 while(found<reportNbr):
     # get data from OWM
     l=getDataFile(tmpfilename,stationID,offset)
-    if (l<100): break
+    if (l<100): 
+        print("Reached void logs, exiting")
+        break
     # parse data
     ret=parseFile(tmpfilename)
     time.sleep(1)
