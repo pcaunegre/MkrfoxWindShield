@@ -1,5 +1,5 @@
-#define SOFTDATE 20221109
-#define SOFTVERSION 14
+#define SOFTDATE 20221220
+#define SOFTVERSION 15
 
 
 #define DAVIS       10   // sensor numbering
@@ -15,8 +15,8 @@
 //#define CPU_SLOW   1    // 
 
 // periods in ms and multiple of CPU_SLOW (16)
-#define SAMPLING_PERIOD          2992    // instantaneous wind is measured on a 3s period (common rule) so 2992ms
-#define REPORT_PERIOD          600000UL  // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
+#define SAMPLING_PERIOD          2992    // instantaneous wind is measured on a 3s period (common rule) so 2992ms to be a modulo 16 (clock divider)
+#define REPORT_PERIOD          720000UL  // in production, report period is 12min=720s (both the period to avg the wind speed and the sigfox report period)
 #define ADMIN_REPORT_PERIOD  86400000UL  // period to send monitoring information to server (vbat...) 86400000=1day
 #define REBOOT_PERIOD       604800000UL  // reboot micro every 7 days
 
@@ -71,8 +71,8 @@ const int THR_Davis_hi  = int(ADCFS/(1.0+RPULLUP/(RSERIAL+RDAVISPOT)*(1-TOL)/(1+
 * This part of code is about packing data to comply with the format expected by OpenWindMap
 *
 * Numbers are arranged to fit into 8 bytes (2 periods, 4 data)
-* xxx[0] -> data from T-10 to T-5 min
-* xxx[1] -> data from T-5 min to T
+* xxx[0] -> data from T-12 to T-6 min
+* xxx[1] -> data from T-6 min to T
 * T being the time of emission
 */
 typedef struct __attribute__ ((packed)) sigfox_wind_message {
@@ -80,10 +80,10 @@ typedef struct __attribute__ ((packed)) sigfox_wind_message {
         int8_t speedAvg[2];
         int8_t speedMax[2];
         int8_t directionAvg[2];
-        int8_t batVolt;
+        int8_t batVin;
+        int8_t batVcc;
         int8_t temperature;
-        int8_t sensor;
-        int8_t softversion;
+        int8_t version;
 } SigfoxWindMessage;
 
 
@@ -125,7 +125,8 @@ static uint8_t encodeTemperature(float temperature) {
 }
 
 
-// voltage encoded between 2V and 4.55V (2000 to 4550mV) -> 0 to 255
+// voltage encoded between 2.5V and 5.05V (2500 to 5050mV) -> 0 to 255
 static uint8_t encodeVoltage(float milliVolts) {
-  return (uint8_t)(float)((milliVolts / 10. + 0.5) - 200.);
+  if (milliVolts<2500) return (0);
+  return (uint8_t)(float)(milliVolts / 10. - 250);
 }

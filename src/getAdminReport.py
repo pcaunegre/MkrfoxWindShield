@@ -10,6 +10,7 @@ import sys
 import os
 import json
 import time
+import re
 
 
 #################################### 
@@ -25,8 +26,13 @@ def getDataFile(filename,stationID,offset):
         os.remove(filename)
     # print("URL %s" % url)
     # print("getting %s" % filename)
-    command="wget -O "+filename+url+" 1>/dev/null 2>/dev/null"
+    # command="wget -O "+filename+url+" 1>/dev/null 2>/dev/null"
+    command="wget -O "+filename+url+" 1>/dev/null 2>/tmp/errmsg"
     os.system(command)
+    err=open("/tmp/errmsg").read()
+    err=re.sub('\n','',err,re.IGNORECASE)
+    if re.match(".*ERROR.*",err):
+        print("server returns: %s" % ret)
 
     return(os.stat(filename).st_size)
 
@@ -68,12 +74,27 @@ def decode(entry,timestamp):
     print("--------------------------------------------------------")
     print(timestamp)
     print(entry)
+#     print("len=%d" % len(entry))
     if len(entry)>16:
-        print("Vbatt = %f  (resol 10mV)" % ((int(entry[0:2],16)+199.5)/100.0))
-        print("Soft = %d"  %   int(entry[22:24],16))
-        print("Sensor = %d" %  int(entry[20:22],16))
-        print("Temp = %d"  %  (int(entry[18:20],16)-50.5))
-        print("Vcc = %f"  %  ((int(entry[16:18],16)+199.5)/100.0))
+        # first record
+        print("Min1 = %f " % decodeSpeed(int(entry[0:2] ,16)))
+        print("Avg1 = %f " % decodeSpeed(int(entry[4:6] ,16)))
+        print("Max1 = %f " % decodeSpeed(int(entry[8:10],16)))
+        print("Dir1 = %d " % decodeDir(int(entry[12:14],16)))
+ 
+ 
+        # second record
+        print("Min2 = %f " % decodeSpeed(int(entry[2:4]  ,16)))
+        print("Avg2 = %f " % decodeSpeed(int(entry[6:8]  ,16)))
+        print("Max2 = %f " % decodeSpeed(int(entry[10:12],16)))
+        print("Dir2 = %d " % decodeDir(int(entry[14:16],16)))
+ 
+        print("Vin  = %f  (resol 10mV)"  % ((int(entry[16:18],16)+250)/100.0))
+        print("Vcc  = %f  (resol 10mV)"  % ((int(entry[18:20],16)+250)/100.0))
+        print("Temp = %d"  %  (int(entry[20:22],16)-50.5))
+        b=int(entry[22:24],16)
+        print("Sensor = %d"  %   (b>>6))
+        print("Soft   = %d"  %   (b&63))
     else:
         # first record
         print("Min = %f " % decodeSpeed(int(entry[0:2] ,16)))

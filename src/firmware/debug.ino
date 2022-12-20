@@ -60,7 +60,7 @@ void debugPrintMsg(String msg) {
     }
 }
 
-void debugPrint(const char* mystr, int mypar) {
+void debugPrint(const char* mystr, unsigned int mypar) {
   
   if (!debugmode) {return;}
   int prevcpudiv=cpudiv;

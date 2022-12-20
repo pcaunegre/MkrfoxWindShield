@@ -31,10 +31,10 @@ volatile SigfoxWindMessage msg        ;  // create an instance of the struct to 
 
 volatile int            cpudiv        ;  // value of cpu freq divisor
 
-volatile bool           debugmode = false ;  // 1=debug mode
-volatile bool           sigfox_en = true ;  // enable sigfox
-volatile int            repnbr=0;           // debug
-volatile int            msnbr=0;            // debug
+volatile bool           debugmode = false ; // 1=debug mode
+volatile bool           sigfox_en = true  ; // enable sigfox
+volatile int            repnbr=0;           // used in debug
+volatile int            msnbr=0;            // used in debug
 
 int sensor=0;          // sensor number
 
@@ -58,18 +58,11 @@ void setup() {
   pinMode(Led,OUTPUT); // led used for debug or at power up
   debugInit(sigfox_en,debugmode);
   blinkLed(blinknbr,400/cpudiv); // say hello 10 flashes
-  
-  // getBatterieVoltage
-  float vcc=getBatteryVoltage(VCCMEAS); // measure VCC (when 3V battery is used)
-  // not possible with hardware h1.1: 
-  // requires 390k resistor between VIN and A5 + 100k between A5 and GND
-  float vin=getBatteryVoltage(VINMEAS); // measure VIN (real Lipo batt voltage)
-  float  tp=getTemperature();
-  
+    
   // device detection at boot
   if (sensor == 0) {
     delay(3000);
-    detectSensorType();
+    detectSensorType();  // will set the sensor variable
   } 
   
   // device initialization
@@ -84,8 +77,8 @@ void setup() {
       // say detection failed: blink 1000 times and reboot
       blinkLed(1000,500/cpudiv);
       reboot();
-  }   
-  makeAdminReport(vcc,vin,tp);
+  }
+  sendInitialReport();
   statReportCnt    = 0;
   prevWindDir      = -1;
   repnbr           = 0;
@@ -107,13 +100,12 @@ void loop() {
     unsigned long now = millis();
     unsigned long dt1 = now - last_sampleT;  // ellapsed time since last sample
     unsigned long dt2 = now - last_reportT;  // ellapsed time since last report
-    unsigned long dt3 = now - last_adminT;   // ellapsed time since last vbat report
-    int    ws  = -1;
-    int    wd  = -1;
     
     // if it's time to sample, get measures and store for stats
     if (dt1 > SAMPLING_PERIOD/cpudiv) {
       noInterrupts();
+      int ws  = -1;
+      int wd  = -1;
       switch (sensor) {
         case DAVIS:
           ws=Davis_takeWspeed(dt1);
@@ -139,18 +131,7 @@ void loop() {
       interrupts();
     }
     
-    if (dt3 > ADMIN_REPORT_PERIOD/cpudiv) {
-      noInterrupts();
-      // Serial1.print("Admin Report "); Serial1.println(dt2);
-      float vcc=getBatteryVoltage(VCCMEAS);
-      float vin=getBatteryVoltage(VINMEAS);
-      float   tp=getTemperature();
-      makeAdminReport(vcc,vin,tp);
-      last_adminT  = millis();
-      last_reportT = millis();
-      interrupts();
-    
-    } else if (dt2 > (REPORT_PERIOD/2)/cpudiv) {
+    if (dt2 > (REPORT_PERIOD/2)/cpudiv) {
       // at every sigfox report period we send 2 packets of data
       // so at every half-report period we store data     
       noInterrupts();
@@ -248,6 +229,7 @@ int wdir_avg()  {
 void makeReport() {
 
   int avws, avwd;
+  unsigned long dt3 = millis() - last_adminT;   // ellapsed time since last admin report
     
   // report the values
   avws = wspeed_avg();
@@ -262,9 +244,20 @@ void makeReport() {
   
   // we send telegram half the time
   if (statReportCnt==1) {
-    // send sigfox telegram this time
-    sendSigFoxMessage(8);
+    
+    // if its time to send a monitoring report
+    if (dt3 > ADMIN_REPORT_PERIOD/cpudiv) {
+      // Serial1.print("Admin Report "); Serial1.println(dt2);
+      addMonitoringInfos();
+      sendSigFoxMessage(12);
+      last_adminT  = millis();
+    } else {
+      // send sigfox telegram this time
+      sendSigFoxMessage(8);
+    }
+    last_reportT = millis();
     statReportCnt=0;
+  
   } else {
     // sigfox telegram will be next turn
     statReportCnt=1;
@@ -276,32 +269,49 @@ void makeReport() {
 }
 
 /*
-*  Admin report 
+*  add supplementary infos into report for monitoring purpose
 *
 * Data:   VBat 00  00  00  00   00    00    00    VCC   TEMP  SENS  SoftV 
 * Bytes:  1,2  3,4 5,6 7,8 9,10 11,12 13,14 15,16 17,18 19,20 21,22 23,24 
 */
-void makeAdminReport(float vb, float vb2, float tp) {
+void addMonitoringInfos() {
 
-  msg.speedMin[0] = encodeVoltage(vb2); // VIN measure (if wired)
-  msg.speedMin[1] = 0;     // not used:
-  msg.speedAvg[0] = 0;     // admin messages are not processed by OWM   
-  msg.speedAvg[1] = 0;     // as wind measures   
-  msg.speedMax[0] = 0;     // so these bytes are free for other usage   
-  msg.speedMax[1] = 0;     //    
-  msg.directionAvg[0] = 0; //    
-  msg.directionAvg[1] = 0; //    
-  
-  msg.batVolt     = encodeVoltage(vb);     // VCC measure
+  float vcc=getBatteryVoltage(VCCMEAS); // measure VCC (when 3V battery is used)
+  // not possible with hardware h1.1: 
+  // requires 390k resistor between VIN and A5 + 100k between A5 and GND
+  float vin=getBatteryVoltage(VINMEAS); // measure VIN (real Lipo batt voltage)
+  float  tp=getTemperature();
+
+  msg.batVin      = encodeVoltage(vin);    // VIN measure (if wired)
+  msg.batVcc      = encodeVoltage(vcc);    // VCC measure
   msg.temperature = encodeTemperature(tp); // Temperature (if sensor wired)
-  msg.sensor      = sensor;                // Sensor type DAVIS=10 PEET=20 MISOL=30 
-  msg.softversion = SOFTVERSION;
-  // send sigfox telegram
-  sendSigFoxMessage(12);
+  // encode sensor+softversion in one Byte : b = s<<6 + v
+  // 2 bits for sensor, 6 bits for softversion 
+  // decode with s=b>>6, v=b&63
+  msg.version     = (uint8_t)((sensor/10)<<6)+SOFTVERSION; // Sensor type DAVIS=10 PEET=20 MISOL=30 
+  
+  debugPrint("batVin  ",(uint8_t)msg.batVin);
+  debugPrint("batVcc  ",(uint8_t)msg.batVcc);
+  debugPrint("temp    ",(uint8_t)msg.temperature);
+  debugPrint("version ",(uint8_t)msg.version);
   debugPrint("Admin RPT",sensor);
-
 }
 
+
+/*
+*  send the monitoring message at reboot
+*/
+void sendInitialReport() { 
+
+  // dummy values for init for easy message retrieving
+  msg.speedMin[0]     = 2;  msg.speedMin[1]     = 3;
+  msg.speedAvg[0]     = 1;  msg.speedAvg[1]     = 2;
+  msg.speedMax[0]     = 0;  msg.speedMax[1]     = 1;
+  msg.directionAvg[0] = 0;  msg.directionAvg[1] = 0;
+  addMonitoringInfos();
+  sendSigFoxMessage(12);        // send initial monitoring report
+    
+}
 /*
 *  Utility to find out which sensor is connected
 *  period in millis
