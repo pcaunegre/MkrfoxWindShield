@@ -1,5 +1,5 @@
-#define SOFTDATE 20221220
-#define SOFTVERSION 15
+#define SOFTDATE 20230115
+#define SOFTVERSION 20
 
 
 #define DAVIS       10   // sensor numbering
@@ -11,21 +11,22 @@
 #define ARRAYLEN    120  // size of an array to store pulses (40rps gives 120 values in 3s)
 
 #define CPU_FULL   1     // normal cpu rate (48Mhz)
-#define CPU_SLOW   16    // divided by 16 so 3Mhz for power saving, so we have ~2.53mA and a peak of ~45mA during 3s every 10min
-//#define CPU_SLOW   1    // 
+#define CPU_SLOW   16    // divided by 16 so 3Mhz for power saving, so we have ~3.1mA and a peak of ~45mA during 3s every 10min
 
 // periods in ms and multiple of CPU_SLOW (16)
 #define SAMPLING_PERIOD          2992    // instantaneous wind is measured on a 3s period (common rule) so 2992ms to be a modulo 16 (clock divider)
-#define REPORT_PERIOD          720000UL  // in production, report period is 12min=720s (both the period to avg the wind speed and the sigfox report period)
-#define ADMIN_REPORT_PERIOD  86400000UL  // period to send monitoring information to server (vbat...) 86400000=1day
-#define REBOOT_PERIOD       604800000UL  // reboot micro every 7 days
+// #define REPORT_PERIOD          600000UL  // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
+#define REPORT_PERIOD          592000UL  // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
+#define ADMIN_REPORT_FREQ         143    // after 143 measure reports we send a monitoring report
+#define REBOOT_PERIOD      2592000000UL  // reboot micro every 30 days
 
 #define VCCMEAS    A3           // Analog Pin to measure VCC voltage
 #define VINMEAS    A5           // Analog Pin to measure VIN voltage
 
+#define SERIAL   Serial         // Serial connection for debug
 #define DEBUGPIN   11           // Pin to detect debug mode (when low)
 #define SIGDISAB   12           // Pin to disable sigfox messages (when low)
-
+#define TESTPIN    10           // Pin to enable led to monitor activity (when low)
 
 #define SENSPPIN   3            // Pin to power up the sensor 
 #define RPULLUP    10.0         // Pullup in kOhm
@@ -44,6 +45,9 @@ const int ADCFS =  (1<<ADCBITS)-1; // ADC full scale = 2**10-1
 #define UNDEFINED  -1           // Return code for undef
 #define SHORT_ERR  -2           // Error code when a short is detected
 #define OPEN_ERR   -3           // Error code when a open is detected
+
+#define TEMP25    298.15        // Temp 25 ref for CTN
+#define BETA     3988           // Beta Coeff of CTN TDK B57863S0103+040 https://docs.rs-online.com/6a46/0900766b813c0ed3.pdf
 
 /*
 * Threshold computation
@@ -83,8 +87,8 @@ typedef struct __attribute__ ((packed)) sigfox_wind_message {
         int8_t batVin;
         int8_t batVcc;
         int8_t temperature;
-        int8_t version;
-} SigfoxWindMessage;
+        int8_t version; 
+} SigfoxWindMessage_t;
 
 
 // wind speed encoding over 1 byte

@@ -1,6 +1,6 @@
 /*
 *
-*  Main program to control the KKRFOX 1200 board
+*  Main program to control the MKRFOX 1200 board
 *
 *  Able to interface with Davis, Peet Bros or Shenzen device.
 *
@@ -14,31 +14,38 @@
 
 
 
-volatile unsigned long  last_sampleT  ;  // last time in millis a measure sampling has been done
-volatile unsigned long  last_reportT  ;  // last time in millis a report has been done
-volatile unsigned long  last_adminT   ;  // last time in millis a vbat report has been done
+unsigned long  last_sampleT  ;  // last time in millis a measure sampling has been done
+unsigned long  last_reportT  ;  // last time in millis a report has been done
 
-volatile int            max_wspeed    ;  // max wind speed over the sample period
-volatile int            min_wspeed    ;  // min wind speed over the sample period
-volatile int            cnt_ws_samples;  // count the number of samples we have to compute speed avg
-volatile int            cnt_wd_samples;  // count the number of samples we have to compute dir avg
-volatile int            acc_wspeed    ;  // wind speed accumulator to compute avg
-volatile float          acc_wdX       ;  // accumulate wind dir projection on X axis (cos)
-volatile float          acc_wdY       ;  // accumulate wind dir projection on X axis (sin)
-volatile int            prevWindDir   ;  // memorize the last dir in case we cannot compute new one (speed too low)
-volatile int            statReportCnt ;  // counter : every 2 hits data are sent thru sigfox 
-volatile SigfoxWindMessage msg        ;  // create an instance of the struct to receive the wind data frame
+int            max_wspeed    ;  // max wind speed over the sample period
+int            min_wspeed    ;  // min wind speed over the sample period
+int            cnt_ws_samples;  // count the number of samples we have to compute speed avg
+int            cnt_wd_samples;  // count the number of samples we have to compute dir avg
+int            acc_wspeed    ;  // wind speed accumulator to compute avg
+float          acc_wdX       ;  // accumulate wind dir projection on X axis (cos)
+float          acc_wdY       ;  // accumulate wind dir projection on X axis (sin)
+int            prevWindDir   ;  // memorize the last dir in case we cannot compute new one (speed too low)
+int            statReportCnt ;  // counter : every 2 hits data are sent thru sigfox 
+SigfoxWindMessage_t msg      ;  // create an instance of the struct to receive the wind data frame
+int            sentrepnbr=0  ;  // nbr of report sent
 
-volatile int            cpudiv        ;  // value of cpu freq divisor
+float          vinMax=0.0    ;  // max VCC voltage over a daily period
+float          vinMin=0.0    ;  // min VCC voltage over a daily period
+float          tmpMax=0.0    ;  // min Temperature over a daily period
+float          tmpMin=0.0    ;  // min Temperature over a daily period
+float          vinSum=0.0    ;  // sum of VCC voltage over a daily period
+float          tmpSum=0.0    ;  // sum of Temperature over a daily period
+int            mdCnt=0       ;  // nbr of monitoring elements
 
-volatile bool           debugmode = false ; // 1=debug mode
-volatile bool           sigfox_en = true  ; // enable sigfox
-volatile int            repnbr=0;           // used in debug
-volatile int            msnbr=0;            // used in debug
+int            cpudiv        ;  // value of cpu freq divisor
+
+bool           debugmode = false; // 1=debug mode
+bool           sigfox_en = true ; // enable sigfox
+int            repnbr=0;          // used in debug
+int            msnbr=0;           // used in debug
+int            monitoringReportNbr=0; // number of sent monitoring report
 
 int sensor=0;          // sensor number
-
-
 
 
 void setup() {
@@ -47,6 +54,9 @@ void setup() {
   // a jumper between 12 and GND will disable sigfox
   pinMode(SIGDISAB,INPUT_PULLUP); 
   sigfox_en = digitalRead(SIGDISAB);
+
+  // a jumper between 10 and GND will put debug mode and disable sigfox
+  pinMode(TESTPIN,INPUT_PULLUP); 
 
   // a jumper between 11 and GND will put debug mode and disable sigfox
   pinMode(DEBUGPIN,INPUT_PULLUP); 
@@ -86,9 +96,8 @@ void setup() {
   if (!debugmode) set_cpu_speed(CPU_SLOW);
   last_sampleT     = millis();
   last_reportT     = millis();
-  last_adminT      = millis();
-  // Serial1.begin(9600*cpudiv);           //  setup serial 13 14, not usb !
-
+  sentrepnbr=0;
+    
 }
 
 
@@ -125,8 +134,10 @@ void loop() {
           // TBD
           break;
       }
-      store_for_stat(ws,wd); // storing for 
+      store_for_stat(ws,wd); 
       debugPrintMeasure(ws,wd);         
+      // when pin low, led blinks to show activity
+      if (digitalRead(TESTPIN)==0) { blinkLed(1,300/cpudiv); } 
       last_sampleT = now;
       interrupts();
     }
@@ -134,11 +145,9 @@ void loop() {
     if (dt2 > (REPORT_PERIOD/2)/cpudiv) {
       // at every sigfox report period we send 2 packets of data
       // so at every half-report period we store data     
-      noInterrupts();
-      // Serial1.print("Report "); Serial1.println(dt2);  
       makeReport();
+      if (digitalRead(TESTPIN)==0) { blinkLed(2,300/cpudiv); }  
       last_reportT = millis();
-      interrupts();
     }
 
     if (now > REBOOT_PERIOD/cpudiv) {
@@ -157,8 +166,7 @@ void loop() {
 void store_for_stat(int ws, int wd)  {
   // wind speed in km/h
   // wind dir in degrees
-  // -1 means meas not valid
-  
+  // -1 means meas not valid  
   if (ws>-1)  {
     if (ws > max_wspeed)  max_wspeed = ws;
     if (ws < min_wspeed)  min_wspeed = ws;
@@ -171,8 +179,7 @@ void store_for_stat(int ws, int wd)  {
       acc_wdY += ws * sin(PI*wd/180.);
       cnt_wd_samples++;
     }
-  }
-  
+  } 
 }
 
 /*
@@ -194,32 +201,29 @@ void reset_stat()  {
  * Computes avg wind speed
 */
 int wspeed_avg()  {
-    debugPrint("sum WS =",acc_wspeed);
-    debugPrint("cnt WS =",cnt_ws_samples);
-    return(int(acc_wspeed/cnt_ws_samples));
+  debugPrint("sum WS =",acc_wspeed);
+  debugPrint("cnt WS =",cnt_ws_samples);
+  return(int(acc_wspeed/cnt_ws_samples));
 }
 
 /*
  * Computes avg wind direction
 */
-int wdir_avg()  {
-    
-    int avgdir;
-    // when no dir samples, keep the previous direction
-    if (!cnt_wd_samples) return(prevWindDir);
+int wdir_avg()  {    
+  int avgdir;
+  // when no dir samples, keep the previous direction
+  if (!cnt_wd_samples) return(prevWindDir);
 
-    if (acc_wdY==0.0 && acc_wdX==0.0)  {
-      // when speed is null over the whole period, we cannot compute the avg direction
-      avgdir=prevWindDir;
-    } else {
-      avgdir = int(atan2(acc_wdY,acc_wdX)*180/PI);
-      if (avgdir<0)  avgdir += 360;
-      prevWindDir = avgdir;   // store this in a globvar
-    }  
-    return(avgdir);
-    
+  if (acc_wdY==0.0 && acc_wdX==0.0)  {
+    // when speed is null over the whole period, we cannot compute the avg direction
+    avgdir=prevWindDir;
+  } else {
+    avgdir = int(atan2(acc_wdY,acc_wdX)*180/PI);
+    if (avgdir<0)  avgdir += 360;
+    prevWindDir = avgdir;   // store this in a globvar
+  }  
+  return(avgdir);
 }
-
 
 /*
 *
@@ -228,8 +232,11 @@ int wdir_avg()  {
 */
 void makeReport() {
 
-  int avws, avwd;
-  unsigned long dt3 = millis() - last_adminT;   // ellapsed time since last admin report
+  int avws, avwd, ret;
+
+  noInterrupts();
+  debugPrintMsg ("Report ");
+  storeMonitoringData();
     
   // report the values
   avws = wspeed_avg();
@@ -241,26 +248,28 @@ void makeReport() {
   msg.speedAvg[statReportCnt]     = encodeWindSpeed(avws);
   msg.speedMax[statReportCnt]     = encodeWindSpeed(max_wspeed);
   msg.directionAvg[statReportCnt] = encodeWindDirection(avwd);  
-  
+  debugPrint("Make Rep NBR = ",sentrepnbr);
+  interrupts();
+
   // we send telegram half the time
   if (statReportCnt==1) {
-    
-    // if its time to send a monitoring report
-    if (dt3 > ADMIN_REPORT_PERIOD/cpudiv) {
-      // Serial1.print("Admin Report "); Serial1.println(dt2);
+    // every ADMIN_REPORT_FREQ reports, we send a monitoring report
+    statReportCnt=0;
+    if (sentrepnbr >= ADMIN_REPORT_FREQ) {
+      sentrepnbr = 0;
       addMonitoringInfos();
-      sendSigFoxMessage(12);
-      last_adminT  = millis();
+      ret=sendSigFoxMessage(12);
+      debugPrint("  Monitoring rep sent: ",ret);
     } else {
       // send sigfox telegram this time
-      sendSigFoxMessage(8);
+      ret=sendSigFoxMessage(8);
+      sentrepnbr++;
+      debugPrint("  Normal report sent: ",ret);
     }
-    last_reportT = millis();
-    statReportCnt=0;
-  
   } else {
     // sigfox telegram will be next turn
     statReportCnt=1;
+    debugPrintMsg("  Next time");
   }
   
   // clear stats
@@ -269,13 +278,52 @@ void makeReport() {
 }
 
 /*
+*
+*  get and store Vin and Temp measures for monitoring report
+*
+*/
+void storeMonitoringData() {
+  float vin=getBatteryVoltage(VINMEAS); // measure VCC (when 3V battery is used)
+  float tmp=getTemperature();
+  vinSum += vin;
+  tmpSum += tmp;
+  if (vin>vinMax) vinMax=vin;  
+  if (vin<vinMin) vinMin=vin;  
+  if (tmp>tmpMax) tmpMax=tmp;  
+  if (tmp<tmpMin) tmpMin=tmp;
+  mdCnt++;      
+}
+
+/*
+*  reset variables used by monitoring report
+*/
+void clearMonitoringData() { 
+  vinMax=0.0;  vinMin=9999; vinSum=0.0;
+  tmpMax=-99;  tmpMin=99;   tmpSum=0.0;
+  mdCnt=0;      
+}
+
+/*
 *  add supplementary infos into report for monitoring purpose
 *
-* Data:   VBat 00  00  00  00   00    00    00    VCC   TEMP  SENS  SoftV 
-* Bytes:  1,2  3,4 5,6 7,8 9,10 11,12 13,14 15,16 17,18 19,20 21,22 23,24 
+* Data:   vinMax vinMin vinAvg tmpMax tmpMin tmpAvg nbr   notused VIN   VCC   TEMP  SENS+SoftV 
+* Bytes:  1,2    3,4    5,6    7,8    9,10   11,12  13,14 15,16   17,18 19,20 21,22 23,24 
 */
 void addMonitoringInfos() {
 
+  // include stat infos collected over the period
+  // by using the 8 first bytes for different purpose
+  monitoringReportNbr++; 
+  msg.speedMin[0] = encodeVoltage(vinMax);
+  msg.speedMin[1] = encodeVoltage(vinMin);
+  msg.speedAvg[0] = encodeVoltage(vinSum/mdCnt);
+  msg.speedAvg[1] = encodeTemperature(tmpMax);
+  msg.speedMax[0] = encodeTemperature(tmpMin);
+  msg.speedMax[1] = encodeTemperature(tmpSum/mdCnt);
+  msg.directionAvg[0] = mdCnt;
+  msg.directionAvg[1] = monitoringReportNbr; 
+  clearMonitoringData(); // reset the values
+  
   float vcc=getBatteryVoltage(VCCMEAS); // measure VCC (when 3V battery is used)
   // not possible with hardware h1.1: 
   // requires 390k resistor between VIN and A5 + 100k between A5 and GND
@@ -302,30 +350,28 @@ void addMonitoringInfos() {
 *  send the monitoring message at reboot
 */
 void sendInitialReport() { 
-
   // dummy values for init for easy message retrieving
-  msg.speedMin[0]     = 2;  msg.speedMin[1]     = 3;
-  msg.speedAvg[0]     = 1;  msg.speedAvg[1]     = 2;
-  msg.speedMax[0]     = 0;  msg.speedMax[1]     = 1;
+  msg.speedMin[0]     = 0;  msg.speedMin[1]     = 0;
+  msg.speedAvg[0]     = 0;  msg.speedAvg[1]     = 0;
+  msg.speedMax[0]     = 0;  msg.speedMax[1]     = 0;
   msg.directionAvg[0] = 0;  msg.directionAvg[1] = 0;
   addMonitoringInfos();
-  sendSigFoxMessage(12);        // send initial monitoring report
-    
+  int ret=sendSigFoxMessage(12);  // send initial monitoring report
+  debugPrint("Initial rep sent: ",ret);
 }
+    
 /*
 *  Utility to find out which sensor is connected
 *  period in millis
 *
 */
 void blinkLed(int times, int period) {
-
   for (int i=0; i<times; i++ ) {
     digitalWrite(Led,HIGH);
     delay(period);
     digitalWrite(Led,LOW);
     delay(period);
-  }
- 
+  } 
 }
 
 /*
@@ -356,7 +402,7 @@ void set_cpu_speed(int divisor){
 */
 void detectSensorType() {
   
-  String msg="";
+  String mess="";
   analogReadResolution(ADCBITS);
   analogReference(AR_DEFAULT);
   pinMode(SENSPPIN,OUTPUT); // sensor potentiommeters are powered by this pin
@@ -393,7 +439,7 @@ void detectSensorType() {
       blinkLed(sensor/10,1500/cpudiv); // say Peet detected
     } else {
       sensor=-1;
-      msg="Detection issue between shenzen and peet";
+      mess="Detection issue between shenzen and peet";
     }
     
   } else if ((val1 > THR_Davis_low) && (val1 < THR_Davis_hi)) {
@@ -404,13 +450,13 @@ void detectSensorType() {
       blinkLed(1,1500/cpudiv); // say Davis detected
     } else {
       sensor=-1;
-      msg="Detection issue with Davis";
+      mess="Detection issue with Davis";
     }
   } else {
     sensor=-1;
-    msg="Sensor Detection issue";
+    mess="Sensor Detection issue";
   }
-  debugSensorDetection(msg,sensor,val1,val2);
+  debugSensorDetection(mess,sensor,val1,val2);
 
 }
 
@@ -446,7 +492,8 @@ float getTemperature() {
   digitalWrite(4,LOW);
   delay(100);
   
-  float tp=25+(1.0-1.0/((4095.0/adc)-1))/0.04; // 0.04 is NTC sensitivity 4%/C, roughly around 25C
+  float Rnorm=(1.0/((4095.0/adc)-1.0));    // R pull up of 10k
+  float tp=1.0/(log(Rnorm)/BETA+1.0/TEMP25)-273.15; // temp in Celsius
   debugPrintTemp(tp);
   return(tp);
 
@@ -460,18 +507,19 @@ float getTemperature() {
  *
  * message len=8 for a normal measure transmission, 12 for an admin transmission
 */
-void sendSigFoxMessage(int len) {
-    
-  if (sigfox_en) {
-    debugPrint("SFX Msg ",len);
+int sendSigFoxMessage(int len) {
+
+  int status=0; 
+  if (digitalRead(SIGDISAB)) {
+    debugPrint("Sending SFX Msg ",len);
     set_cpu_speed(CPU_FULL);
     // Start the module  
     delay(10);
-    SigFox.begin();
-    //   if (!SigFox.begin()) {
-    //     Serial.println("SigFox error, rebooting");
-    //     reboot();
-    //   }
+    //SigFox.begin();
+    if (!SigFox.begin()) {
+      debugPrintMsg("SigFox begin error");
+      reboot();
+    }
     // Wait at least 30mS after first configuration (100mS before)
     delay(100);
     SigFox.debug();
@@ -483,12 +531,12 @@ void sendSigFoxMessage(int len) {
     
     // OpenWindMap specific data frame  
     SigFox.write((uint8_t*)&msg, len); 
-    
-    int ret = SigFox.endPacket();
+    status = SigFox.endPacket();    
     SigFox.end();
     if (!debugmode) set_cpu_speed(CPU_SLOW);
+ 
   } else {
     debugPrint("Sigfox disabled ",len);
   }
-
+  return(status);
 }

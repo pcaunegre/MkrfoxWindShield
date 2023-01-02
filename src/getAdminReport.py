@@ -11,7 +11,7 @@ import os
 import json
 import time
 import re
-
+import datetime
 
 #################################### 
 # 
@@ -70,51 +70,67 @@ def parseFile(filename):
 #################################### 
 def decode(entry,timestamp):
     
-    global ln
+    global ln, tim0, firstitem, itemnbr, curday, dailyrep
     print("--------------------------------------------------------")
-    print(timestamp)
+    tim1=datetime.datetime.strptime(timestamp,'%Y-%m-%dT%H:%M:%S.%fZ')
+    
+    if itemnbr>1:
+        dt=tim0-tim1
+        if curday==datetime.datetime.strftime(tim1,'%m%d'):
+            dailyrep+=1
+        else:
+            dailyrep=1
+        print("%s  %d  %d  %d" % (timestamp,dailyrep,itemnbr,dt.total_seconds()))
+    else:
+        dailyrep=1
+        print("%s  %d  %d" %     (timestamp,dailyrep,itemnbr))
+    
+    curday=datetime.datetime.strftime(tim1,'%m%d')
+    tim0=tim1
+    itemnbr+=1
     print(entry)
 #     print("len=%d" % len(entry))
     if len(entry)>16:
-        # first record
-        print("Min1 = %f " % decodeSpeed(int(entry[0:2] ,16)))
-        print("Avg1 = %f " % decodeSpeed(int(entry[4:6] ,16)))
-        print("Max1 = %f " % decodeSpeed(int(entry[8:10],16)))
-        print("Dir1 = %d " % decodeDir(int(entry[12:14],16)))
+        rnb=int(entry[14:16],16)-1
+        if rnb==0:
+            print("REPORT Number %d (Start-Up)" % rnb)
+        else:
+            print("REPORT Number %d " % rnb)
+        print("vin Max = %1.2f " % ((int(entry[0:2],16)+250)/100.0))
+        print("vin Avg = %1.2f " % ((int(entry[4:6],16)+250)/100.0))
+        print("vin Min = %1.2f " % ((int(entry[2:4],16)+250)/100.0))
+        
+        print("Tmp Max = %1.1f " % ((int(entry[6:8],16)-50.5))) 
+        print("Tmp Avg = %1.1f " % ((int(entry[10:12],16)-50.5)))
+        print("Tmp Min = %1.1f " % ((int(entry[8:10],16)-50.5)))
+        
+        print("Samples = %d " % int(entry[12:14],16))
  
- 
-        # second record
-        print("Min2 = %f " % decodeSpeed(int(entry[2:4]  ,16)))
-        print("Avg2 = %f " % decodeSpeed(int(entry[6:8]  ,16)))
-        print("Max2 = %f " % decodeSpeed(int(entry[10:12],16)))
-        print("Dir2 = %d " % decodeDir(int(entry[14:16],16)))
- 
-        print("Vin  = %f  (resol 10mV)"  % ((int(entry[16:18],16)+250)/100.0))
-        print("Vcc  = %f  (resol 10mV)"  % ((int(entry[18:20],16)+250)/100.0))
-        print("Temp = %d"  %  (int(entry[20:22],16)-50.5))
+        print("Vin     = %1.2f  (resol 10mV)"  % ((int(entry[16:18],16)+250)/100.0))
+        print("Vcc     = %1.2f  (resol 10mV)"  % ((int(entry[18:20],16)+250)/100.0))
+        print("Temp    = %1.1f"  %  (int(entry[20:22],16)-50.5))
         b=int(entry[22:24],16)
-        print("Sensor = %d"  %   (b>>6))
-        print("Soft   = %d"  %   (b&63))
+        print("Sensor  = %d"  %   (b>>6))
+        print("Soft    = %d"  %   (b&63))
     else:
         # first record
         print("Min = %f " % decodeSpeed(int(entry[0:2] ,16)))
         print("Avg = %f " % decodeSpeed(int(entry[4:6] ,16)))
         print("Max = %f " % decodeSpeed(int(entry[8:10],16)))
- 
         print("Dir = %d " % decodeDir(int(entry[12:14],16)))
  
         # second record
         print("Min = %f " % decodeSpeed(int(entry[2:4]  ,16)))
         print("Avg = %f " % decodeSpeed(int(entry[6:8]  ,16)))
         print("Max = %f " % decodeSpeed(int(entry[10:12],16)))
- 
         print("Dir = %d " % decodeDir(int(entry[14:16],16)))
+ 
         if printcsv:
-            print("%d, %f, %f, %f," % (ln,decodeSpeed(int(entry[0:2]  ,16)), \
+            print("%d, %f, %f, %f," % (ln,decodeSpeed(int(entry[0:2],16)), \
                 decodeSpeed(int(entry[4:6]  ,16)), \
                 decodeSpeed(int(entry[8:10],16))),file=fout)
             ln=ln+1
-            print("%d, %f, %f, %f," % (ln,decodeSpeed(int(entry[2:4]  ,16)), \
+            print("%d, %f, %f, %f," % (ln,decodeSpeed(int(entry[2:4],16)), \
                 decodeSpeed(int(entry[6:8]  ,16)), \
                 decodeSpeed(int(entry[10:12],16))),file=fout)
             ln=ln+1
@@ -173,6 +189,7 @@ else:
 found=0
 offset=0
 ln=0
+itemnbr=1
 tmpfilename="/tmp/pp"+stationID+".json"
 
 if printcsv:

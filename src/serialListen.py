@@ -8,7 +8,7 @@
 ## requires pySerial to be installed 
 ## pip3 install pyserial
 # call it:
-#  serialListen.py <filename.csv>
+#  serialListen.py <filename.csv> [<usb port: 0|1>]
 
 import serial
 
@@ -25,8 +25,14 @@ if n>1:
 else:
     write_to_file_path = "Imeas" + dt_string +".csv"
 
+if n>2:
+    port=sys.argv[2]
+else:
+    port="0"
 
-serial_port = '/dev/ttyACM0';
+serial_port = '/dev/ttyUSB0' ;     ### /dev/ttyACM0 or /dev/ttyACM1
+# serial_port = '/dev/ttyACM'+port;  ### /dev/ttyACM0 or /dev/ttyACM1
+
 baud_rate = 9600; #In arduino, Serial.begin(baud_rate)
 
 output_file = open(write_to_file_path, "w+")
@@ -40,8 +46,11 @@ while True:
 
 while True:
     line = ser.readline();
-    line = line.decode("utf-8") #ser.readline returns a binary, convert to string
-    print(line);
+    try:
+        line = line.decode("utf-8") #ser.readline returns a binary, convert to string
+    except:
+        line = str(line)
+    print(line)
     output_file.write(line)
     output_file.flush()
 
