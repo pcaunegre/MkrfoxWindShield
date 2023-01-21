@@ -283,7 +283,7 @@ void makeReport() {
 *
 */
 void storeMonitoringData() {
-  float vin=getBatteryVoltage(VINMEAS); // measure VCC (when 3V battery is used)
+  float vin=getBatteryVoltage(VINMEAS);
   float tmp=getTemperature();
   vinSum += vin;
   tmpSum += tmp;

@@ -4,7 +4,7 @@
 # This script retrieves the last admin report received by OWM
 # for a wind station and decodes data from this report
 # 
-# getAdminReport.py <stationID> <nbr of reports>
+# getAdminReport.py <stationID> [<nbr of reports>] [-all] [-csv <file>]
 # 
 import sys
 import os
