@@ -30,8 +30,8 @@ if n>2:
 else:
     port="0"
 
-serial_port = '/dev/ttyUSB0' ;     ### /dev/ttyACM0 or /dev/ttyACM1
-# serial_port = '/dev/ttyACM'+port;  ### /dev/ttyACM0 or /dev/ttyACM1
+# serial_port = '/dev/ttyUSB0' ;     ### /dev/ttyACM0 or /dev/ttyACM1
+serial_port = '/dev/ttyACM'+port;  ### /dev/ttyACM0 or /dev/ttyACM1
 
 baud_rate = 9600; #In arduino, Serial.begin(baud_rate)
 

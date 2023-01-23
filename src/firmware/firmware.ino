@@ -36,6 +36,7 @@ float          tmpMin=0.0    ;  // min Temperature over a daily period
 float          vinSum=0.0    ;  // sum of VCC voltage over a daily period
 float          tmpSum=0.0    ;  // sum of Temperature over a daily period
 int            mdCnt=0       ;  // nbr of monitoring elements
+int            firstsmp=1    ;  // first sample token
 
 int            cpudiv        ;  // value of cpu freq divisor
 
@@ -134,20 +135,26 @@ void loop() {
           // TBD
           break;
       }
-      store_for_stat(ws,wd); 
+      // drop out the first sample
+      if (firstsmp==0) store_for_stat(ws,wd);
+      firstsmp=0; 
       debugPrintMeasure(ws,wd);         
       // when pin low, led blinks to show activity
       if (digitalRead(TESTPIN)==0) { blinkLed(1,300/cpudiv); } 
-      last_sampleT = now;
+      last_sampleT = millis();
       interrupts();
     }
     
     if (dt2 > (REPORT_PERIOD/2)/cpudiv) {
       // at every sigfox report period we send 2 packets of data
       // so at every half-report period we store data     
-      makeReport();
       if (digitalRead(TESTPIN)==0) { blinkLed(2,300/cpudiv); }  
+      makeReport();
+  
+      // clear stats
+      reset_stat();
       last_reportT = millis();
+      last_sampleT = millis();
     }
 
     if (now > REBOOT_PERIOD/cpudiv) {
@@ -195,14 +202,18 @@ void reset_stat()  {
   cnt_wd_samples= 0  ;
   acc_wdX       = 0.0;
   acc_wdY       = 0.0;
+  firstsmp      = 1;
 }
 
 /*
  * Computes avg wind speed
 */
 int wspeed_avg()  {
-  debugPrint("sum WS =",acc_wspeed);
-  debugPrint("cnt WS =",cnt_ws_samples);
+  SERIAL.print("sum WS =");SERIAL.println(acc_wspeed);
+  SERIAL.print("Nbr WS =");SERIAL.println(cnt_ws_samples);
+  
+  //debugPrint("sum WS =",acc_wspeed);
+  //debugPrint("cnt WS =",cnt_ws_samples);
   return(int(acc_wspeed/cnt_ws_samples));
 }
 
@@ -247,8 +258,13 @@ void makeReport() {
   msg.speedMin[statReportCnt]     = encodeWindSpeed(min_wspeed);
   msg.speedAvg[statReportCnt]     = encodeWindSpeed(avws);
   msg.speedMax[statReportCnt]     = encodeWindSpeed(max_wspeed);
-  msg.directionAvg[statReportCnt] = encodeWindDirection(avwd);  
-  debugPrint("Make Rep NBR = ",sentrepnbr);
+  msg.directionAvg[statReportCnt] = encodeWindDirection(avwd); 
+  
+  SERIAL.print("msg Min (");SERIAL.print(statReportCnt);SERIAL.print(") = ");SERIAL.println(min_wspeed);
+  SERIAL.print("msg Avg (");SERIAL.print(statReportCnt);SERIAL.print(") = ");SERIAL.println(avws);
+  SERIAL.print("msg Max (");SERIAL.print(statReportCnt);SERIAL.print(") = ");SERIAL.println(max_wspeed);
+  SERIAL.print("msg DIR (");SERIAL.print(statReportCnt);SERIAL.print(") = ");SERIAL.println(avwd);
+    
   interrupts();
 
   // we send telegram half the time
@@ -262,6 +278,7 @@ void makeReport() {
       debugPrint("  Monitoring rep sent: ",ret);
     } else {
       // send sigfox telegram this time
+      debugPrint("Make Rep NBR = ",sentrepnbr);
       ret=sendSigFoxMessage(8);
       sentrepnbr++;
       debugPrint("  Normal report sent: ",ret);
@@ -271,9 +288,6 @@ void makeReport() {
     statReportCnt=1;
     debugPrintMsg("  Next time");
   }
-  
-  // clear stats
-  reset_stat();
 
 }
 
@@ -358,6 +372,7 @@ void sendInitialReport() {
   addMonitoringInfos();
   int ret=sendSigFoxMessage(12);  // send initial monitoring report
   debugPrint("Initial rep sent: ",ret);
+  SERIAL.println(millis());
 }
     
 /*

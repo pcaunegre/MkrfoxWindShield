@@ -100,7 +100,7 @@ void debugPrintMeasure(int ws, int wd) {
   if (SERIAL) {
     SERIAL.print(msnbr);SERIAL.print(" WS = "); SERIAL.print(ws); 
     SERIAL.print("km/h, WD = "); SERIAL.print(wd);SERIAL.print("  ");
-    SERIAL.println(deg2dir(wd)); SERIAL.println("");
+    SERIAL.print(deg2dir(wd)); SERIAL.println(millis()); SERIAL.println("  ");
     SERIAL.flush();
   }
   set_cpu_speed(prevcpudiv);
