@@ -29,6 +29,7 @@ def getDataFile(filename,stationID,offset):
     # command="wget -O "+filename+url+" 1>/dev/null 2>/dev/null"
     command="wget -O "+filename+url+" 1>/dev/null 2>/tmp/errmsg"
     os.system(command)
+    print(url)
     err=open("/tmp/errmsg").read()
     err=re.sub('\n','',err,re.IGNORECASE)
     if re.match(".*ERROR.*",err):
