@@ -533,7 +533,7 @@ int sendSigFoxMessage(int len) {
     //SigFox.begin();
     if (!SigFox.begin()) {
       debugPrintMsg("SigFox begin error");
-      reboot();
+//       reboot();
     }
     // Wait at least 30mS after first configuration (100mS before)
     delay(100);

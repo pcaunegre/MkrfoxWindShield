@@ -1,5 +1,5 @@
 #define SOFTDATE 20230115
-#define SOFTVERSION 20
+#define SOFTVERSION 21
 
 
 #define DAVIS       10   // sensor numbering
@@ -18,7 +18,7 @@
 // #define REPORT_PERIOD          600000UL  // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
 #define REPORT_PERIOD          592000UL  // in production, report period is 10min=600s (both the period to avg the wind speed and the sigfox report period)
 #define ADMIN_REPORT_FREQ         143    // after 143 measure reports we send a monitoring report
-#define REBOOT_PERIOD          86400000UL  // reboot micro every 30 days
+#define REBOOT_PERIOD          86400000UL  // reboot micro every day
 //#define REBOOT_PERIOD      2592000000UL  // reboot micro every 30 days
 
 #define VCCMEAS    A3           // Analog Pin to measure VCC voltage
