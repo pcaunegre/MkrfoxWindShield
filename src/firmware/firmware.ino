@@ -56,7 +56,7 @@ void setup() {
   pinMode(SIGDISAB,INPUT_PULLUP); 
   sigfox_en = digitalRead(SIGDISAB);
 
-  // a jumper between 10 and GND will put debug mode and disable sigfox
+  // a jumper between 11 and GND will put debug mode and disable sigfox
   pinMode(TESTPIN,INPUT_PULLUP); 
 
   // a jumper between 11 and GND will put debug mode and disable sigfox
