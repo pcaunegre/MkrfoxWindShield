@@ -56,10 +56,10 @@ void setup() {
   pinMode(SIGDISAB,INPUT_PULLUP); 
   sigfox_en = digitalRead(SIGDISAB);
 
-  // a jumper between 11 and GND will put debug mode and disable sigfox
+  // a jumper between 10 will enable led blink
   pinMode(TESTPIN,INPUT_PULLUP); 
 
-  // a jumper between 11 and GND will put debug mode and disable sigfox
+  // a jumper between 11 and GND will enable debug mode
   pinMode(DEBUGPIN,INPUT_PULLUP); 
   if (digitalRead(DEBUGPIN) == 0) {
     debugmode=true; blinknbr=5; // blinks only 5 times in debug mode  
@@ -68,7 +68,7 @@ void setup() {
   cpudiv = CPU_FULL;
   pinMode(Led,OUTPUT); // led used for debug or at power up
   debugInit(sigfox_en,debugmode);
-  blinkLed(blinknbr,400/cpudiv); // say hello 10 flashes
+  blinkLed(blinknbr,400/cpudiv); // say hello n flashes
     
   // device detection at boot
   if (sensor == 0) {
@@ -424,19 +424,21 @@ void detectSensorType() {
   digitalWrite(SENSPPIN,HIGH);
     
   // step 1 : D2R, D0R
-  pinMode(2,INPUT); // install V+ through pull-up
+  pinMode(2,INPUT);
   pinMode(0,INPUT);
-  delay(100);
+  delay(500);
   int val1 = analogRead(A2);
  
   // step 2 : D2R, D0W0
-  pinMode(2,INPUT); // install V+ through pull-up
+  pinMode(2,INPUT);
   pinMode(0,OUTPUT);
   digitalWrite(0,LOW);
-  delay(100);
+  delay(500);
   int val2 = analogRead(A2);
+  
+  //stop powering sensor
   pinMode(0,INPUT_PULLUP);
-  digitalWrite(SENSPPIN,LOW); //stop powering sensor
+  digitalWrite(SENSPPIN,LOW);
 
   if (val1 > THR1)  {
     // can be shenzen or peet
@@ -462,7 +464,7 @@ void detectSensorType() {
     if ((val2 > THR_Davis_low) && (val2 < THR_Davis_hi)) {
       // val2 should not differ from val1
       sensor=DAVIS;
-      blinkLed(1,1500/cpudiv); // say Davis detected
+      blinkLed(sensor/10,1500/cpudiv); // say Davis detected
     } else {
       sensor=-1;
       mess="Detection issue with Davis";
