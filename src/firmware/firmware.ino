@@ -59,16 +59,21 @@ void setup() {
   // a jumper between 10 will enable led blink
   pinMode(TESTPIN,INPUT_PULLUP); 
 
+  cpudiv = CPU_FULL;
+  
   // a jumper between 11 and GND will enable debug mode
   pinMode(DEBUGPIN,INPUT_PULLUP); 
+  pinMode(Led,OUTPUT); // led used for debug or at power up
+  
   if (digitalRead(DEBUGPIN) == 0) {
-    debugmode=true; blinknbr=5; // blinks only 5 times in debug mode  
+    debugmode=true;  
+    blinkLed(5,400/cpudiv); // blinks 5 times to indicate debug mode
+    delay(3000);    // waiting 3s to allow launching usb serial on PC
   }
 
-  cpudiv = CPU_FULL;
-  pinMode(Led,OUTPUT); // led used for debug or at power up
   debugInit(sigfox_en,debugmode);
   blinkLed(blinknbr,400/cpudiv); // say hello n flashes
+
     
   // device detection at boot
   if (sensor == 0) {

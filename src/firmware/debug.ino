@@ -9,22 +9,26 @@ void debugInit(bool sf_en, bool db_en) {
   SERIAL.begin(9600);           //  setup SERIAL  
   delay(1000);
   // when in debug mode (jumper on pin 11), program is blocked until USB SERIAL is connected
-  while (!SERIAL) {}
-  SigFox.begin();
-  SERIAL.println("https://github.com/pcaunegre/MkrfoxWindShield");
-  SERIAL.println("## mettre ici manuellement, a chaque compilation, le hash du commit courant ##");
-  SERIAL.print(__DATE__); // macros du langage C. Indiquent la date et l'heure de la compilation
-  SERIAL.print("\t");
-  SERIAL.println(__TIME__);
-  SERIAL.print(SigFox.ID());
-  SERIAL.print("\t");
-  SERIAL.println(SigFox.PAC());
-  SigFox.end();
-  SERIAL.print("STARTING version:");SERIAL.print(SOFTVERSION);SERIAL.print("/");
-  SERIAL.print(SOFTDATE);
-  SERIAL.print(" debug=");SERIAL.print(db_en);
-  SERIAL.print(" sigfox=");SERIAL.println(sf_en);
-  SERIAL.flush();
+  while (!SERIAL) {
+    delay(5000); // wait another 5s to allow launching usb comm, otherwise abandon
+  }
+  if (SERIAL) {
+    SigFox.begin();
+    SERIAL.println("https://github.com/pcaunegre/MkrfoxWindShield");
+    SERIAL.println("## mettre ici manuellement, a chaque compilation, le hash du commit courant ##");
+    SERIAL.print(__DATE__); // macros du langage C. Indiquent la date et l'heure de la compilation
+    SERIAL.print("\t");
+    SERIAL.println(__TIME__);
+    SERIAL.print(SigFox.ID());
+    SERIAL.print("\t");
+    SERIAL.println(SigFox.PAC());
+    SigFox.end();
+    SERIAL.print("STARTING version:");SERIAL.print(SOFTVERSION);SERIAL.print("/");
+    SERIAL.print(SOFTDATE);
+    SERIAL.print(" debug=");SERIAL.print(db_en);
+    SERIAL.print(" sigfox=");SERIAL.println(sf_en);
+    SERIAL.flush();
+  }
   
 }
 
@@ -100,7 +104,7 @@ void debugPrintMeasure(int ws, int wd) {
   if (SERIAL) {
     SERIAL.print(msnbr);SERIAL.print(" WS = "); SERIAL.print(ws); 
     SERIAL.print("km/h, WD = "); SERIAL.print(wd);SERIAL.print("  ");
-    SERIAL.print(deg2dir(wd)); SERIAL.println(millis()); SERIAL.println("  ");
+    SERIAL.print(deg2dir(wd)); SERIAL.print("  ");SERIAL.println(millis()); SERIAL.println("  ");
     SERIAL.flush();
   }
   set_cpu_speed(prevcpudiv);
