@@ -19,7 +19,7 @@ This project has a broader scope than the former one (https://github.com/pcauneg
 
 I have a few shields left that I can distribute upon request (pascal.caunegre AT gmail.com)
 
-<img src="doc/Shield.jpg" width="50%">
+<img src="doc/Shield1.1.jpg" width="50%">
 
 ## This project includes several independant modules:
 
